@@ -13,39 +13,43 @@
 #include <nRF24L01.h>
 #include <printf.h>
 
+
+//#### HW KONFIGURACE ####
+
 RF24 radio(9, 10);  // CE, CSN
+#define terc1_1 2   // TERC 1 PLNY
+#define terc1_2 3   // TERC 1 PRAZDNY
+#define terc2_1 4   // TERC 2 PLNY
+#define terc2_2 5   // TERC 2 PRAZDNY
+#define majak1  6   // MAJAK TERC 1
+#define majak2  7   // MAJAK TERC 2
+#define ventil 8    // VYSTUP PRO OVLADANI VENTILU (ON/OFF)
+
+//#### GLOBALNI PROMENNE ####
 
 const byte addresses [] [6] = {"00001","00002"} ; // adresa komunikatoru
+String ZPRAVA;
+char text [32] = "";
 const char text1[] = "LEVY";
 const char text2[] = "PRAVY";
 const char text3[] = "PRAZDNO";
 const char text4[] = "PRIPRAVEN";
-#define terc1_1 2
-#define terc1_2 3
-#define terc2_1 4
-#define terc2_2 5
-#define majak1  6
-#define majak2  7
-#define ventil 8
 
-bool tercL, tercP = LOW;
+bool tercL, tercP = LOW;  // stavy tercu
 unsigned long cas = 0;
 long predchozi_cas = 0;
-char text [32] = "";
-bool deliveryL_confirm_bit = LOW;     // boolovsky indikator pokud radio.write() tx byl uspesny
-bool deliveryR_confirm_bit = LOW;     // boolovsky indikator pokud radio.write() tx byl uspesny
-bool init_delivery_confirm_bit = LOW; // boolovsky indikator pokud radio.write() tx byl uspesny
 bool reset = LOW;
-bool init_var = HIGH;
-String ZPRAVA;
 
 void terceInit();
 
 void setup()
 {
+
+//#### NASTAVENI A ZAHAJENI SERIOVE KOMUNIKACE ####
   Serial.begin(9600);
   Serial.print("\nTERC_V1");  
-  
+
+//#### NASTAVENI A ZAHAJENI RADIOVE KOMUNIKACE ####
   radio.begin();
   radio.setPALevel(RF24_PA_MIN);
   //radio.setDataRate(RF24_250KBPS);
@@ -54,15 +58,18 @@ void setup()
   radio.openReadingPipe(1, addresses[0]); // 0001
   
   radio.startListening();  //nastaveni modulu jako vysilac
-  terceInit();
-  init_var = HIGH;
 
+// #### PRVOTNI INICIALIZACE TERCU ####
+  terceInit();
 }
+
 void loop()
 {
   cas = millis();
   
-  if(cas - predchozi_cas > 100) // kazdych 100 ms kontrola prijatych zprav - RESET,INIT apod. 
+// #### PERIODICKA KONTROLA PRIJATYCH ZPRAV ####
+
+  if(cas - predchozi_cas > 50) // kazdych 50 ms kontrola prijatych zprav - RESET,INIT apod. 
   {
     radio.startListening();
     if(radio.available())
@@ -76,7 +83,8 @@ void loop()
     predchozi_cas = cas;   
   }
 
-  
+// #### DETEKCE NAPLNENI TERCE CISLO 1 ####
+
   if ((digitalRead(terc1_1) == HIGH) && !tercL)
   {
     radio.stopListening();
@@ -88,6 +96,8 @@ void loop()
     }
     radio.startListening(); 
   } 
+
+  // #### DETEKCE NAPLNENI TERCE CISLO 2 ####
 
   if ((digitalRead(terc2_1) == HIGH) && !tercP)
   {
@@ -101,6 +111,8 @@ void loop()
     radio.startListening();
   } 
 
+  // #### VYPOUSTENI ####
+
   if ((tercL && tercP)|| reset)
   {
    digitalWrite(ventil,HIGH);
@@ -108,6 +120,8 @@ void loop()
    tercL = HIGH;
   }
   //else digitalWrite(ventil,LOW);
+
+  // #### DETEKCE PRAZDNYCH TERCU ####
   
   if ((digitalRead(terc1_2) && digitalRead(terc2_2)) && (tercL && tercP))
   {
@@ -123,8 +137,9 @@ void loop()
   } 
 }
 
-// void terceInit - pocatecni inicializace tercu, test ventilu a svetelneho signalizacniho zarizeni
-void terceInit()
+// #### POCATECNI INICIALIZACE TERCU , TEST VENTILU a SVETELNE SIGNALIZACE ####
+
+void terceInit()    
 {
   Serial.write("\nINIT");
   digitalWrite(majak1,HIGH);
