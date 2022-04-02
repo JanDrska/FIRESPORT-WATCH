@@ -10,7 +10,7 @@
 */
 
 // VERZE 1.0
-// POSLEDNI UPRAVA 23.01.2022
+// POSLEDNI UPRAVA 02.04.2022
 
 //#include <SoftwareSerial.h>
 //SoftwareSerial mySerial(2, 3); // RX, TX 
