@@ -31,8 +31,8 @@ bool terc1, terc2, prazdno = LOW;    //terc 1 - LEVY a 2 - PRAVY
 
 #define ODPOCET_TERC 300000  //pozadovany cas v ms (300 000 je 5 minut)
 
-TimerData dataL;
-TimerData dataR;
+TimerData timerL;
+TimerData timerR;
 
 DisplaySdh display;
 
@@ -54,8 +54,8 @@ bool init_delivery_confirm_bit = LOW;
 bool READY = LOW;
 const char text1[] = "INIT";
 const char text2[] = "RESET";
-const char text3[] = "IS_READY";
-const char text4 [32] = "";
+//const char text3[] = "IS_READY";
+//const char text4 [32] = "";
 char text [32] = "";
 
 
