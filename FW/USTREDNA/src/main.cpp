@@ -12,6 +12,8 @@
 // VERZE 2.0
 // POSLEDNI UPRAVA 28.09.2021
 
+#include "sdhTimer.h"
+#include "sdhDisplay.h"
 #include <LiquidCrystal_I2C.h>
 #include <PCF8574.h>
 #include <SPI.h>
@@ -28,6 +30,11 @@ bool terc1, terc2, prazdno = LOW;    //terc 1 - LEVY a 2 - PRAVY
 
 
 #define ODPOCET_TERC 300000  //pozadovany cas v ms (300 000 je 5 minut)
+
+TimerData dataL;
+TimerData dataR;
+
+DisplaySdh display;
 
 typedef struct TERC_DATA 
 {
@@ -79,10 +86,19 @@ const byte addresses [] [6] = {"00001","00002"} ; // adresa komunikatoru
 int rozdeleni[2]; //pole pro ulozeni rozdeleni dvoucifernych cisel pro bcd kod (promenna DaM)
 int split(int* DaM, int cas);     // funkce, ktera rozdeli dvojciferne cislo na jednotky a desitky
 int I2C_7segment_write(int val, int address); // funkce pro zapis jednoho byte na jednotku I2C
+void initialize_7segment(); // funkce na inicializaci displeje
+void begin_initialize_7segment(); // funkce na pocatecni inicializaci - pomalejsi
+void choose_program(); // funkce na vyber programu
+void start();
+
+void multiplex_7segment_R();
+void multiplex_7segment_L();
 
 void setup() 
 {
   Serial.begin(9600);
+
+  display.init();
 
   lcd.init();  
   lcd.backlight();
@@ -102,7 +118,7 @@ void setup()
   pinMode(TLB, INPUT_PULLUP);        //stop
   pinMode(TLProg, INPUT_PULLUP);     //prepinac programu (1-stopky 0- odpocet)
 
-  Serial.println("TERCOMIRA SDH JIZBICE");
+  Serial.println("CASOMIRA SDH JIZBICE");
   
   begin_initialize_7segment();  //inicializace 7segmentovek
 
@@ -457,6 +473,7 @@ int I2C_7segment_write(int val, int address)
 {
   PCF8574 pcf(address);
   pcf.write8(cislice[val]);
+  return 1;
 }
 
 void initialize_7segment()
