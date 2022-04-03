@@ -10,11 +10,11 @@ void DisplaySdh::init()
         PCF8574 pcf(I2C_address[i]);
         pcf.begin();
         pcf.write8(cislice[8]);
-        delay(250);
+        //delay(250);
       }
     }
 
-     delay (1000);
+    delay (1000);
 
     for(int i=0;i<=1;i++)
     {

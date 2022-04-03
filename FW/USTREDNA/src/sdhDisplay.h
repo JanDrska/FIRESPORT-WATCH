@@ -42,7 +42,6 @@ public:
   void I2C_write(int num,int address);
   void split(int* DaM, int cas);  //funkce na rozdeleni dvoucifernych cisel
 
-  
 };
 
 #endif // sdhDisplay

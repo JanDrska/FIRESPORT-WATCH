@@ -12,9 +12,33 @@ void TimerData::init()
   casTERC_ms = 0;      //konečný čas 1. terče - ms
 }
 
-void TimerData::sendDataSerial()
+void TimerData::startTimming()
 {
-  Serial.print("TERC L: ");
+  casSTART = millis();
+}
+
+void TimerData::stopTimming()
+{
+  casTERC_end = millis() - casSTART;
+  casTERC_M = casTERC_end / 60000;  //výpočet minut
+  casTERC_S = casTERC_end % 60000;  //výpočet sekund
+  casTERC_S = casTERC_S / 1000;     //výpočet sekund
+  casTERC_ms = casTERC_end % 1000;  //výpočet ms
+}
+
+void TimerData::Time()
+{
+  casTERC = millis() - casSTART;
+  casTERC_M = casTERC / 60000;
+  casTERC_S = (casTERC % 60000)/1000;
+  casTERC_ms = casTERC % 1000;
+}
+
+void TimerData::sendDataSerial(char name)
+{
+  Serial.print("TERC ");
+  Serial.print(name);
+  Serial.print(" : ");
   Serial.print(casTERC_M);
   Serial.print(" : ");     
             

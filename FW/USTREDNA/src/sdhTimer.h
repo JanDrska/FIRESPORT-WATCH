@@ -16,7 +16,10 @@ public:
   long casTERC_ms = 0;        //konečný čas 1. terče - ms
 
   void init(); 
-  void sendDataSerial();
+  void startTimming();
+  void stopTimming();
+  void Time();
+  void sendDataSerial(char name);
 };
 
 #endif // SDH TIMER
