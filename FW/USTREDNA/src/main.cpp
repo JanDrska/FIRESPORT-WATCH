@@ -1,6 +1,5 @@
 //####### PROGRAM HASICSKE STOPKY  ######
 // PROGRAM VYTVORIL JAN DRSKA PRO JEDNOTKU SDH JIZBICE
-// PROGRAM JE VYHRADNIM VLASTNICTVIM AUTORA A SDH JIZBICE - JAKEKOLIV SIRENI PROGRAMU BEZ VEDOMI AUTORA JE ZAPOVEZENO!!!
 /*
               /----/  /----/        /----/  /----/
              /    /  /    /  /--/  /    /  /    /
@@ -114,76 +113,78 @@ void loop()
       if((digitalRead(TLA) == LOW) && READY) //při stisknutí start...
         start();        //skoč na start
         
-    
-        while(timerL.casSTART > 1)   //pokud bylo odstartováno pak
+      while(timerL.casSTART > 1)   //pokud bylo odstartováno pak
+      {
+        if(STOP1 == 0)    //průběžný čas prvního terče
         {
-          if(STOP1 == 0)    //průběžný čas prvního terče
-          {
-            timerL.Time();
-            timerL.sendDataSerial('L');
-            display.sendData(timerL,timerR);        
-          }
-              
-          if(STOP2 == 0)    //průběžný čas 2.terče
-          {
-            timerR.Time();
-            timerR.sendDataSerial('R');
-            display.sendData(timerL,timerR);
-          }
-
-          if(terc1 == HIGH) //konec 1.terče
-          {
-            Serial.println("L STOP");
-            STOP1 = 1;
-            timerL.stopTimming();
-            display.sendData(timerL,timerR);
-            terc1 = LOW;
-          }
-    
-          if(terc2 == HIGH) //konec 2. terče
-          {
-            Serial.println("P STOP");
-            STOP2 = 1;
-            timerR.stopTimming();
-            display.sendData(timerL,timerR);
-            terc2 = LOW; 
-          }
-    
-          if(digitalRead(TLB) == LOW) //při stisknutí B restart
-          {
-            timerR.casSTART = 1;
-            display.reset();   //inicializace segmentovek nulami
-            choose_program();
-            STOP1=0;
-            STOP2=0;
-            init_delivery_confirm_bit= LOW;
-
-             radio.stopListening();
-            if(radio.write(&text2, sizeof(text2)))
-            {
-            Serial.println("RESET TERCE");
-            } 
-          }
-
-          if(radio.available())
-          {
-            char text [32] = {0};
-            radio.read(&text,sizeof(text));
-            Serial.println(text);
-
-            String ZPRAVA = String(text);
-            if (ZPRAVA == "LEVY") terc1 = HIGH;
-            if (ZPRAVA == "PRAVY") terc2 = HIGH;
-            if (ZPRAVA == "PRAZDNO") prazdno = HIGH;
-            Serial.println(ZPRAVA);
-            Serial.print("TERC1 ");
-            Serial.println(terc1);
-            Serial.print("TERC2 ");
-            Serial.println(terc2);
-            
-            radio.writeAckPayload(1, &text, sizeof(text));
-          }
+          timerL.Time();
+          timerL.sendDataSerial('L');
+          display.sendData(timerL,timerR);        
         }
+              
+        if(STOP2 == 0)    //průběžný čas 2.terče
+        {
+          timerR.Time();
+          timerR.sendDataSerial('R');
+          display.sendData(timerL,timerR);
+        }
+
+        if(terc1 == HIGH) //konec 1.terče
+        {
+          Serial.println("L STOP");
+          STOP1 = 1;
+          timerL.stopTimming();
+          display.sendData(timerL,timerR);
+          terc1 = LOW;
+        }
+    
+        if(terc2 == HIGH) //konec 2. terče
+        {
+          Serial.println("P STOP");
+          STOP2 = 1;
+          timerR.stopTimming();
+          display.sendData(timerL,timerR);
+          terc2 = LOW; 
+        }
+    
+        if(digitalRead(TLB) == LOW) //při stisknutí B restart
+        {
+          timerR.casSTART = 1;
+          display.reset();   //inicializace segmentovek nulami
+          choose_program();
+          STOP1=0;
+          STOP2=0;
+          init_delivery_confirm_bit= LOW;
+          radio.stopListening();
+
+          if(radio.write(&text2, sizeof(text2)))
+          {
+            Serial.println("RESET TERCE");
+          } 
+        }
+
+        if(radio.available())
+        {
+          char text [32] = {0};
+          radio.read(&text,sizeof(text));
+          Serial.println(text);
+        
+          String ZPRAVA = String(text);
+          if (ZPRAVA == "LEVY") 
+            terc1 = HIGH;
+          if (ZPRAVA == "PRAVY") 
+            terc2 = HIGH;
+          if (ZPRAVA == "PRAZDNO") 
+            prazdno = HIGH;
+        
+          Serial.println(ZPRAVA);
+          Serial.print("TERC1 ");
+          Serial.println(terc1);
+          Serial.print("TERC2 ");
+          Serial.println(terc2); 
+          radio.writeAckPayload(1, &text, sizeof(text));
+        }
+      }
      break;
 
     case 2: // ######## ODPOCET ########
@@ -193,7 +194,6 @@ void loop()
       if(digitalRead(TLA) == LOW) //při stisknutí start...
         start();        //skoč na start
         
-   
       while(timerR.casSTART > 1)   //pokud bylo odstartováno pak
       {         
         timerR.casODPOCET =timerR.casSTART-millis()+ODPOCET_TERC;
