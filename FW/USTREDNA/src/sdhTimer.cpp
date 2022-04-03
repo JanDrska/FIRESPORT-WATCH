@@ -40,11 +40,9 @@ void TimerData::sendDataSerial(char name)
   Serial.print(name);
   Serial.print(" : ");
   Serial.print(casTERC_M);
-  Serial.print(" : ");     
-            
+  Serial.print(" : ");          
   Serial.print(casTERC_S);
-  Serial.print(" : ");
-        
+  Serial.print(" : ");      
   Serial.print(casTERC_ms);
   Serial.println("   ");
 }
