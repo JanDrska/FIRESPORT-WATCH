@@ -86,7 +86,7 @@ void loop()
           lcd.print(" Cekam na START");
           radio.startListening();
         } 
-        /*
+      
         if (!init_delivery_confirm_bit)
         {
           Serial.println("ERROR - CHYBA INITU TERCU");
@@ -202,7 +202,7 @@ void loop()
         timerR.casTERC_S = timerR.casTERC_S / 1000;     //výpočet sekund
         timerR.casTERC_ms = timerR.casODPOCET % 1000;  //výpočet ms
 
-        timerR.sendDataSerial('ODPOCET');
+        timerR.sendDataSerial('O');
     
         if((timerL.casTERC_M==0)&&(timerL.casTERC_S==0))
         {

@@ -2,9 +2,9 @@
 
 void DisplaySdh::init()
 {
-  for(int i=0;i<=1;i++)
+  for(size_t i=0;i<=1;i++)
   {
-    for(int i =0;i<=8;i++)
+    for(size_t i =0;i<8;i++)
     {
       PCF8574 pcf(I2C_address[i]);
       pcf.begin();
@@ -15,9 +15,9 @@ void DisplaySdh::init()
 
     delay (1000);
 
-  for(int i=0;i<=1;i++)
+  for(size_t i=0;i<=1;i++)
   {
-    for(int i =0;i<=8;i++)
+    for(size_t i =0;i<8;i++)
     {
       PCF8574 pcf(I2C_address[i]);
       pcf.begin();
@@ -33,9 +33,9 @@ void DisplaySdh::initGraphical()
 
 void DisplaySdh::reset()
 {
-  for(int i=0;i<=1;i++)
+  for(size_t i=0;i<=1;i++)
   {
-    for(int i =0;i<=8;i++)
+    for(size_t i =0;i<8;i++)
     {
       PCF8574 pcf(I2C_address[i]);
       pcf.begin();
@@ -69,7 +69,7 @@ void DisplaySdh::sendData(TimerData data1, TimerData data2)
 
 void DisplaySdh::write8(int val,char flag)
 {
-  for(int i =0;i<=8;i++)
+  for(size_t i =0;i<8;i++)
   {
     PCF8574 pcf(I2C_address[i]);
     pcf.begin();
