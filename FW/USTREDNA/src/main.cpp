@@ -10,7 +10,7 @@
 */
 
 // VERZE 2.0
-// POSLEDNI UPRAVA 28.09.2021
+// POSLEDNI UPRAVA 03.04.2022
 
 #include "sdhTimer.h"
 #include "sdhDisplay.h"
@@ -25,16 +25,16 @@
 #define TLA 2      //tlačítko A - START
 #define TLB 3      //tlačítko B - RESET
 #define TLProg 8   //prepinac programu
-
-bool terc1, terc2, prazdno = LOW;    //terc 1 - LEVY a 2 - PRAVY
-
 #define ODPOCET_TERC 300000  //pozadovany cas v ms (300 000 je 5 minut)
 
 TimerData timerL;
 TimerData timerR;
-
 DisplaySdh display;
+LiquidCrystal_I2C lcd(0x3F,16,2);  
+RF24 radio(9, 10);  // CE, CSN
 
+const byte addresses [] [6] = {"00001","00002"} ; // adresa komunikatoru
+bool terc1, terc2, prazdno = LOW;    //terc 1 - LEVY a 2 - PRAVY
 bool init_delivery_confirm_bit = LOW;
 bool READY = LOW;
 const char text1[] = "INIT";
@@ -44,11 +44,6 @@ char text [32] = "";
 int STOP1 = 0;
 int STOP2 = 0;
 int program =0;
-
-LiquidCrystal_I2C lcd(0x3F,16,2);  
-
-RF24 radio(9, 10);  // CE, CSN
-const byte addresses [] [6] = {"00001","00002"} ; // adresa komunikatoru
 
 void choose_program(); // funkce na vyber programu
 void start();
@@ -117,13 +112,11 @@ void loop()
       READY = HIGH;
 
       if((digitalRead(TLA) == LOW) && READY) //při stisknutí start...
-        {
-           start();        //skoč na start
-        }
+        start();        //skoč na start
+        
     
         while(timerL.casSTART > 1)   //pokud bylo odstartováno pak
         {
-
           if(STOP1 == 0)    //průběžný čas prvního terče
           {
             timerL.Time();
@@ -202,16 +195,14 @@ void loop()
         
    
       while(timerR.casSTART > 1)   //pokud bylo odstartováno pak
-      {
-               
+      {         
         timerR.casODPOCET =timerR.casSTART-millis()+ODPOCET_TERC;
         timerR.casTERC_M = timerR.casODPOCET / 60000;  //výpočet minut
         timerR.casTERC_S = timerR.casODPOCET % 60000;  //výpočet sekund
         timerR.casTERC_S = timerR.casTERC_S / 1000;     //výpočet sekund
         timerR.casTERC_ms = timerR.casODPOCET % 1000;  //výpočet ms
 
-        Serial.print("ODPOCET ");
-        timerR.sendDataSerial('R');
+        timerR.sendDataSerial('ODPOCET');
     
         if((timerL.casTERC_M==0)&&(timerL.casTERC_S==0))
         {
@@ -232,7 +223,6 @@ void loop()
         break;
    break; 
   }
-  
 }
 
 void start()
