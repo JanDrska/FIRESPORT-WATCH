@@ -27,7 +27,7 @@
 #define BACKSPACE 8  // BACKSPACE
 #define CLEAR 46     // NUMPAD .
 
-SdhCmd pozarniUtok;
+SdhCmd pozarniSport;
 SdhCmd vycvik;
 SdhCmd odpocet;
 
@@ -40,9 +40,6 @@ extern MenuItem Mskore[];
 extern MenuItem Mhodiny[];
 extern MenuItem Mnastaveni[];
 
-void timerStartEnable();
-void prdel();
-
 // Definice hlavniho menu
 MenuItem mainMenu[] = {ItemHeader(),
                        ItemSubMenu("Pozarni sport",Mpozarnisport),
@@ -54,31 +51,89 @@ MenuItem mainMenu[] = {ItemHeader(),
                        ItemFooter()};
 // Definice vsech submenu 1. kategorie
 
-MenuItem Mpozarnisport[] =   {ItemHeader(mainMenu),MenuItem("Povolit start"),
-                            MenuItem("Start"), MenuItem("Stop"),
-                            MenuItem("Restart"),MenuItem("Vypustit terce"),
-                            MenuItem("Reset tercu"),ItemFooter()};
+void pozarniUtokStartPovolen(uint8_t isOn);
+void pozarniUtokStart();
+void pozarniUtokStop();
+void pozarniUtokReset();
+void pozarniUtokVypustit();
+void pozarniUtokResetTercu();
 
-MenuItem Mvycvik[] = {ItemHeader(mainMenu), MenuItem("Start"),
-                    MenuItem("Stop"),MenuItem("Reset"),
-                    ItemFooter()};
+MenuItem Mpozarnisport[] =  
+{
+    ItemHeader(mainMenu),
+    ItemToggle("Povolit start",pozarniUtokStartPovolen),
+    ItemCommand("Start",pozarniUtokStart),
+    ItemCommand("Stop",pozarniUtokStop),
+    ItemCommand("Restart",pozarniUtokReset),
+    ItemCommand("Vypustit terce",pozarniUtokVypustit),
+    ItemCommand("Reset tercu",pozarniUtokResetTercu),
+    ItemFooter()};
 
-MenuItem Modpocet[] = {ItemHeader(mainMenu), MenuItem("Start"),
-                     MenuItem("Stop"), MenuItem("Reset"), 
-                     ItemFooter()};
+void vycvikStart();
+void vycvikStop();
+void vycvikReset();
 
-MenuItem Mskore[] = {ItemHeader(mainMenu), MenuItem("Tym 1 +"),
-                           MenuItem("Tym 2 +"), MenuItem("Tym 1 -"),
-                           MenuItem("Tym 2 -"), MenuItem("Reset jednotky"),
-                           ItemFooter()};
+MenuItem Mvycvik[] = 
+{
+    ItemHeader(mainMenu), 
+    ItemCommand("Start",vycvikStart),
+    ItemCommand("Stop",vycvikStop),
+    ItemCommand("Reset",vycvikReset),
+    ItemFooter()};
 
-MenuItem Mhodiny[] = {ItemHeader(mainMenu), MenuItem("Spustit"),
-                    MenuItem("Zastavit"), MenuItem("Nastavit"),
-                    MenuItem("Rezim"), ItemFooter()};
+void odpocetStart();
+void odpocetStop();
+void odpocetReset(); 
 
-MenuItem Mnastaveni[] = {ItemHeader(mainMenu), MenuItem("Reset"),
-                           MenuItem("Podsviceni"), ItemFooter()};
+MenuItem Modpocet[] = 
+{
+    ItemHeader(mainMenu), 
+    ItemCommand("Start",odpocetStart),
+    ItemCommand("Stop",odpocetStop), 
+    ItemCommand("Reset",odpocetReset), 
+    ItemFooter()};
 
+void skoreT1p();
+void skoreT2p(); 
+void skoreT1m();
+void skoreT2m();
+void skoreStart();
+void skoreReset();
+
+MenuItem Mskore[] = 
+{
+    ItemHeader(mainMenu), 
+    ItemCommand("Tym 1 +",skoreT1p),
+    ItemCommand("Tym 2 +",skoreT2p), 
+    ItemCommand("Tym 1 -",skoreT1m),
+    ItemCommand("Tym 2 -",skoreT2m), 
+    ItemCommand("Start",skoreStart),
+    ItemCommand("Reset jednotky",skoreReset),
+    ItemFooter()};
+
+void hodinyStart();
+void hodinyStop();
+void hodinyNastavit();
+void hodinyRezim();
+
+MenuItem Mhodiny[] = 
+{
+    ItemHeader(mainMenu), 
+    ItemCommand("Spustit",hodinyStart),
+    ItemCommand("Zastavit",hodinyStop), 
+    ItemCommand("Nastavit",hodinyNastavit),
+    ItemCommand("Rezim",hodinyRezim), 
+    ItemFooter()};
+
+void nastaveniReset();
+void nastaveniPodsviceni(uint8_t isOn);
+
+MenuItem Mnastaveni[] = 
+{
+    ItemHeader(mainMenu), 
+    ItemCommand("Reset",nastaveniReset),
+    ItemToggle("Podsviceni",nastaveniPodsviceni), 
+    ItemFooter()};
 
 LcdMenu menu(LCD_ROWS, LCD_COLS);
 
@@ -111,9 +166,36 @@ void loop()
         menu.backspace();
     else
         menu.type(command);
+
+
 }
 
-void prdel()
-{
-    
-}
+void pozarniUtokStartPovolen(uint8_t isOn){}
+void pozarniUtokStart(){Serial.write(10);}
+void pozarniUtokStop(){Serial.write(11);}
+void pozarniUtokReset(){Serial.write(12);}
+void pozarniUtokVypustit(){Serial.write(13);}
+void pozarniUtokResetTercu(){Serial.write(14);}
+
+void vycvikStart(){Serial.write(20);}
+void vycvikStop(){Serial.write(21);}
+void vycvikReset(){Serial.write(22);}
+
+void odpocetStart(){Serial.write(30);}
+void odpocetStop(){Serial.write(31);}
+void odpocetReset(){Serial.write(32);}
+
+void skoreT1p(){Serial.write(40);}
+void skoreT2p(){Serial.write(41);} 
+void skoreT1m(){Serial.write(42);}
+void skoreT2m(){Serial.write(43);}
+void skoreStart(){Serial.write(44);}
+void skoreReset(){Serial.write(45);}
+
+void hodinyStart(){Serial.write(50);}
+void hodinyStop(){Serial.write(51);}
+void hodinyNastavit(){Serial.write(52);}
+void hodinyRezim(){Serial.write(53);}
+
+void nastaveniReset(){Serial.write(60);}
+void nastaveniPodsviceni(uint8_t isOn){menu.toggleBacklight();}
