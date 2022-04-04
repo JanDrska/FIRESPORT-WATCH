@@ -12,6 +12,7 @@
 // POSLEDNI UPRAVA 03.04.2022
 
 #include <LcdMenu.h>
+#include "sdhCmd.h"
 
 #define LCD_ROWS 2
 #define LCD_COLS 16
@@ -26,45 +27,56 @@
 #define BACKSPACE 8  // BACKSPACE
 #define CLEAR 46     // NUMPAD .
 
+SdhCmd pozarniUtok;
+SdhCmd vycvik;
+SdhCmd odpocet;
+
 // Declare the main menu
 extern MenuItem mainMenu[];
-extern MenuItem pozarnisport[];
-extern MenuItem vycvik[];
-extern MenuItem odpocet[];
-extern MenuItem skore[];
-extern MenuItem hodiny[];
-extern MenuItem nastaveni[];
+extern MenuItem Mpozarnisport[];
+extern MenuItem Mvycvik[];
+extern MenuItem Modpocet[];
+extern MenuItem Mskore[];
+extern MenuItem Mhodiny[];
+extern MenuItem Mnastaveni[];
 
-void back();
+void timerStartEnable();
+void prdel();
 
-// Define the main menu
+// Definice hlavniho menu
 MenuItem mainMenu[] = {ItemHeader(),
-                       ItemSubMenu("Pozarni sport",pozarnisport),
-                       ItemSubMenu("5+1",vycvik),
-                       ItemSubMenu("Odpocet",odpocet),
-                       ItemSubMenu("Pocitadlo skore",skore),
-                       ItemSubMenu("Hodiny",hodiny),
-                       ItemSubMenu("Nastaveni",nastaveni),
+                       ItemSubMenu("Pozarni sport",Mpozarnisport),
+                       ItemSubMenu("Vycvik 5+1",Mvycvik),
+                       ItemSubMenu("Odpocet",Modpocet),
+                       ItemSubMenu("Pocitadlo skore",Mskore),
+                       ItemSubMenu("Hodiny",Mhodiny),
+                       ItemSubMenu("Nastaveni",Mnastaveni),
                        ItemFooter()};
-/**
- * Create submenu and precise its parent
- */
-MenuItem pozarnisport[] = {ItemHeader(mainMenu), MenuItem("Start"),
-                           MenuItem("Stop"), ItemFooter()};
+// Definice vsech submenu 1. kategorie
 
-MenuItem vycvik[] = {ItemHeader(mainMenu), MenuItem("Start"),
-                           MenuItem("Stop"), ItemFooter()};
+MenuItem Mpozarnisport[] =   {ItemHeader(mainMenu),MenuItem("Povolit start"),
+                            MenuItem("Start"), MenuItem("Stop"),
+                            MenuItem("Restart"),MenuItem("Vypustit terce"),
+                            MenuItem("Reset tercu"),ItemFooter()};
 
-MenuItem odpocet[] = {ItemHeader(mainMenu), MenuItem("Start"),
-                           MenuItem("Reset"), ItemFooter()};
+MenuItem Mvycvik[] = {ItemHeader(mainMenu), MenuItem("Start"),
+                    MenuItem("Stop"),MenuItem("Reset"),
+                    ItemFooter()};
 
-MenuItem skore[] = {ItemHeader(mainMenu), MenuItem("Domaci"),
-                           MenuItem("Hoste"), ItemFooter()};
+MenuItem Modpocet[] = {ItemHeader(mainMenu), MenuItem("Start"),
+                     MenuItem("Stop"), MenuItem("Reset"), 
+                     ItemFooter()};
 
-MenuItem hodiny[] = {ItemHeader(mainMenu), MenuItem("Nastavit"),
-                           MenuItem("Rezim"), ItemFooter()};
+MenuItem Mskore[] = {ItemHeader(mainMenu), MenuItem("Tym 1 +"),
+                           MenuItem("Tym 2 +"), MenuItem("Tym 1 -"),
+                           MenuItem("Tym 2 -"), MenuItem("Reset jednotky"),
+                           ItemFooter()};
 
-MenuItem nastaveni[] = {ItemHeader(mainMenu), MenuItem("Reset"),
+MenuItem Mhodiny[] = {ItemHeader(mainMenu), MenuItem("Spustit"),
+                    MenuItem("Zastavit"), MenuItem("Nastavit"),
+                    MenuItem("Rezim"), ItemFooter()};
+
+MenuItem Mnastaveni[] = {ItemHeader(mainMenu), MenuItem("Reset"),
                            MenuItem("Podsviceni"), ItemFooter()};
 
 
@@ -101,8 +113,7 @@ void loop()
         menu.type(command);
 }
 
-void back()
+void prdel()
 {
-    menu.toggleBacklight();
-    menu.up();
+    
 }
