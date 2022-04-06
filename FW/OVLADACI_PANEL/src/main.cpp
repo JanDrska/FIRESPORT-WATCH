@@ -14,6 +14,10 @@
 #include <LcdMenu.h>
 #include "sdhCmd.h"
 
+#define CLK 8
+#define DT 9
+#define SW 2
+
 #define LCD_ROWS 2
 #define LCD_COLS 16
 
@@ -27,9 +31,11 @@
 #define BACKSPACE 8  // BACKSPACE
 #define CLEAR 46     // NUMPAD .
 
-SdhCmd pozarniSport;
-SdhCmd vycvik;
-SdhCmd odpocet;
+//SdhCmd pozarniSport;
+//SdhCmd vycvik;
+//SdhCmd odpocet;
+
+bool menuZpetPom = false;
 
 // Declare the main menu
 extern MenuItem mainMenu[];
@@ -45,12 +51,13 @@ MenuItem mainMenu[] = {ItemHeader(),
                        ItemSubMenu("Pozarni sport",Mpozarnisport),
                        ItemSubMenu("Vycvik 5+1",Mvycvik),
                        ItemSubMenu("Odpocet",Modpocet),
-                       ItemSubMenu("Pocitadlo skore",Mskore),
+                       ItemSubMenu("Skore",Mskore),
                        ItemSubMenu("Hodiny",Mhodiny),
                        ItemSubMenu("Nastaveni",Mnastaveni),
                        ItemFooter()};
 // Definice vsech submenu 1. kategorie
 
+void menuZpet();
 void pozarniUtokStartPovolen(uint8_t isOn);
 void pozarniUtokStart();
 void pozarniUtokStop();
@@ -61,7 +68,7 @@ void pozarniUtokResetTercu();
 MenuItem Mpozarnisport[] =  
 {
     ItemHeader(mainMenu),
-    ItemToggle("Povolit start",pozarniUtokStartPovolen),
+    ItemCommand("Zpet",menuZpet),
     ItemCommand("Start",pozarniUtokStart),
     ItemCommand("Stop",pozarniUtokStop),
     ItemCommand("Restart",pozarniUtokReset),
@@ -75,7 +82,8 @@ void vycvikReset();
 
 MenuItem Mvycvik[] = 
 {
-    ItemHeader(mainMenu), 
+    ItemHeader(mainMenu),
+    ItemCommand("Zpet",menuZpet), 
     ItemCommand("Start",vycvikStart),
     ItemCommand("Stop",vycvikStop),
     ItemCommand("Reset",vycvikReset),
@@ -87,7 +95,8 @@ void odpocetReset();
 
 MenuItem Modpocet[] = 
 {
-    ItemHeader(mainMenu), 
+    ItemHeader(mainMenu),
+    ItemCommand("Zpet",menuZpet), 
     ItemCommand("Start",odpocetStart),
     ItemCommand("Stop",odpocetStop), 
     ItemCommand("Reset",odpocetReset), 
@@ -102,7 +111,8 @@ void skoreReset();
 
 MenuItem Mskore[] = 
 {
-    ItemHeader(mainMenu), 
+    ItemHeader(mainMenu),
+    ItemCommand("Zpet",menuZpet), 
     ItemCommand("Tym 1 +",skoreT1p),
     ItemCommand("Tym 2 +",skoreT2p), 
     ItemCommand("Tym 1 -",skoreT1m),
@@ -118,7 +128,8 @@ void hodinyRezim();
 
 MenuItem Mhodiny[] = 
 {
-    ItemHeader(mainMenu), 
+    ItemHeader(mainMenu),
+    ItemCommand("Zpet",menuZpet), 
     ItemCommand("Spustit",hodinyStart),
     ItemCommand("Zastavit",hodinyStop), 
     ItemCommand("Nastavit",hodinyNastavit),
@@ -130,44 +141,89 @@ void nastaveniPodsviceni(uint8_t isOn);
 
 MenuItem Mnastaveni[] = 
 {
-    ItemHeader(mainMenu), 
+    ItemHeader(mainMenu),
+    ItemCommand("Zpet",menuZpet), 
     ItemCommand("Reset",nastaveniReset),
     ItemToggle("Podsviceni",nastaveniPodsviceni), 
     ItemFooter()};
 
 LcdMenu menu(LCD_ROWS, LCD_COLS);
 
+int encCounter = 0;
+
+  bool btn = 0;
+  int counter = 0;
+  int actualStateCLK = 0;
+  int lastStateCLK = 0;
+  unsigned long lastButtonPressTime = 0;
+
 void setup() 
 {
     Serial.begin(9600);
     menu.setupLcdWithMenu(0x3F, mainMenu);
+    pinMode(CLK,INPUT_PULLUP);
+    pinMode(DT,INPUT_PULLUP);
+    pinMode(SW,INPUT_PULLUP);
+    lastStateCLK = digitalRead(CLK);
 }
 
 void loop() 
 {
-    if (!Serial.available()) return;
-    char command = Serial.read();
+    actualStateCLK = digitalRead(CLK);
 
-    if (command == UP)
+	if (actualStateCLK != lastStateCLK  && actualStateCLK == 1)
+    {
+	    if (digitalRead(DT) != actualStateCLK)
+        {
+            if(counter > -10)
+                counter --;
+        }
+    
+		else 
+        {
+            if(counter < 10)
+                counter ++;
+        }
+        
+        Serial.print(counter);
+	}
+
+	lastStateCLK = actualStateCLK; 
+	int btnState = digitalRead(SW); 
+
+	if (btnState == LOW) 
+    {
+		if (millis() - lastButtonPressTime > 150) 
+            btn = HIGH;
+        else 
+            btn = LOW;
+            
+		lastButtonPressTime = millis(); 
+	}
+
+    if (counter > encCounter) 
         menu.up();
-    else if (command == DOWN)
+    if (counter < encCounter)
         menu.down();
-    else if (command == LEFT)
-        menu.left();
-    else if (command == RIGHT)
-        menu.right();
-    else if (command == ENTER)
+    
+    encCounter = counter;
+
+    if(btn == HIGH)
         menu.enter();
-    else if (command == BACK)
+
+    if (menuZpetPom)
+    {
         menu.back();
-    else if (command == CLEAR)
-        menu.clear();
-    else if (command == BACKSPACE)
-        menu.backspace();
-    else
-        menu.type(command);
+        menuZpetPom = false;
+    }
 
 
+
+}
+
+void menuZpet()
+{
+    menuZpetPom = true;
 }
 
 void pozarniUtokStartPovolen(uint8_t isOn){}

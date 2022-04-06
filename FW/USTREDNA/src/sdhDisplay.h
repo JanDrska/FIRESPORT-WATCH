@@ -1,5 +1,5 @@
-#if !defined(sdhDisplay)
-#define sdhDisplay
+#ifndef SDH_DISPLAY
+#define SDH_DISPLAY
 
 #include <PCF8574.h>
 #include "sdhTimer.h"
@@ -44,4 +44,4 @@ public:
 
 };
 
-#endif // sdhDisplay
+#endif // SDH_DISPLAY
