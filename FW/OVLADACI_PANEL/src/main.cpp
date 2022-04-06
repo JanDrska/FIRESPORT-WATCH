@@ -12,7 +12,6 @@
 // POSLEDNI UPRAVA 03.04.2022
 
 #include <LcdMenu.h>
-#include "sdhCmd.h"
 
 #define CLK 8
 #define DT 9
@@ -30,10 +29,6 @@
 #define BACK 55      // NUMPAD 7
 #define BACKSPACE 8  // BACKSPACE
 #define CLEAR 46     // NUMPAD .
-
-//SdhCmd pozarniSport;
-//SdhCmd vycvik;
-//SdhCmd odpocet;
 
 bool menuZpetPom = false;
 
@@ -68,7 +63,7 @@ void pozarniUtokResetTercu();
 MenuItem Mpozarnisport[] =  
 {
     ItemHeader(mainMenu),
-    ItemCommand("Zpet",menuZpet),
+//    ItemCommand("Zpet",menuZpet),
     ItemCommand("Start",pozarniUtokStart),
     ItemCommand("Stop",pozarniUtokStop),
     ItemCommand("Restart",pozarniUtokReset),
@@ -83,7 +78,7 @@ void vycvikReset();
 MenuItem Mvycvik[] = 
 {
     ItemHeader(mainMenu),
-    ItemCommand("Zpet",menuZpet), 
+ //   ItemCommand("Zpet",menuZpet), 
     ItemCommand("Start",vycvikStart),
     ItemCommand("Stop",vycvikStop),
     ItemCommand("Reset",vycvikReset),
@@ -96,7 +91,7 @@ void odpocetReset();
 MenuItem Modpocet[] = 
 {
     ItemHeader(mainMenu),
-    ItemCommand("Zpet",menuZpet), 
+ //   ItemCommand("Zpet",menuZpet), 
     ItemCommand("Start",odpocetStart),
     ItemCommand("Stop",odpocetStop), 
     ItemCommand("Reset",odpocetReset), 
@@ -112,7 +107,7 @@ void skoreReset();
 MenuItem Mskore[] = 
 {
     ItemHeader(mainMenu),
-    ItemCommand("Zpet",menuZpet), 
+//    ItemCommand("Zpet",menuZpet), 
     ItemCommand("Tym 1 +",skoreT1p),
     ItemCommand("Tym 2 +",skoreT2p), 
     ItemCommand("Tym 1 -",skoreT1m),
@@ -129,7 +124,7 @@ void hodinyRezim();
 MenuItem Mhodiny[] = 
 {
     ItemHeader(mainMenu),
-    ItemCommand("Zpet",menuZpet), 
+ //   ItemCommand("Zpet",menuZpet), 
     ItemCommand("Spustit",hodinyStart),
     ItemCommand("Zastavit",hodinyStop), 
     ItemCommand("Nastavit",hodinyNastavit),
@@ -142,7 +137,7 @@ void nastaveniPodsviceni(uint8_t isOn);
 MenuItem Mnastaveni[] = 
 {
     ItemHeader(mainMenu),
-    ItemCommand("Zpet",menuZpet), 
+ //   ItemCommand("Zpet",menuZpet), 
     ItemCommand("Reset",nastaveniReset),
     ItemToggle("Podsviceni",nastaveniPodsviceni), 
     ItemFooter()};
@@ -216,8 +211,6 @@ void loop()
         menu.back();
         menuZpetPom = false;
     }
-
-
 
 }
 
