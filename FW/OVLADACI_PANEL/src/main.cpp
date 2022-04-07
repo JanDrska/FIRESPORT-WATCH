@@ -10,7 +10,7 @@
 
 // VERZE 1.0
 // POSLEDNI UPRAVA 03.04.2022
-
+/*
 #include <LcdMenu.h>
 
 #define CLK 8
@@ -248,3 +248,4 @@ void hodinyRezim(){Serial.write(53);}
 
 void nastaveniReset(){Serial.write(60);}
 void nastaveniPodsviceni(uint8_t isOn){menu.toggleBacklight();}
+*/
