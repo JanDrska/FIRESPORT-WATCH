@@ -45,13 +45,18 @@ void terceInit();
 void setup()
 {
 
+
+  pinMode(majak1,OUTPUT);
+  pinMode(majak2,OUTPUT);
+  pinMode(ventil,OUTPUT);
+
 //#### NASTAVENI A ZAHAJENI SERIOVE KOMUNIKACE ####
   Serial.begin(9600);
   Serial.print("\nTERC_V1");  
 
 //#### NASTAVENI A ZAHAJENI RADIOVE KOMUNIKACE ####
   radio.begin();
-  radio.setPALevel(RF24_PA_MIN);
+  radio.setPALevel(RF24_PA_HIGH);
   //radio.setDataRate(RF24_250KBPS);
   radio.setRetries(4, 10);
   radio.openWritingPipe(addresses[1]); // 0002

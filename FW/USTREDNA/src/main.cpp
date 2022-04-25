@@ -108,7 +108,7 @@ void loop()
         
       }
       // SMAZAT !!!!!!!!!!!!!!!!
-      READY = HIGH;
+      //READY = HIGH;
 
       if((digitalRead(TLA) == LOW) && READY) //při stisknutí start...
         start();        //skoč na start
@@ -149,7 +149,7 @@ void loop()
     
         if(digitalRead(TLB) == LOW) //při stisknutí B restart
         {
-          timerR.casSTART = 1;
+          timerL.casSTART = 0;
           display.reset();   //inicializace segmentovek nulami
           choose_program();
           STOP1=0;
