@@ -17,13 +17,13 @@
 //#### HW KONFIGURACE ####
 
 RF24 radio(9, 10);  // CE, CSN
-#define terc1_1 2   // TERC 1 PLNY
-#define terc1_2 3   // TERC 1 PRAZDNY
-#define terc2_1 4   // TERC 2 PLNY
-#define terc2_2 5   // TERC 2 PRAZDNY
-#define majak1  6   // MAJAK TERC 1
-#define majak2  7   // MAJAK TERC 2
-#define ventil 8    // VYSTUP PRO OVLADANI VENTILU (ON/OFF)
+#define terc1_1 8   // TERC 1 PLNY
+#define terc1_2 7   // TERC 1 PRAZDNY
+#define terc2_1 6   // TERC 2 PLNY
+#define terc2_2 5  // TERC 2 PRAZDNY
+#define majak1  4   // MAJAK TERC 1
+#define majak2  3   // MAJAK TERC 2
+#define ventil 2    // VYSTUP PRO OVLADANI VENTILU (ON/OFF)
 
 //#### GLOBALNI PROMENNE ####
 
@@ -147,13 +147,15 @@ void loop()
 void terceInit()    
 {
   Serial.write("\nINIT");
+  Serial.write("\nSV1");
   digitalWrite(majak1,HIGH);
   digitalWrite(majak2,HIGH);
   digitalWrite(ventil,HIGH);
   delay(2000);
   radio.stopListening();
-  if(!radio.write(&text4, sizeof(text4))) terceInit();
+  if(!radio.write(&text4, sizeof(text4))); ///terceInit();
   radio.startListening();
+  Serial.write("\nSV1 LOW");
   digitalWrite(majak1,LOW);
   digitalWrite(majak2,LOW);
   digitalWrite(ventil,LOW);
