@@ -50,6 +50,12 @@ void setup()
   pinMode(majak2,OUTPUT);
   pinMode(ventil,OUTPUT);
 
+  
+  pinMode(terc1_1,INPUT);
+  pinMode(terc1_2,INPUT);
+  pinMode(terc2_1,INPUT);
+  pinMode(terc2_2,INPUT);
+
 //#### NASTAVENI A ZAHAJENI SERIOVE KOMUNIKACE ####
   Serial.begin(9600);
   Serial.print("\nTERC_V1");  
@@ -88,10 +94,13 @@ void loop()
     predchozi_cas = cas;   
   }
 
+
+
 // #### DETEKCE NAPLNENI TERCE CISLO 1 ####
 
-  if ((digitalRead(terc1_1) == HIGH) && !tercL)
+  if ((digitalRead(terc1_1) == 1) && !tercL)
   {
+      Serial.println(digitalRead(terc1_1));
     radio.stopListening();
     if(radio.write(&text1, sizeof(text1)))
     {
@@ -104,7 +113,7 @@ void loop()
 
   // #### DETEKCE NAPLNENI TERCE CISLO 2 ####
 
-  if ((digitalRead(terc2_1) == HIGH) && !tercP)
+  if ((digitalRead(terc2_1) == 1) && !tercP)
   {
     radio.stopListening();
     if(radio.write(&text2, sizeof(text2)))
@@ -153,7 +162,8 @@ void terceInit()
   digitalWrite(ventil,HIGH);
   delay(2000);
   radio.stopListening();
-  if(!radio.write(&text4, sizeof(text4))); ///terceInit();
+  if(!radio.write(&text4, sizeof(text4)))
+    terceInit();
   radio.startListening();
   Serial.write("\nSV1 LOW");
   digitalWrite(majak1,LOW);
