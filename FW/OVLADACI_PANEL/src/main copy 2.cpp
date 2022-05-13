@@ -111,7 +111,7 @@ void loop()
   {
     Ready=1;
     
-    //SUBMENU - VOLBA SPORTU
+    //SUBMENU - VOLBA SPORTU - VIZUALIZACE
     if(submenu == 0)
     {  
       switch (counter)
@@ -136,8 +136,7 @@ void loop()
 
     }//submenu = 0;
 
-
-    //SUBMENU - POZARNI SPORT
+    //SUBMENU - POZARNI SPORT - VIZUALIZACE
     if(submenu == 1)
     {  
       switch(counter)
@@ -175,7 +174,7 @@ void loop()
         }
       }//submenu = 1;
 
-    //SUBMENU Technicky vycvik druzstva 5+1
+    //SUBMENU Technicky vycvik druzstva 5+1 - VIZUALIZACE
     if(submenu == 2)
     {  
       switch (counter)
@@ -203,8 +202,7 @@ void loop()
       }
     }//submenu = 2;
 
-
-    //SUBMENU Odpocet
+    //SUBMENU Odpocet - VIZUALIZACE
     if(submenu == 3)
     {  
       switch(counter)
@@ -232,7 +230,7 @@ void loop()
       }
      }//submenu = 3;
 
-    //SUBMENU Pocitadlo skore 
+    //SUBMENU Pocitadlo skore - VIZUALIZACE
     if(submenu == 4)
     {  
       switch(counter)
@@ -260,6 +258,7 @@ void loop()
 
   if(!digitalRead(ENC_BTN))
   {
+    //SUBMENU - POZARNI SPORT - PRIKAZY
     if(submenu == 1)
     {  
       switch(page)
@@ -290,7 +289,7 @@ void loop()
           break;
       }  
     }//end of submenu 1
-
+    //SUBMENU Technicky vycvik druzstva 5+1 - PRIKAZY
     if(submenu == 2)
     { 
       switch(page)
@@ -323,7 +322,7 @@ void loop()
           break;
       }   
     }//end of submenu 2
-
+    //SUBMENU Odpocet - PRIKAZY
     if(submenu == 3)
     { 
       switch(page)
@@ -346,7 +345,7 @@ void loop()
           break;
       }      
     }//end of submenu 3
-
+    //SUBMENU Pocitadlo skore - PRIKAZY
     if(submenu == 4)
     {    
       switch(page)
@@ -368,7 +367,7 @@ void loop()
           break;
       }
     }//end of submenu 4
-  
+    //SUBMENU - VOLBA SPORTU - PRIKAZY
     if(submenu == 0 && Ready==1)
     { 
       switch(page)
@@ -415,11 +414,9 @@ void loop()
       if (counter > 0) 
         counter --;
       else counter = 0;
-     }
-     
+     }   
    } 
-
-  aLastState = aState;
+    aLastState = aState;
   }
 }
 
