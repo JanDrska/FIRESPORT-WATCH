@@ -12,7 +12,7 @@
 // VERZE 3.0
 // POSLEDNI UPRAVA 07.04.2022
 
-
+/*
 #include "CMBMenu.hpp"  //Copyright (C) 2022  Michael Bernhard
 #include "LiquidCrystal_I2C.h"
 
@@ -109,6 +109,11 @@ void setup()
   lcd.backlight();
   lcd.clear();
 
+  pinMode(LED_EMPTY, OUTPUT);
+  pinMode(LED_R, OUTPUT);
+  pinMode(LED_READY, OUTPUT);
+  pinMode(LED_L, OUTPUT);
+
   Serial.begin(9600);
 
   // ** menu **
@@ -120,15 +125,10 @@ void setup()
   menu.addNode(1, menuPsRestart, MenuPsReset);
   menu.addNode(1, menuResetTercu, MenuPsResetTercu);
   menu.addNode(1, menuVypustit, MenuPsVypustit);
-
   menu.addNode(0, menuVycvik, MenuVycvik);
-
   menu.addNode(0, menuOdpocet, MenuOdpocet);
-
   menu.addNode(0, menuSkore, MenuSkore);
-
   menu.addNode(0, menuHodiny, MenuHodiny);
-
   menu.addNode(0, menuNastaveni, MenuBar);
 
   //menu.addNode(1, g_MenuBarA_pc, MenuBarA);
@@ -146,8 +146,23 @@ void setup()
    printMenuEntry(info);
 }
 
+unsigned long previousTime, actTime = 0;
+bool ledState = LOW;
+
 void loop()
 {
+    actTime = millis();
+
+  if(actTime - previousTime > 500) // kazdych 50 ms kontrola prijatych zprav - RESET,INIT apod. 
+  {
+    ledState = not ledState;
+    previousTime = actTime;
+    digitalWrite(LED_EMPTY,ledState);
+    digitalWrite(LED_L,ledState);
+    digitalWrite(LED_R,ledState);
+    digitalWrite(LED_READY,ledState);   
+  }
+
   // function ID
   int fid = 0;
 
@@ -193,7 +208,7 @@ void loop()
     switch (fid) 
     {
       case MenuPozSport:
-       // FooA();
+        //FooA();
         break;
       case MenuVycvik:
         //BarA();
@@ -320,3 +335,4 @@ void BarA()
 //
 //
 // ========================================================================
+*/

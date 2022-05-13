@@ -131,7 +131,6 @@ void loop()
         lcd.write(1);  
         lcd.print("Pozarni sport");
         page=1;
-        //Serial.println("SUBMENU 0");
         if(pushed)
         {
           pushed=0;

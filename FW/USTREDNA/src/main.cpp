@@ -102,13 +102,12 @@ void loop()
       if (radio.available())
       {
         while(radio.available())
-          {
+        {
           radio.read(&text, sizeof(text));
           String ZPRAVA = String(text);
           Serial.print("ZPRAVA = ");
           Serial.println(ZPRAVA);
           if (ZPRAVA == "PRIPRAVEN") READY = HIGH;
-
         }
         
       }
