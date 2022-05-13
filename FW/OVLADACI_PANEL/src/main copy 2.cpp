@@ -99,7 +99,6 @@ void setup()
   Serial.begin(9600);  
 
   LcdMenuWrite("  SDH JIZBICE","       V1",pushed,1,1000);
-
   LcdMenuWrite("Vyber sport","Pozarni sport",pushed,0);
 
   //mySerial.begin(9600);
@@ -370,43 +369,37 @@ void loop()
       }
     }//end of submenu 4
   
-
-  if(submenu == 0 && Ready==1)
-    {    
-       if(page==1)
-       {
-        submenu=1;
-        counter=0;
-        pushed=1;
-        delay(500);
-        Serial.println("SUBMENU1 & READY");
-       }
-    
-       if(page==2)
-       {
-        submenu=2;
-        counter=0;
-        pushed=1;
-        delay(500);
-       }
-    
-       if(page==3)
-       {
-        submenu=3;
-        counter=0;
-        pushed=1;
-        delay(500);
-       }
-    
-       if(page==4)
-       {
-        submenu=4;
-        counter=0;
-        pushed=1;
-        delay(500);
-       }
-    }//end of submenu 0
-  }
+    if(submenu == 0 && Ready==1)
+    { 
+      switch(page)
+      {
+        case 1:
+          submenu=1;
+          counter=0;
+          pushed=1;
+          delay(500);
+          Serial.println("SUBMENU1 & READY");
+          break;
+        case 2:
+          submenu=2;
+          counter=0;
+          pushed=1;
+          delay(500);
+          break;
+        case 3:
+          submenu=3;
+          counter=0;
+          pushed=1;
+          delay(500);
+          break;
+        case 4:
+          submenu=4;
+          counter=0;
+          pushed=1;
+          delay(500);
+          break;
+      }//end of submenu 0
+    }
 
   aState = digitalRead(OutputA); // Reads the "current" state of the OutputA
 
@@ -414,20 +407,20 @@ void loop()
    {     
      if (digitalRead(OutputB) != aState)
      {
-      if(counter <6)counter ++;
+      if(counter <6)
+        counter ++;
      }
      else
      {
-      if (counter > 0) counter --;
+      if (counter > 0) 
+        counter --;
       else counter = 0;
      }
      
-     Serial.print("Position: ");
-     Serial.println(counter);
    } 
 
   aLastState = aState;
-
+  }
 }
 
 void LcdMenuWrite (String text1,String text2,bool buttonPushed,int position,unsigned long int waitMs)
@@ -459,5 +452,3 @@ bool SendMessageSerial(String Msg)
 {
   return true;
 }
-
-
