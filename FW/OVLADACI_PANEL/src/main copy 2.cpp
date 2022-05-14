@@ -72,10 +72,7 @@ uint8_t arrow[8] = {0x00, 0x04 ,0x06, 0x1f, 0x06, 0x04, 0x00};
 /// text1 - 1. radek, text2 - 2. radek, buttonPushed - promenna pro nulovani promenne pushed, position - pozice sipky (1 - UP; 0 - DOWN; 2 - NIC), waitMs - delay
 void LcdMenuWrite (String text1,String text2,bool buttonPushed,int position,unsigned long int waitMs = 0); 
 void ClearMenuData();
-bool SendMessageSerial(String Msg);
-void PrintTime(TimerData data, bool id);
-
-
+void PrintTime(TimerData data,int id);
 
 void setup()
 {
@@ -91,8 +88,8 @@ void setup()
   pinMode (OutputB,INPUT);
 
   // Externi vstupy start
-  pinMode (EXT_IN1,INPUT);
-  pinMode (EXT_IN2,INPUT);
+  pinMode (EXT_IN1,INPUT_PULLUP);
+  pinMode (EXT_IN2,INPUT_PULLUP);
 
   // Indikacni LED
   pinMode (LED_READY, OUTPUT);
@@ -126,19 +123,30 @@ void setup()
 void loop()
 { 
   if(timerReady)
+  {
     digitalWrite(LED_READY,ledReady.blink(500));
-  else
-    digitalWrite(LED_READY,LOW);
+    if(!digitalRead(EXT_IN1))
+    {
+      started = true;
+      Serial.write("START");
+      timerL.init();
+      timerR.init();
+      timerL.startTimming();
+      timerR.startTimming();
+      timerReady = false;
+    }
+  }
 
   if (started)
   { 
     digitalWrite(LED_EMPTY,LOW);
+    digitalWrite(LED_READY,LOW);
     timerL.Time();
     timerR.Time();
     if(!endL&&!button)
-      PrintTime(timerL,0);
+      PrintTime(timerL,1);
     if(!endR&&!button)
-      PrintTime(timerR,1);
+      PrintTime(timerR,2);
     if(endL&&endR)
     {
       started = false;
@@ -358,16 +366,15 @@ void loop()
       {
         case 1:
           ClearMenuData();
-          Serial.write("POVOLIT\n");
+          //Serial.write("POVOLIT\n");
           timerReady = true;
           //mySerial.write("POVOLIT\n");
           break;
         case 2:
           ClearMenuData();
-          //mySerial.write("START\n");
           if(timerReady)
           {
-            Serial.write("START\n");
+            Serial.write("A");    // START
             started = true;
             timerL.init();
             timerR.init();
@@ -378,23 +385,23 @@ void loop()
           break;
         case 3:
           ClearMenuData();
-          //mySerial.write("RESET\n");
-          Serial.write("RESET\n");
+          Serial.write("C");  // RESET
+          timerL.init();
+          timerR.init();
           delay(500);
           break;
         case 4:
           ClearMenuData();
-          //mySerial.write("STOP\n");
-          Serial.write("STOP\n");
+          Serial.write("B"); //STOP
           timerL.stopTimming();
           timerR.stopTimming();
           started = false;
+          timerReady = false;
           delay(500);
           break;
         case 5:
           ClearMenuData();
-          //mySerial.write("STOP\n");
-          Serial.write("VYPUSTIT\n");
+          Serial.write("D"); // VYPUSTIT
           delay(500);
           break;
       }  
@@ -407,11 +414,11 @@ void loop()
         case 1:
           ClearMenuData(); 
           delay(500);
-          Serial.write("VYPUSTIT\n");
+        //  Serial.write("VYPUSTIT\n");
           break;
         case 2:
           ClearMenuData();
-          Serial.write("STAV\n");
+        //  Serial.write("STAV\n");
           delay(500);
           break;
         case 3:
@@ -528,8 +535,6 @@ void loop()
         counter --;
       else counter = 0;
     } 
-
-    //Serial.println(counter);  
   } 
     aLastState = aState;
 
@@ -546,7 +551,6 @@ void LcdMenuWrite (String text1,String text2,bool buttonPushed,int position,unsi
   if(position == 0)   /// ARROW DOWN
     lcd.write(1);  
   lcd.print(text2);
-  //page=1;
   if(buttonPushed)
     buttonPushed=0;
   delay(waitMs);  
@@ -560,18 +564,18 @@ void ClearMenuData()
   Ready=0;
 }
 
-bool SendMessageSerial(String Msg)
+void PrintTime(TimerData data,int id)
 {
-  return true;
-}
-
-void PrintTime(TimerData data, bool id)
-{
-  if(id)
+  if(id == 1)
+  {
     lcd.setCursor(0,0);   //první řádek
+    lcd.print("1. ");
+  }
   else
+  {
     lcd.setCursor(0,1);   //druhý řádek
-  lcd.print("1. ");
+    lcd.print("2. ");
+  }
   lcd.print(data.casTERC_M);
   lcd.print(":");
   lcd.print(data.casTERC_S);
