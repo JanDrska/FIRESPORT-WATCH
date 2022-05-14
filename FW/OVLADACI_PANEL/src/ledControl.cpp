@@ -1,4 +1,4 @@
-#include "ledControl.hpp"
+#include "ledControl.h"
 #include "Arduino.h"
 
 bool LED::blink(int time)
