@@ -18,6 +18,9 @@
 #include <Wire.h> 
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
+#include <stdlib.h>
+#include <sdhTimer.h>
+#include "ledControl.hpp"
 LiquidCrystal_I2C lcd(0x3F,16,2);  
 
 int counter = 0; 
@@ -28,6 +31,18 @@ bool pushed = 0;
 int aState;
 int aLastState; 
 int last_counter=0; 
+bool started = false;
+unsigned long int actTime, prevTime = 0;
+unsigned long int ButtonActTime, ButtonPrevTime = 0;
+bool timerReady = false;
+
+int error = 0;
+bool endR, endL = false;
+bool button;
+
+TimerData timerL;
+TimerData timerR;
+LED ledReady;
 
 uint8_t arrow[8] = {0x00, 0x04 ,0x06, 0x1f, 0x06, 0x04, 0x00};
 
@@ -58,6 +73,9 @@ uint8_t arrow[8] = {0x00, 0x04 ,0x06, 0x1f, 0x06, 0x04, 0x00};
 void LcdMenuWrite (String text1,String text2,bool buttonPushed,int position,unsigned long int waitMs = 0); 
 void ClearMenuData();
 bool SendMessageSerial(String Msg);
+void PrintTime(TimerData data, bool id);
+
+
 
 void setup()
 {
@@ -107,10 +125,85 @@ void setup()
 
 void loop()
 { 
+  if(timerReady)
+    digitalWrite(LED_READY,ledReady.blink(500));
+  else
+    digitalWrite(LED_READY,LOW);
+
+  if (started)
+  { 
+    digitalWrite(LED_EMPTY,LOW);
+    timerL.Time();
+    timerR.Time();
+    if(!endL&&!button)
+      PrintTime(timerL,0);
+    if(!endR&&!button)
+      PrintTime(timerR,1);
+    if(endL&&endR)
+    {
+      started = false;
+      endL = false;
+      endR = false;
+    }
+    ButtonActTime = millis();
+
+    if(!digitalRead(ENC_BTN))
+      button = true;
+
+    if(ButtonActTime - ButtonPrevTime > 7000)
+    {
+      button = false;
+      ButtonPrevTime = ButtonActTime;
+    }
+  }
+
+  actTime = millis();
+
+  if(actTime - prevTime > 100) // kazdych 50 ms kontrola prijatych zprav - RESET,INIT apod. 
+  {
+    if(Serial.available())
+    {
+      char txt = Serial.read();
+      //Serial.print(txt);
+
+      switch(txt)
+      {
+        case 'A':
+          digitalWrite(LED_READY,HIGH);
+          break;
+        case 'B':
+          digitalWrite(LED_R,HIGH);
+          timerR.stopTimming();
+          endR = true;
+          break;
+        case 'C':
+          digitalWrite(LED_L,HIGH);
+          endL = true;
+          timerL.stopTimming();
+          break;
+        case 'D':
+          digitalWrite(LED_R,LOW);
+          digitalWrite(LED_L,LOW);
+          digitalWrite(LED_EMPTY,HIGH);
+          break;
+        case 'E':
+          error = 1;
+          LcdMenuWrite("ERROR 1","TERCE OFFLINE",pushed,2,1000);
+          submenu = 1;
+          pushed = 1;
+          break;
+        case 'F':
+          error = 2;
+          break;
+      }
+    }
+    prevTime = actTime; 
+  }
+
   if((last_counter > counter) || (last_counter < counter)  || pushed) // LCD MENU se zobrazi pouze při změně stavu encoderu nebo stisknuti tlacitka
   {
-    Ready=1;
-    
+    if(!started)
+      button = false;
     //SUBMENU - VOLBA SPORTU - VIZUALIZACE
     if(submenu == 0)
     {  
@@ -133,7 +226,6 @@ void loop()
         page=4;
         break;
       }
-
     }//submenu = 0;
 
     //SUBMENU - POZARNI SPORT - VIZUALIZACE
@@ -164,15 +256,14 @@ void loop()
         case 4:
           page=5;
           pushed=0;
-          LcdMenuWrite("Vypustit terce"," Stav tercu",pushed,1);  
+          LcdMenuWrite(" Stop","Vypustit terce",pushed,0);  
           break;      
-        case 5:
-          page=6;
-          pushed=0;
-          LcdMenuWrite(" Vypustit terce","Stav tercu",pushed,0);   
-          break;  
-        }
-      }//submenu = 1;
+      }
+      Serial.print("page ");
+      Serial.print(page);
+      Serial.print("  counter");
+      Serial.println(counter);
+    }//submenu = 1;
 
     //SUBMENU Technicky vycvik druzstva 5+1 - VIZUALIZACE
     if(submenu == 2)
@@ -252,28 +343,38 @@ void loop()
           break;
       } 
     }//submenu = 4;
+    Ready=1;
   }
 
   last_counter = counter; //ulozeni posledni hodnoty citace
 
-  if(!digitalRead(ENC_BTN))
+    if(!digitalRead(ENC_BTN)) // akce po potvrzeni nabidky v menu
   {
     //SUBMENU - POZARNI SPORT - PRIKAZY
     if(submenu == 1)
     {  
+      Serial.println(page);
       switch(page)
       {
         case 1:
           ClearMenuData();
-          LcdMenuWrite("PROVADIM","PROSIM CEKEJTE",pushed,2);
-          //mySerial.write("POVOLIT\n");
           Serial.write("POVOLIT\n");
-          delay(4000);
+          timerReady = true;
+          //mySerial.write("POVOLIT\n");
           break;
         case 2:
           ClearMenuData();
           //mySerial.write("START\n");
-          Serial.write("START\n");
+          if(timerReady)
+          {
+            Serial.write("START\n");
+            started = true;
+            timerL.init();
+            timerR.init();
+            timerL.startTimming();
+            timerR.startTimming();
+            timerReady = false;
+          }
           break;
         case 3:
           ClearMenuData();
@@ -285,6 +386,15 @@ void loop()
           ClearMenuData();
           //mySerial.write("STOP\n");
           Serial.write("STOP\n");
+          timerL.stopTimming();
+          timerR.stopTimming();
+          started = false;
+          delay(500);
+          break;
+        case 5:
+          ClearMenuData();
+          //mySerial.write("STOP\n");
+          Serial.write("VYPUSTIT\n");
           delay(500);
           break;
       }  
@@ -368,7 +478,9 @@ void loop()
       }
     }//end of submenu 4
     //SUBMENU - VOLBA SPORTU - PRIKAZY
-    if(submenu == 0 && Ready==1)
+  }
+
+  if(submenu == 0 && !digitalRead(ENC_BTN))
     { 
       switch(page)
       {
@@ -377,7 +489,7 @@ void loop()
           counter=0;
           pushed=1;
           delay(500);
-          Serial.println("SUBMENU1 & READY");
+          //Serial.println("SUBMENU1 & READY");
           break;
         case 2:
           submenu=2;
@@ -400,24 +512,27 @@ void loop()
       }//end of submenu 0
     }
 
+
   aState = digitalRead(OutputA); // Reads the "current" state of the OutputA
 
-   if (aState != aLastState)
-   {     
-     if (digitalRead(OutputB) != aState)
-     {
+  if (aState != aLastState)
+  {     
+    if (digitalRead(OutputB) != aState)
+    {
       if(counter <6)
-        counter ++;
-     }
-     else
-     {
+      counter ++;
+    }
+    else
+    {
       if (counter > 0) 
         counter --;
       else counter = 0;
-     }   
-   } 
+    } 
+
+    //Serial.println(counter);  
+  } 
     aLastState = aState;
-  }
+
 }
 
 void LcdMenuWrite (String text1,String text2,bool buttonPushed,int position,unsigned long int waitMs)
@@ -431,7 +546,7 @@ void LcdMenuWrite (String text1,String text2,bool buttonPushed,int position,unsi
   if(position == 0)   /// ARROW DOWN
     lcd.write(1);  
   lcd.print(text2);
-  page=1;
+  //page=1;
   if(buttonPushed)
     buttonPushed=0;
   delay(waitMs);  
@@ -448,4 +563,19 @@ void ClearMenuData()
 bool SendMessageSerial(String Msg)
 {
   return true;
+}
+
+void PrintTime(TimerData data, bool id)
+{
+  if(id)
+    lcd.setCursor(0,0);   //první řádek
+  else
+    lcd.setCursor(0,1);   //druhý řádek
+  lcd.print("1. ");
+  lcd.print(data.casTERC_M);
+  lcd.print(":");
+  lcd.print(data.casTERC_S);
+  lcd.print(":");
+  lcd.print(data.casTERC_ms);
+  lcd.print("    ");
 }

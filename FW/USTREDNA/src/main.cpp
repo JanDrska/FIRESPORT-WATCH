@@ -122,14 +122,12 @@ void loop()
         if(STOP1 == 0)    //průběžný čas prvního terče
         {
           timerL.Time();
-          timerL.sendDataSerial('L');
           display.sendData(timerL,timerR);        
         }
               
         if(STOP2 == 0)    //průběžný čas 2.terče
         {
           timerR.Time();
-          timerR.sendDataSerial('R');
           display.sendData(timerL,timerR);
         }
 
@@ -139,6 +137,7 @@ void loop()
           STOP1 = 1;
           timerL.stopTimming();
           display.sendData(timerL,timerR);
+          timerL.sendDataSerial('L');
           terc1 = LOW;
         }
     
@@ -148,6 +147,7 @@ void loop()
           STOP2 = 1;
           timerR.stopTimming();
           display.sendData(timerL,timerR);
+          timerR.sendDataSerial('R');
           terc2 = LOW; 
         }
     
