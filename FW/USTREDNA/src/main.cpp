@@ -14,7 +14,6 @@
 #include "sdhTimer.h"
 #include "sdhDisplay.h"
 
-#include <LiquidCrystal_I2C.h>
 #include <PCF8574.h>
 #include <SPI.h>
 #include <RF24.h>
@@ -28,8 +27,7 @@
 
 TimerData timerL;
 TimerData timerR;
-DisplaySdh display;
-LiquidCrystal_I2C lcd(0x3F,16,2);  
+DisplaySdh display; 
 RF24 radio(9, 10);  // CE, CSN
 
 const byte addresses [] [6] = {"00001","00002"} ; // adresa komunikatoru
@@ -43,6 +41,11 @@ char text [32] = "";
 int STOP1 = 0;
 int STOP2 = 0;
 int program =0;
+
+bool startCmd = false;
+bool stopCmd = false;
+bool resetCmd = false;
+bool vypustitCmd = false;
 
 void choose_program(); // funkce na vyber programu
 void start();
@@ -74,7 +77,7 @@ void loop()
   {
     case 1: //######## STOPKY POZARNI SPORT ########
       
-      timerR.casSTART = 1;
+      timerL.casSTART = 1;
      /* if(!init_delivery_confirm_bit)
       {
         radio.stopListening();
@@ -98,23 +101,47 @@ void loop()
         }
         
      }*/
-     
       if (radio.available())
       {
-        while(radio.available())
+        Serial.print("XXX");
+        if(radio.available())
         {
           radio.read(&text, sizeof(text));
           String ZPRAVA = String(text);
-          Serial.print("ZPRAVA = ");
-          Serial.println(ZPRAVA);
-          if (ZPRAVA == "PRIPRAVEN") READY = HIGH;
+          if (ZPRAVA == "PRIPRAVEN") 
+          {
+            READY = HIGH;
+            Serial.print("A");
+          }
         }
-        
       }
-      // SMAZAT !!!!!!!!!!!!!!!!
-      //READY = HIGH;
-
-      if((digitalRead(TLA) == LOW) && READY) //při stisknutí start...
+      if(Serial.available())
+      {
+        char txt = Serial.read();
+        switch(txt)
+        {
+          case 'A': // START
+            startCmd = true;           
+            break;
+          case 'B': // STOP   
+            stopCmd = true;        
+            break;
+          case 'C': // RESET
+            resetCmd = true;
+            break;
+          case 'D': // VYPUSTIT
+            vypustitCmd = true;
+            break;
+          default:
+            startCmd = false;
+            stopCmd = false;
+            resetCmd = false;
+            vypustitCmd = false;
+            break;
+        }
+      }
+  
+      if(startCmd && READY) //při stisknutí start...
         start();        //skoč na start
         
       while(timerL.casSTART > 1)   //pokud bylo odstartováno pak
@@ -151,7 +178,7 @@ void loop()
           terc2 = LOW; 
         }
     
-        if(digitalRead(TLB) == LOW) //při stisknutí B restart
+        if(resetCmd || stopCmd) // prikaz pro reset/stop
         {
           timerL.casSTART = 0;
           display.reset();   //inicializace segmentovek nulami
@@ -174,21 +201,26 @@ void loop()
           Serial.println(text);
         
           String ZPRAVA = String(text);
-          if (ZPRAVA == "LEVY") 
+          if (ZPRAVA == "LEVY")
+          {
             terc1 = HIGH;
+            Serial.print("C");
+          } 
           if (ZPRAVA == "PRAVY") 
+          {
             terc2 = HIGH;
+            Serial.print("B");
+          }
           if (ZPRAVA == "PRAZDNO") 
+          {
             prazdno = HIGH;
-        
-          Serial.println(ZPRAVA);
-          Serial.print("TERC1 ");
-          Serial.println(terc1);
-          Serial.print("TERC2 ");
-          Serial.println(terc2); 
+            Serial.print("D");
+          }
+      
           radio.writeAckPayload(1, &text, sizeof(text));
         }
       }
+    
      break;
 
     case 2: // ######## ODPOCET ########
@@ -205,8 +237,6 @@ void loop()
         timerR.casTERC_S = timerR.casODPOCET % 60000;  //výpočet sekund
         timerR.casTERC_S = timerR.casTERC_S / 1000;     //výpočet sekund
         timerR.casTERC_ms = timerR.casODPOCET % 1000;  //výpočet ms
-
-        timerR.sendDataSerial('O');
     
         if((timerL.casTERC_M==0)&&(timerL.casTERC_S==0))
         {
@@ -238,10 +268,11 @@ void start()
 
 void choose_program()
 {
+  /*
   if(digitalRead(TLProg)== HIGH)program=1;
   else
-  {
-    program=2;
+  {*/
+    program=1;
     start();  
-  }
+  //}
 }
