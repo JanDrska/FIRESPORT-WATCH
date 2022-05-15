@@ -65,7 +65,7 @@ void setup()
   pinMode(TLB, INPUT_PULLUP);        //stop
   pinMode(TLProg, INPUT_PULLUP);     //prepinac programu (1-stopky 0- odpocet)
 
-  Serial.println("CASOMIRA SDH JIZBICE");
+  //Serial.println("CASOMIRA SDH JIZBICE");
   
   display.init();  //inicializace 7segmentovek
   choose_program();
@@ -103,7 +103,7 @@ void loop()
      }*/
       if (radio.available())
       {
-        Serial.print("XXX");
+        //Serial.print("XXX");
         if(radio.available())
         {
           radio.read(&text, sizeof(text));
