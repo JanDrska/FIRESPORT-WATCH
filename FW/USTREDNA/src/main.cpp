@@ -78,29 +78,6 @@ void loop()
     case 1: //######## STOPKY POZARNI SPORT ########
       
       timerL.casSTART = 1;
-     /* if(!init_delivery_confirm_bit)
-      {
-        radio.stopListening();
-        if(radio.write(&text1, sizeof(text1)) && !init_delivery_confirm_bit)
-        {
-          Serial.println("INIT TERCE");
-          init_delivery_confirm_bit = HIGH;
-          lcd.setCursor(0,0);
-          lcd.print(" Cekam na START");
-          radio.startListening();
-        } 
-      
-        if (!init_delivery_confirm_bit)
-        {
-          Serial.println("ERROR - CHYBA INITU TERCU");
-          lcd.setCursor(0,0);
-          lcd.print(" CHYBA SPOJENI");
-          lcd.setCursor(0,1);
-          lcd.print("     TERCU");
-          program = 6;
-        }
-        
-     }*/
       if (radio.available())
       {
         //Serial.print("XXX");
