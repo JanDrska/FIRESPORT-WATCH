@@ -82,7 +82,6 @@ void loop()
       timerL.casSTART = 1;
       if (radio.available())
       {
-        //Serial.print("XXX");
         if(radio.available())
         {
           radio.read(&text, sizeof(text));
@@ -111,12 +110,6 @@ void loop()
           case 'D': // VYPUSTIT
             vypustitCmd = true;
             break;
-          default:
-            startCmd = false;
-            stopCmd = false;
-            resetCmd = false;
-            vypustitCmd = false;
-            break;
         }
       }
   
@@ -125,6 +118,19 @@ void loop()
         
       while(timerL.casSTART > 1)   //pokud bylo odstartováno pak
       {
+        if(Serial.available())
+      {
+        char txt = Serial.read();
+        switch(txt)
+        {
+          case 'B': // STOP   
+            stopCmd = true;        
+            break;
+          case 'C': // RESET
+            resetCmd = true;
+            break;
+        }
+      }
         if(STOP1 == 0)    //průběžný čas prvního terče
         {
           timerL.Time();
@@ -139,39 +145,47 @@ void loop()
 
         if(terc1 == HIGH) //konec 1.terče
         {
-          Serial.println("L STOP");
           STOP1 = 1;
           timerL.stopTimming();
           display.sendData(timerL,timerR);
-          timerL.sendDataSerial('L');
+          //timerL.sendDataSerial('L');
           terc1 = LOW;
         }
     
         if(terc2 == HIGH) //konec 2. terče
         {
-          Serial.println("P STOP");
           STOP2 = 1;
           timerR.stopTimming();
           display.sendData(timerL,timerR);
-          timerR.sendDataSerial('R');
+          //timerR.sendDataSerial('R');
           terc2 = LOW; 
         }
     
-        if(resetCmd || stopCmd) // prikaz pro reset/stop
+        if(resetCmd) // prikaz pro reset
         {
-          timerL.casSTART = 0;
-          display.reset();   //inicializace segmentovek nulami
-          choose_program();
-          STOP1=0;
-          STOP2=0;
-          init_delivery_confirm_bit= LOW;
+          timerL.casSTART = 1;
+          display.init();
+          //choose_program();
+          resetCmd = false;
+          startCmd = false;
+          stopCmd = false;
           radio.stopListening();
 
           if(radio.write(&text2, sizeof(text2)))
           {
-            Serial.println("RESET TERCE");
+            //Serial.println("RESET TERCE");
           } 
         }
+
+        if(stopCmd)
+        {
+          STOP1 = true;
+          STOP2 = true;
+          terc1 = true;
+          terc2 = true;
+          stopCmd = false;;
+        }
+
 
         if(radio.available())
         {
@@ -243,6 +257,7 @@ void start()
   timerL.startTimming();
   timerR.startTimming();
   radio.startListening(); // zapnuti prijmu radia
+  startCmd = false;
 }
 
 void choose_program()
