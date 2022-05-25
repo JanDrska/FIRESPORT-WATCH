@@ -69,6 +69,8 @@ void setup()
   
   display.init();  //inicializace 7segmentovek
   choose_program();
+
+  READY = true;
 }
 
 void loop() 
