@@ -99,12 +99,15 @@ void setup()
   lcd.init();                
   lcd.backlight();            
   lcd.createChar(1, arrow);  
-  lcd.home();                 
+  lcd.home();  
+  lcd.clear();               
   
   Serial.begin(9600);  
 
   LcdMenuWrite("  SDH JIZBICE","       V1",pushed,1,1000);
   LcdMenuWrite("Vyber sport","Pozarni sport",pushed,0);
+
+  Serial.print("I");
 
 }
 
@@ -116,7 +119,7 @@ void loop()
     if(!digitalRead(EXT_IN1))
     {
       started = true;
-      Serial.write("START");
+      Serial.print("A");
       timerL.init();
       timerR.init();
       timerL.startTimming();
@@ -155,7 +158,7 @@ void loop()
 
   actTime = millis();
 
-  if(actTime - prevTime > 100) // kazdych 50 ms kontrola prijatych zprav - RESET,INIT apod. 
+  if(actTime - prevTime > 50) // kazdych 50 ms kontrola prijatych zprav - RESET,INIT apod. 
   {
     if(Serial.available())
     {
@@ -343,12 +346,12 @@ void loop()
     //SUBMENU - POZARNI SPORT - PRIKAZY
     if(submenu == 1)
     {  
-      Serial.println(page);
+      //Serial.println(page);
       switch(page)
       {
         case 1:
           ClearMenuData();
-          //Serial.write("POVOLIT\n");
+          //Serial.print("POVOLIT\n");
           timerReady = true;
           //mySerial.write("POVOLIT\n");
           break;
@@ -356,7 +359,7 @@ void loop()
           ClearMenuData();
           if(timerReady)
           {
-            Serial.write("A");    // START
+            Serial.print("A");    // START
             started = true;
             timerL.init();
             timerR.init();
@@ -367,14 +370,18 @@ void loop()
           break;
         case 3:
           ClearMenuData();
-          Serial.write("C");  // RESET
+          Serial.print("C");  // RESET
+          timerL.stopTimming();
+          timerR.stopTimming();
           timerL.init();
           timerR.init();
+          started = false;
+          timerReady = false;
           delay(500);
           break;
         case 4:
           ClearMenuData();
-          Serial.write("B"); //STOP
+          Serial.print("B"); //STOP
           timerL.stopTimming();
           timerR.stopTimming();
           started = false;
@@ -383,7 +390,7 @@ void loop()
           break;
         case 5:
           ClearMenuData();
-          Serial.write("D"); // VYPUSTIT
+          Serial.print("D"); // VYPUSTIT
           delay(500);
           break;
       }  
@@ -396,11 +403,11 @@ void loop()
         case 1:
           ClearMenuData(); 
           delay(500);
-        //  Serial.write("VYPUSTIT\n");
+        //  Serial.print("VYPUSTIT\n");
           break;
         case 2:
           ClearMenuData();
-        //  Serial.write("STAV\n");
+        //  Serial.print("STAV\n");
           delay(500);
           break;
         case 3:

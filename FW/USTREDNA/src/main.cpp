@@ -49,6 +49,7 @@ bool vypustitCmd = false;
 
 void choose_program(); // funkce na vyber programu
 void start();
+void(* resetFunc) (void) = 0;
 
 void setup() 
 {
@@ -64,8 +65,6 @@ void setup()
   pinMode(TLA, INPUT_PULLUP);        //start
   pinMode(TLB, INPUT_PULLUP);        //stop
   pinMode(TLProg, INPUT_PULLUP);     //prepinac programu (1-stopky 0- odpocet)
-
-  //Serial.println("CASOMIRA SDH JIZBICE");
   
   display.init();  //inicializace 7segmentovek
   choose_program();
@@ -80,6 +79,7 @@ void loop()
     case 1: //######## STOPKY POZARNI SPORT ########
       
       timerL.casSTART = 1;
+
       if (radio.available())
       {
         if(radio.available())
@@ -110,6 +110,9 @@ void loop()
           case 'D': // VYPUSTIT
             vypustitCmd = true;
             break;
+          case 'I':
+            resetFunc();
+            break;
         }
       }
   
@@ -119,18 +122,22 @@ void loop()
       while(timerL.casSTART > 1)   //pokud bylo odstartováno pak
       {
         if(Serial.available())
-      {
-        char txt = Serial.read();
-        switch(txt)
         {
-          case 'B': // STOP   
-            stopCmd = true;        
-            break;
-          case 'C': // RESET
-            resetCmd = true;
-            break;
+          char txt = Serial.read();
+          switch(txt)
+          {
+            case 'B': // STOP   
+              stopCmd = true;
+              break;
+            case 'C': // RESET
+              resetCmd = true;
+              break;
+            //case 'I':
+            //  resetFunc();
+            //  break;
+          }
         }
-      }
+
         if(STOP1 == 0)    //průběžný čas prvního terče
         {
           timerL.Time();
@@ -160,32 +167,35 @@ void loop()
           //timerR.sendDataSerial('R');
           terc2 = LOW; 
         }
-    
-        if(resetCmd) // prikaz pro reset
-        {
-          timerL.casSTART = 1;
-          display.init();
-          //choose_program();
-          resetCmd = false;
-          startCmd = false;
-          stopCmd = false;
-          radio.stopListening();
-
-          if(radio.write(&text2, sizeof(text2)))
-          {
-            //Serial.println("RESET TERCE");
-          } 
-        }
 
         if(stopCmd)
         {
           STOP1 = true;
           STOP2 = true;
-          terc1 = true;
-          terc2 = true;
-          stopCmd = false;;
+          startCmd = false;
         }
 
+        if(resetCmd) // prikaz pro reset
+        {
+          timerL.init();
+          timerR.init();
+          display.init();
+          //choose_program();
+          startCmd = false;
+          radio.stopListening();
+          terc1 = false;
+          terc2 = false;
+          STOP1 = false;
+          STOP2 = false;
+          stopCmd = false;
+        
+
+          if(radio.write(&text2, sizeof(text2)))
+          {
+            //Serial.println("RESET TERCE");
+          } 
+          resetCmd = false;
+        }
 
         if(radio.available())
         {
