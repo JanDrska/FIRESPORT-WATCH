@@ -1,0 +1,481 @@
+<document type="ProfiCAD sxe" version="11.0">
+<fonts letter="155,0,0,0,Lucida Sans Unicode,000000" text="110,0,0,0,Lucida Sans Unicode,000000" type="85,0,0,0,Arial,FF00FF" refs="85,0,0,0,Arial,008000" wire_names="85,0,0,0,Arial,000000" cross_refs="85,0,0,1,Arial,0000FF" outlets="85,0,0,0,Arial,000000" reports="85,0,0,0,Arial,000000"/>
+<PrintSettings PrinterName="" PaperSize="9" FormName="A4" SheetSizeX="210" SheetSizeY="297" WantsCustom="0" CustomSizeX="283" CustomSizeY="203"/>
+<PrintReportSettings paper_size_enum="9" sheet_size_x="210" sheet_size_y="297" color_bg_even="15727333" color_bg_header="8454143" color_grid="16777215"/>
+<PrinterSettings PaperSizeX="2970" PaperSizeY="2100" PhysicalOffestTenthMm_X="0" PhysicalOffestTenthMm_Y="0"/>
+<tb use="1" name="C:\Users\Public\Documents\ProfiCAD Library\_TB\standard9.ptb"/>
+<PageSettings bgColor="FFFFFF" zoom="150" frame="YES" showT="YES" showV="YES" includeMargins="YES"/>
+<RefGridSettings FieldSize="50"/>
+<NumberingWire Over="1" Digits="3" TypeRenumbering="0" ShowWireName="0" WireLabelDist_a="4" WireLabelDist_b="10" WireLabelDist_c="7"/>
+<summary>
+<field name="author" value=""/>
+<field name="cisloDok" value=""/>
+<field name="date" value="11.05.2022"/>
+<field name="druhDokumentu" value=""/>
+<field name="jazyk" value=""/>
+<field name="odd" value=""/>
+<field name="prezkousel" value=""/>
+<field name="statusDokumentu" value=""/>
+<field name="techRef" value=""/>
+<field name="zmena" value=""/>
+</summary>
+<repo>
+<ppd name="elektronika\mechanické díly\konstrukční prvky\svorka.ppd" t="X" fG="6b78d699-2542-47fd-a146-a5205997bb18" lG="0307fdce-dbe4-414c-974b-55fadf6d9537" function="1">
+<layers current="0">
+<layer name="0" v="1">
+<ellipse left="-8" top="-8" right="8" bottom="8"/>
+<outlet x="0" y="-8"/>
+<outlet x="0" y="8"/>
+</layer>
+</layers>
+<defaults>
+<attributes>
+<attribute name="_ref" value="1" x="-35" y="-20" al="6"/>
+<attribute name="_type" value="" x="-35" y="20" al="6"/>
+<attribute name="_o1" value="1" custom="i" x="-10" y="-8" al="6"/>
+<attribute name="_o2" value="1" custom="o" x="-10" y="8" al="6"/>
+</attributes>
+</defaults>
+</ppd>
+<ppd name="elektronika\polovodiče a elektronky\tranzistory\NPN.ppd" t="T" v="BC337" fG="9381b22a-a657-4be3-8261-2e4dd427ea4e" lG="2548ab55-ee23-4f22-a0ea-857f85eb0d8d">
+<layers current="0">
+<layer name="0" v="1">
+<ellipse left="-50" top="-50" right="50" bottom="50"/>
+<polyline pts="-25,0,-50,0,"/>
+<polyline op-lw="4" pts="-25,-21,-25,21,"/>
+<polyline pts="-25,0,28,-42,"/>
+<polyline pts="-25,0,28,42,"/>
+<polyline pts="22,37,11,19,"/>
+<polyline pts="21,37,3,31,"/>
+<outlet x="-50" y="0"/>
+<outlet x="28" y="42"/>
+<outlet x="28" y="-42"/>
+</layer>
+</layers>
+</ppd>
+<ppd name="elektronika\pasívní komponenty\rezistory\rezistor.ppd" t="R" v="10K" n="EN 60617: 04-01-01" fG="28c7548c-a963-45ba-b852-59afda220b0d" lG="2f9a12a0-0c17-4b74-aafe-7d8c4b646eb0">
+<layers current="0">
+<layer name="0" v="1">
+<rect left="-8" top="-25" right="8" bottom="25"/>
+<outlet x="0" y="-25"/>
+<outlet x="0" y="25"/>
+</layer>
+</layers>
+</ppd>
+<ppd name="elektronika\polovodiče a elektronky\optočleny\opto NPN bez báze.ppd" t="opto" fG="89b30fec-61ec-4c18-b7ae-bb0909475b45" lG="3bcbb213-9000-4422-9d99-d2fea239aa3d">
+<layers current="0">
+<layer name="0" v="1">
+<polyline pts="60,-20,60,-40,"/>
+<polyline pts="60,20,60,40,"/>
+<polyline op-lw="4" pts="30,-15,30,15,"/>
+<polyline pts="30,0,60,-20,"/>
+<polyline pts="30,0,60,20,"/>
+<polyline pts="60,20,50,5,"/>
+<polyline pts="60,20,45,15,"/>
+<polyline pts="-40,-40,-40,40,"/>
+<polyline pts="-60,-10,-20,-10,"/>
+<polyline pts="-60,10,-20,10,"/>
+<polyline pts="-60,-10,-40,10,"/>
+<polyline pts="-20,-10,-40,10,"/>
+<rect left="-70" top="-30" right="70" bottom="30"/>
+<polyline pts="-10,0,10,-20,"/>
+<polyline pts="-10,20,10,0,"/>
+<polyline pts="10,-20,0,-15,"/>
+<polyline pts="10,-20,5,-10,"/>
+<polyline pts="10,0,0,5,"/>
+<polyline pts="10,0,5,10,"/>
+<outlet x="-40" y="-40"/>
+<outlet x="-40" y="40"/>
+<outlet x="60" y="-40"/>
+<outlet x="60" y="40"/>
+</layer>
+</layers>
+</ppd>
+<ppd name="elektronika\pasívní komponenty\kondenzátory\kondenzátor.ppd" t="C" v="10k" fG="3fbd61fd-fc00-4eb8-872e-cd3da5b023bf" lG="3c3e597e-a91e-4b34-8520-0c5b3b7b4cc2">
+<layers current="0">
+<layer name="0" v="1">
+<polyline op-lw="4" pts="-18,-4,18,-4,"/>
+<polyline op-lw="4" pts="-18,4,18,4,"/>
+<outlet x="0" y="-4"/>
+<outlet x="0" y="4"/>
+</layer>
+</layers>
+</ppd>
+<ppd name="elektronika\polovodiče a elektronky\diody\dioda luminiscenční.ppd" t="D" v="HLMP7000" n="EN 60617: 05-03-02" fG="7a93ae27-f900-4f7b-935c-e129f590cabe" lG="e99aa1ee-f2d8-407e-96e8-4e91cb9ec706">
+<layers current="0">
+<layer name="0" v="1">
+<polygon pts="-20,0,20,-20,20,20,"/>
+<polyline pts="-20,0,20,0,"/>
+<polyline pts="-20,-20,-20,20,"/>
+<outlet x="-20" y="0"/>
+<outlet x="20" y="0"/>
+<polyline pts="13,-45,-5,-27,"/>
+<polyline pts="13,-45,2,-39,"/>
+<polyline pts="13,-45,7,-34,"/>
+<polyline pts="24,-35,6,-17,"/>
+<polyline pts="24,-35,18,-24,"/>
+<polyline pts="24,-35,14,-29,"/>
+</layer>
+</layers>
+</ppd>
+<DimStyle name="strojírenské" arrow="0" flel="0" off_ori="6" lbl_pos="1" align_text="0" f="110,0,0,0,Arial,800080" unit="0">
+<DimLine op-lw="1" op-lc="8388608"/>
+<ExtLine op-lw="1" op-lc="32768"/>
+</DimStyle>
+</repo>
+<pages current="0">
+<page name="1" dim_style_name="strojírenské">
+<PageSizeSettings paper_size_enum="9" sheet_size_x="297" sheet_size_y="210" source="0"/>
+<PagePrintSettings paper_size_enum="9" sheet_size_x="297" sheet_size_y="210"/>
+<tb use="1"/>
+<summary>
+<field name="_du" value="mm"/>
+<field name="_pa" value="1"/>
+<field name="_pcs" value=""/>
+<field name="_pcsc" value=""/>
+<field name="_po" value="1"/>
+<field name="_potb" value="1"/>
+<field name="_sc" value=""/>
+<field name="nazev" value=""/>
+<field name="nazevDopln" value=""/>
+</summary>
+<layers current="1">
+<layer name="-1" v="1"/>
+<layer name="0" v="1">
+<elem lG="2f9a12a0-0c17-4b74-aafe-7d8c4b646eb0" x="780" y="940">
+<attributes>
+<attribute name="_ref" value="RD" v="0" al="6" x="763" y="941"/>
+<attribute name="_type" value="10K" v="0" al="6" x="746" y="960"/>
+</attributes>
+</elem>
+<elem lG="e99aa1ee-f2d8-407e-96e8-4e91cb9ec706" x="780" y="1040" a="900">
+<attributes>
+<attribute name="_ref" value="D" v="0" al="6" x="731" y="1040"/>
+<attribute name="_type" value="HLMP7000" v="0" al="6" x="731" y="1060"/>
+</attributes>
+</elem>
+<wire pts="780,965,780,1020,"/>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="720" y="880" a="900">
+<attributes>
+<attribute name="_ref" value="X1" v="0" al="6" x="685" y="860"/>
+<attribute name="_type" value="" v="0" al="6" x="685" y="900"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="721" y="898"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="736" y="898"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="720" y="1100" a="900">
+<attributes>
+<attribute name="_ref" value="X2" v="0" al="6" x="685" y="1080"/>
+<attribute name="_type" value="" v="0" al="6" x="685" y="1120"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="721" y="1118"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="736" y="1118"/>
+</attributes>
+</elem>
+<wire pts="740,1100,728,1100,"/>
+<wire pts="780,1060,780,1100,728,1100,"/>
+<wire pts="772,1100,740,1100,"/>
+<wire pts="780,915,780,880,728,880,"/>
+<elem lG="3bcbb213-9000-4422-9d99-d2fea239aa3d" x="1220" y="1000">
+<attributes>
+<attribute name="_ref" value="opto1" v="0" al="6" x="1124" y="980"/>
+<attribute name="_type" value="" v="0" al="6" x="1124" y="1020"/>
+</attributes>
+</elem>
+<elem lG="2f9a12a0-0c17-4b74-aafe-7d8c4b646eb0" x="1120" y="900" a="900">
+<attributes>
+<attribute name="_ref" value="RD" v="0" al="6" x="1101" y="930"/>
+<attribute name="_type" value="10K" v="0" al="6" x="1086" y="920"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="1040" y="1080" a="900">
+<attributes>
+<attribute name="_ref" value="X3" v="0" al="6" x="1005" y="1060"/>
+<attribute name="_type" value="" v="0" al="6" x="1005" y="1100"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="1041" y="1098"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="1056" y="1098"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="1040" y="900" a="900">
+<attributes>
+<attribute name="_ref" value="X4" v="0" al="6" x="1005" y="880"/>
+<attribute name="_type" value="" v="0" al="6" x="1005" y="920"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="1041" y="918"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="1056" y="918"/>
+</attributes>
+</elem>
+<wire pts="1095,900,1048,900,"/>
+<wire pts="1145,900,1180,900,1180,960,"/>
+<wire pts="1180,1020,1180,1080,1048,1080,"/>
+<elem lG="2f9a12a0-0c17-4b74-aafe-7d8c4b646eb0" x="1280" y="880" a="-1800">
+<attributes>
+<attribute name="_ref" value="R1" v="0" al="6" x="1338" y="865"/>
+<attribute name="_type" value="10K" v="0" al="6" x="1346" y="900"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="1360" y="940" a="900">
+<attributes>
+<attribute name="_ref" value="X5" v="0" al="6" x="1325" y="920"/>
+<attribute name="_type" value="" v="0" al="6" x="1325" y="960"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="1361" y="958"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="1376" y="958"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="1360" y="1080" a="900">
+<attributes>
+<attribute name="_ref" value="X6" v="0" al="6" x="1325" y="1060"/>
+<attribute name="_type" value="" v="0" al="6" x="1325" y="1100"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="1361" y="1098"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="1376" y="1098"/>
+</attributes>
+</elem>
+<wire pts="1352,1080,1280,1080,1280,1040,"/>
+<wire pts="1280,960,1280,905,"/>
+<wire pts="1352,940,1280,940," drop2="1"/>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="1360" y="820" a="900">
+<attributes>
+<attribute name="_ref" value="X7" v="0" al="6" x="1325" y="800"/>
+<attribute name="_type" value="" v="0" al="6" x="1325" y="840"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="1361" y="838"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="1376" y="838"/>
+</attributes>
+</elem>
+<wire pts="1280,855,1280,820,1352,820,"/>
+<polyline pts="820,900,820,960,"/>
+<polyline pts="820,960,829,948,"/>
+<polyline pts="820,960,811,948,"/>
+<polyline pts="820,1000,820,1060,"/>
+<polyline pts="820,1060,829,1048,"/>
+<polyline pts="820,1060,811,1048,"/>
+<polyline pts="740,860,767,860,"/>
+<polyline pts="779,860,768,849,"/>
+<polyline pts="767,868,779,860,"/>
+<polyline pts="767,849,767,868,"/>
+<polyline pts="1110,951,1110,1011,"/>
+<polyline pts="1110,1023,1119,1011,"/>
+<polyline pts="1109,1023,1100,1011,"/>
+<polyline pts="1100,1011,1118,1011,"/>
+<text x="1420" y="820" f="80,0,0,0,Times New Roman,000000" l="1" al="9">+5 V</text>
+<text x="1420" y="936" f="80,0,0,0,Times New Roman,000000" l="1" al="9">OUT</text>
+<text x="1420" y="1076" f="80,0,0,0,Times New Roman,000000" l="1" al="9">GND</text>
+<text x="980" y="1076" f="80,0,0,0,Times New Roman,000000" l="1" al="9">GND</text>
+<text x="1000" y="896" f="80,0,0,0,Times New Roman,000000" l="1" al="9">IN</text>
+<text x="839" y="930" f="80,0,1,0,Times New Roman,000000" l="1" al="9">U</text>
+<text x="856" y="935" f="40,0,0,0,Times New Roman,000000" l="1" al="9">R</text>
+<text x="839" y="1030" f="80,0,1,0,Times New Roman,000000" l="1" al="9">U</text>
+<text x="854" y="1035" f="40,0,0,0,Times New Roman,000000" l="1" al="9">D</text>
+<text x="742" y="841" f="80,0,1,0,Times New Roman,000000" l="1" al="9">I</text>
+<text x="751" y="847" f="40,0,0,0,Times New Roman,000000" l="1" al="9">D</text>
+<text x="1080" y="976" f="80,0,1,0,Times New Roman,000000" l="1" al="9">I</text>
+<text x="1091" y="984" f="40,0,0,0,Times New Roman,000000" l="1" al="9">D</text>
+<text x="1320" y="900" f="80,0,0,0,Times New Roman,000000" l="1" al="9">10K</text>
+<polyline pts="1100,880,1140,880,"/>
+<polyline pts="1140,880,1132,886,"/>
+<polyline pts="1140,880,1132,874,"/>
+<text x="1096" y="858" f="80,0,1,0,Times New Roman,000000" l="1" al="9">U</text>
+<elem lG="2548ab55-ee23-4f22-a0ea-857f85eb0d8d" x="1732" y="1003">
+<attributes>
+<attribute name="_ref" value="T1" v="0" al="6" x="1696" y="943"/>
+<attribute name="_type" value="BC337" v="0" al="6" x="1656" y="1023"/>
+</attributes>
+</elem>
+<elem lG="2f9a12a0-0c17-4b74-aafe-7d8c4b646eb0" x="1760" y="860">
+<attributes>
+<attribute name="_ref" value="Z" v="0" al="6" x="1743" y="861"/>
+<attribute name="_type" value="10K" v="0" al="6" x="1726" y="880"/>
+</attributes>
+</elem>
+<elem lG="2f9a12a0-0c17-4b74-aafe-7d8c4b646eb0" x="1630" y="1003" a="900">
+<attributes>
+<attribute name="_ref" value="R" v="0" al="6" x="1596" y="1043"/>
+<attribute name="_type" value="10K" v="0" al="6" x="1596" y="1023"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="1546" y="1003" a="900">
+<attributes>
+<attribute name="_ref" value="X8" v="0" al="6" x="1511" y="983"/>
+<attribute name="_type" value="" v="0" al="6" x="1511" y="1023"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="1547" y="1021"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="1562" y="1021"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="1546" y="1100" a="900">
+<attributes>
+<attribute name="_ref" value="X9" v="0" al="6" x="1511" y="1080"/>
+<attribute name="_type" value="" v="0" al="6" x="1511" y="1120"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="1547" y="1118"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="1562" y="1118"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="1800" y="1100" a="900">
+<attributes>
+<attribute name="_ref" value="X10" v="0" al="6" x="1765" y="1080"/>
+<attribute name="_type" value="" v="0" al="6" x="1765" y="1120"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="1801" y="1118"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="1816" y="1118"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="1760" y="920" a="-1800">
+<attributes>
+<attribute name="_ref" value="X11" v="0" al="6" x="1725" y="900"/>
+<attribute name="_type" value="" v="0" al="6" x="1725" y="940"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="1761" y="938"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="1776" y="938"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="1760" y="800" a="-1800">
+<attributes>
+<attribute name="_ref" value="X12" v="0" al="6" x="1725" y="780"/>
+<attribute name="_type" value="" v="0" al="6" x="1725" y="820"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="1761" y="818"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="1776" y="818"/>
+</attributes>
+</elem>
+<wire pts="1760,961,1760,928,"/>
+<wire pts="1760,912,1760,885,"/>
+<wire pts="1760,835,1760,808,"/>
+<wire pts="1792,1100,1554,1100,"/>
+<wire pts="1760,1045,1760,1100," drop2="1"/>
+<wire pts="1682,1003,1655,1003,"/>
+<wire pts="1605,1003,1554,1003,"/>
+<text x="1860" y="1096" f="80,0,0,0,Times New Roman,000000" l="1" al="9">GND</text>
+<polyline pts="1795,855,1795,915,"/>
+<polyline pts="1795,927,1804,915,"/>
+<polyline pts="1794,927,1785,915,"/>
+<polyline pts="1785,915,1803,915,"/>
+<text x="1823" y="878" f="80,0,1,0,Times New Roman,000000" l="1" al="9">I</text>
+<text x="1834" y="886" f="40,0,0,0,Times New Roman,000000" l="1" al="9">C</text>
+<polyline pts="1612,984,1652,984,"/>
+<polyline pts="1652,984,1644,990,"/>
+<polyline pts="1652,984,1644,978,"/>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="1800" y="760" a="900">
+<attributes>
+<attribute name="_ref" value="X13" v="0" al="6" x="1765" y="740"/>
+<attribute name="_type" value="" v="0" al="6" x="1765" y="780"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="1801" y="778"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="1816" y="778"/>
+</attributes>
+</elem>
+<text x="1860" y="760" f="80,0,0,0,Times New Roman,000000" l="1" al="9">+12 V</text>
+<wire pts="1760,792,1760,760,1792,760,"/>
+<polyline pts="1540,1020,1540,1080,"/>
+<polyline pts="1540,1080,1549,1068,"/>
+<polyline pts="1540,1080,1531,1068,"/>
+<text x="1500" y="1053" f="80,0,1,0,Times New Roman,000000" l="1" al="9">U</text>
+<text x="1516" y="1060" f="40,0,0,0,Times New Roman,000000" l="1" al="9">IN</text>
+<polyline pts="1674,1012,1674,1092,"/>
+<polyline pts="1674,1092,1683,1080,"/>
+<polyline pts="1674,1092,1665,1080,"/>
+<text x="1630" y="1066" f="80,0,1,0,Times New Roman,000000" l="1" al="9">U</text>
+<text x="1650" y="1072" f="40,0,0,0,Times New Roman,000000" l="1" al="9">BE</text>
+<polyline pts="1794,972,1794,1052,"/>
+<polyline pts="1794,1052,1803,1040,"/>
+<polyline pts="1794,1052,1785,1040,"/>
+<text x="1814" y="1008" f="80,0,1,0,Times New Roman,000000" l="1" al="9">U</text>
+<text x="1835" y="1015" f="40,0,0,0,Times New Roman,000000" l="1" al="9">CE</text>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="300" y="900" a="900">
+<attributes>
+<attribute name="_ref" value="X14" v="0" al="6" x="265" y="880"/>
+<attribute name="_type" value="" v="0" al="6" x="265" y="920"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="301" y="918"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="316" y="918"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="300" y="1100" a="900">
+<attributes>
+<attribute name="_ref" value="X15" v="0" al="6" x="265" y="1080"/>
+<attribute name="_type" value="" v="0" al="6" x="265" y="1120"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="301" y="1118"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="316" y="1118"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="500" y="1000" a="900">
+<attributes>
+<attribute name="_ref" value="X16" v="0" al="6" x="465" y="980"/>
+<attribute name="_type" value="" v="0" al="6" x="465" y="1020"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="501" y="1018"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="516" y="1018"/>
+</attributes>
+</elem>
+<elem lG="0307fdce-dbe4-414c-974b-55fadf6d9537" x="500" y="1100" a="900">
+<attributes>
+<attribute name="_ref" value="X17" v="0" al="6" x="465" y="1080"/>
+<attribute name="_type" value="" v="0" al="6" x="465" y="1120"/>
+<attribute name="_o1" value="1" v="0" custom="i" al="6" x="501" y="1118"/>
+<attribute name="_o2" value="1" v="0" custom="o" al="6" x="516" y="1118"/>
+</attributes>
+</elem>
+<elem lG="2f9a12a0-0c17-4b74-aafe-7d8c4b646eb0" x="340" y="960" a="-1800">
+<attributes>
+<attribute name="_ref" value="R1" v="0" al="6" x="326" y="960"/>
+<attribute name="_type" value="10K" v="0" al="6" x="306" y="980"/>
+</attributes>
+</elem>
+<elem lG="2f9a12a0-0c17-4b74-aafe-7d8c4b646eb0" x="340" y="1040" a="-1800">
+<attributes>
+<attribute name="_ref" value="R2" v="0" al="6" x="326" y="1040"/>
+<attribute name="_type" value="10K" v="0" al="6" x="306" y="1060"/>
+</attributes>
+</elem>
+<elem lG="3c3e597e-a91e-4b34-8520-0c5b3b7b4cc2" x="420" y="1040">
+<attributes>
+<attribute name="_ref" value="C1" v="0" al="6" x="397" y="1040"/>
+<attribute name="_type" value="10k" v="0" al="6" x="377" y="1060"/>
+</attributes>
+</elem>
+<wire pts="492,1100,308,1100,"/>
+<wire pts="340,1065,340,1100," drop2="1"/>
+<wire pts="340,1015,340,985,"/>
+<wire pts="492,1000,340,1000," drop2="1"/>
+<wire pts="420,1036,420,1000," drop2="1"/>
+<wire pts="420,1044,420,1100," drop2="1"/>
+<wire pts="340,935,340,900,308,900,"/>
+<polyline pts="280,920,280,1080,"/>
+<polyline pts="280,1080,289,1068,"/>
+<polyline pts="280,1080,271,1068,"/>
+<text x="240" y="996" f="80,0,1,0,Times New Roman,000000" l="1" al="9">U</text>
+<text x="259" y="1004" f="40,0,0,0,Times New Roman,000000" l="1" al="9">IN</text>
+<polyline pts="500,1020,500,1080,"/>
+<polyline pts="500,1080,509,1068,"/>
+<polyline pts="500,1080,491,1068,"/>
+<text x="525" y="1049" f="80,0,1,0,Times New Roman,000000" l="1" al="9">U</text>
+<text x="554" y="1055" f="40,0,0,0,Times New Roman,000000" l="1" al="9">OUT</text>
+<text x="300" y="956" f="80,0,0,0,Times New Roman,000000" l="1" al="9">R</text>
+<text x="317" y="961" f="40,0,0,0,Times New Roman,000000" l="1" al="9">1</text>
+<text x="300" y="1036" f="80,0,0,0,Times New Roman,000000" l="1" al="9">R</text>
+<text x="317" y="1041" f="40,0,0,0,Times New Roman,000000" l="1" al="9">2</text>
+<text x="369" y="1036" f="80,0,0,0,Times New Roman,000000" l="1" al="9">C</text>
+<text x="386" y="1041" f="40,0,0,0,Times New Roman,000000" l="1" al="9">1</text>
+<text x="740" y="936" f="80,0,0,0,Times New Roman,000000" l="1" al="9">R</text>
+<text x="757" y="941" f="40,0,0,0,Times New Roman,000000" l="1" al="9">D</text>
+<text x="741" y="1000" f="80,0,0,0,Times New Roman,000000" l="1" al="9">D</text>
+<text x="1078" y="923" f="80,0,0,0,Times New Roman,000000" l="1" al="9">R</text>
+<text x="1095" y="928" f="40,0,0,0,Times New Roman,000000" l="1" al="9">D</text>
+<text x="1310" y="867" f="80,0,0,0,Times New Roman,000000" l="1" al="9">R</text>
+<text x="1327" y="872" f="40,0,0,0,Times New Roman,000000" l="1" al="9">1</text>
+<text x="1720" y="856" f="80,0,0,0,Times New Roman,000000" l="1" al="9">R</text>
+<text x="1737" y="861" f="40,0,0,0,Times New Roman,000000" l="1" al="9">Z</text>
+<text x="1700" y="936" f="80,0,0,0,Times New Roman,000000" l="1" al="9">T</text>
+<text x="1717" y="941" f="40,0,0,0,Times New Roman,000000" l="1" al="9">1</text>
+<text x="1595" y="1029" f="80,0,0,0,Times New Roman,000000" l="1" al="9">R</text>
+<text x="1612" y="1034" f="40,0,0,0,Times New Roman,000000" l="1" al="9">B</text>
+<polyline pts="720,920,720,1080,"/>
+<polyline pts="720,1080,729,1068,"/>
+<polyline pts="720,1080,711,1068,"/>
+<text x="666" y="986" f="80,0,1,0,Times New Roman,000000" l="1" al="9">U</text>
+<text x="686" y="995" f="40,0,0,0,Times New Roman,000000" l="1" al="9">IN</text>
+<polyline pts="1040,920,1040,1060,"/>
+<polyline pts="1040,1060,1049,1048,"/>
+<polyline pts="1040,1060,1031,1048,"/>
+<text x="980" y="968" f="80,0,1,0,Times New Roman,000000" l="1" al="9">U</text>
+<text x="999" y="973" f="40,0,0,0,Times New Roman,000000" l="1" al="9">IN</text>
+<text x="865" y="938" f="25,0,0,0,Times New Roman,000000" l="1" al="9">D</text>
+<text x="1113" y="860" f="40,0,0,0,Times New Roman,000000" l="1" al="9">R</text>
+<text x="1120" y="866" f="25,0,0,0,Times New Roman,000000" l="1" al="9">D</text>
+<text x="1619" y="959" f="80,0,1,0,Times New Roman,000000" l="1" al="9">U</text>
+<text x="1636" y="964" f="40,0,0,0,Times New Roman,000000" l="1" al="9">R</text>
+<text x="1645" y="967" f="25,0,0,0,Times New Roman,000000" l="1" al="9">B</text>
+</layer>
+</layers>
+</page>
+</pages>
+</document>
