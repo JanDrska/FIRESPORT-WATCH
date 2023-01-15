@@ -17,13 +17,13 @@
 //#### HW KONFIGURACE ####
 
 RF24 radio(9, 10);  // CE, CSN
-#define terc1_1 8   // TERC 1 PLNY
-#define terc1_2 7   // TERC 1 PRAZDNY
-#define terc2_1 6   // TERC 2 PLNY
-#define terc2_2 5  // TERC 2 PRAZDNY
-#define majak1  4   // MAJAK TERC 1
-#define majak2  3   // MAJAK TERC 2
-#define ventil 2    // VYSTUP PRO OVLADANI VENTILU (ON/OFF)
+#define target1Full 8   // TERC 1 PLNY
+#define target1Empty 7   // TERC 1 PRAZDNY
+#define target2Full 6   // TERC 2 PLNY
+#define target2Empty 5  // TERC 2 PRAZDNY
+#define signalLight1  4   // MAJAK TERC 1
+#define signalLight2  3   // MAJAK TERC 2
+#define waterValve 2    // VYSTUP PRO OVLADANI waterValveU (ON/OFF)
 
 //#### GLOBALNI PROMENNE ####
 
@@ -41,20 +41,21 @@ long predchozi_cas = 0;
 bool reset = LOW;
 
 void terceInit();
+void terceInitFail();
 
 void setup()
 {
 
 
-  pinMode(majak1,OUTPUT);
-  pinMode(majak2,OUTPUT);
-  pinMode(ventil,OUTPUT);
+  pinMode(signalLight1,OUTPUT);
+  pinMode(signalLight2,OUTPUT);
+  pinMode(waterValve,OUTPUT);
 
   
-  pinMode(terc1_1,INPUT);
-  pinMode(terc1_2,INPUT);
-  pinMode(terc2_1,INPUT);
-  pinMode(terc2_2,INPUT);
+  pinMode(target1Full,INPUT);
+  pinMode(target1Empty,INPUT);
+  pinMode(target2Full,INPUT);
+  pinMode(target2Empty,INPUT);
 
 //#### NASTAVENI A ZAHAJENI SERIOVE KOMUNIKACE ####
   Serial.begin(9600);
@@ -94,33 +95,35 @@ void loop()
     predchozi_cas = cas;   
   }
 
+  //digitalRead(target1Full)
+
 
 
 // #### DETEKCE NAPLNENI TERCE CISLO 1 ####
 
-  if ((digitalRead(terc1_1) == 1) && !tercL)
+  if ((digitalRead(target1Full) == 1) && !tercL)
   {
-      Serial.println(digitalRead(terc1_1));
+      //Serial.println(digitalRead(target1Full));
     radio.stopListening();
     if(radio.write(&text1, sizeof(text1)))
     {
       Serial.write("\nLEVY");
       tercL = HIGH;
-      digitalWrite(majak1,HIGH);
+      digitalWrite(signalLight1,HIGH);
     }
     radio.startListening(); 
   } 
 
   // #### DETEKCE NAPLNENI TERCE CISLO 2 ####
 
-  if ((digitalRead(terc2_1) == 1) && !tercP)
+  if ((digitalRead(target2Full) == 1) && !tercP)
   {
     radio.stopListening();
     if(radio.write(&text2, sizeof(text2)))
     {
       Serial.write("\nPRAVY");
       tercP = HIGH;
-      digitalWrite(majak2,HIGH);
+      digitalWrite(signalLight2,HIGH);
     }
     radio.startListening();
   } 
@@ -129,45 +132,50 @@ void loop()
 
   if ((tercL && tercP)|| reset)
   {
-   digitalWrite(ventil,HIGH);
+   digitalWrite(waterValve,HIGH);
    tercP = HIGH;
    tercL = HIGH;
   }
-  //else digitalWrite(ventil,LOW);
+  //else digitalWrite(waterValve,LOW);
 
   // #### DETEKCE PRAZDNYCH TERCU ####
   
-  if ((digitalRead(terc1_2) && digitalRead(terc2_2)) && (tercL && tercP))
+  if ((digitalRead(target1Empty) && digitalRead(target2Empty)) && (tercL && tercP))
   {
     reset = LOW;
     radio.stopListening();
     radio.write(&text3, sizeof(text3));
     radio.startListening();
     Serial.write("\nPRAZDNO");
-    digitalWrite(ventil,LOW);
-    digitalWrite(majak1,LOW);
-    digitalWrite(majak2,LOW);
+    digitalWrite(waterValve,LOW);
+    digitalWrite(signalLight1,LOW);
+    digitalWrite(signalLight2,LOW);
     tercL = tercP = LOW;
   } 
 }
 
-// #### POCATECNI INICIALIZACE TERCU , TEST VENTILU a SVETELNE SIGNALIZACE ####
+// #### POCATECNI INICIALIZACE TERCU , TEST waterValveU a SVETELNE SIGNALIZACE ####
 
 void terceInit()    
 {
   Serial.write("\nINIT");
   Serial.write("\nSV1");
-  digitalWrite(majak1,HIGH);
-  digitalWrite(majak2,HIGH);
-  digitalWrite(ventil,HIGH);
+  digitalWrite(signalLight1,HIGH);
+  digitalWrite(signalLight2,HIGH);
+  digitalWrite(waterValve,HIGH);
   delay(2000);
   radio.stopListening();
-  if(!radio.write(&text4, sizeof(text4)))
+  if(!radio.write(&text4, sizeof(text4))) // pokud se zprava neodesle, zacne blikat majak
     terceInit();
   radio.startListening();
   Serial.write("\nSV1 LOW");
-  digitalWrite(majak1,LOW);
-  digitalWrite(majak2,LOW);
-  digitalWrite(ventil,LOW);
+  digitalWrite(signalLight1,LOW);
+  digitalWrite(signalLight2,LOW);
+  digitalWrite(waterValve,LOW);
+}
+
+void terceInitFail()
+{
+
 }
 
