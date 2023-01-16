@@ -3,7 +3,7 @@
  *                                                                       *
  *      Autor: JAN DRSKA                                                 *
  *                                                                       *
- *      Posledni uprava: 02/04/2022                                      *
+ *      Posledni uprava: 16/01/2023                                      *
  *                                                                       *
  *************************************************************************/
 
@@ -45,7 +45,6 @@ void initTargets();
 
 void setup()
 {
-
   pinMode(signalLight1,OUTPUT);
   pinMode(signalLight2,OUTPUT);
   pinMode(waterValve,OUTPUT);
@@ -87,15 +86,11 @@ void loop()
       radio.read(&text, sizeof(text));
       String message = String(text);
       Serial.println(message);
-      if (message == "INIT") initTargets();
-      if (message == "RESET") reset = HIGH;
+      if (message == "init") initTargets();
+      if (message == "reset") reset = HIGH;
     }
     prevTime = time;   
   }
-
-  //digitalRead(target1Full)
-
-
 
 // #### DETEKCE NAPLNENI TERCE CISLO 1 ####
 
@@ -152,7 +147,7 @@ void loop()
   } 
 }
 
-// #### POCATECNI INICIALIZACE TERCU , TEST waterValveU a SVETELNE SIGNALIZACE ####
+// #### POCATECNI INICIALIZACE TERCU , TEST VENTILU a SVETELNE SIGNALIZACE ####
 
 void initTargets()    
 {
@@ -166,11 +161,11 @@ void initTargets()
   while(!initDone)
  {
     time = millis();
-    if((time-prevBlinkTime)>1000)
+    if((time-prevBlinkTime)>500)
     {
       digitalWrite(signalLight1,!blinkState);
       digitalWrite(signalLight2,!blinkState);
-      prevBlinkTime = millis();
+      prevBlinkTime = time;
     }
 
     switch (initMode)
