@@ -29,7 +29,7 @@ RF24 radio(9, 10);      // CE, CSN
 
 uint8_t state = 0;
 const byte addresses [] [6] = {"00001","00002"} ; // adresa komunikatoru
-String ZPRAVA;
+String message;
 char text [32] = "";
 const char text1[] = "TERC1";
 const char text2[] = "TERC2";
@@ -80,7 +80,7 @@ void setup()
 
 //#### NASTAVENI A ZAHAJENI SERIOVE KOMUNIKACE ####
   Serial.begin(9600);
-  Serial.print("\nTERC_V1");  
+  Serial.print("\nTerc V2.0 by Jan Drska");  
 
 //#### NASTAVENI A ZAHAJENI RADIOVE KOMUNIKACE ####
   radio.begin();
@@ -115,7 +115,7 @@ void loop()
   switch (state)
   {
     case 0: // INIT
-      +-+
+    
       digitalWrite(signalLight1,HIGH);
       digitalWrite(signalLight2,HIGH);
       //NAVAZANI SPOJENI S USTREDNOU, JINAK OPAKUJEME DOKUD NENI SPOJENI NAVAZANO
