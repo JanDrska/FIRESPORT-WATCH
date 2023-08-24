@@ -10,10 +10,9 @@
 
 // VERZE 2.0
 // POSLEDNI UPRAVA 03.04.2022
-
+/*
 #include "sdhTimer.h"
 #include "sdhDisplay.h"
-
 #include <PCF8574.h>
 #include <SPI.h>
 #include <RF24.h>
@@ -58,8 +57,9 @@ void setup()
   radio.begin();
   radio.openWritingPipe(addresses[0]); // 00001
   radio.openReadingPipe(1, addresses[1]); // 00002
-  radio.setRetries(4,10);
   radio.setPALevel(HIGH);
+  radio.setAutoAck(true); // nastaveni automatickeho potvrzeni prijmu dat
+  radio.setRetries(10, 10); // nastaveni 10 pokusu po 10 ms
   radio.startListening();
 
   pinMode(TLA, INPUT_PULLUP);        //start
@@ -272,11 +272,12 @@ void start()
 
 void choose_program()
 {
-  /*
-  if(digitalRead(TLProg)== HIGH)program=1;
-  else
-  {*/
+  
+  //if(digitalRead(TLProg)== HIGH)program=1;
+  //else
+  //{
     program=1;
     start();  
   //}
 }
+*/
