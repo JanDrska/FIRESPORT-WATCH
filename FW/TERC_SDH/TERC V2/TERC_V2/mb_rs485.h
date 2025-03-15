@@ -13,7 +13,7 @@
 #include <stdbool.h>
 
 //__Definitions___________________________________________________________
-#define BAUDRATE          76800
+#define BAUDRATE          115200
 /* Delka pomlky mezi ramci je min 3.5 znaku, 1znak ma 11bitu
 	1 - start bit, 8 datových bitù, 1 bit parita (suda), 1 stop bit
 	udaj v us 1000000 * 11 bitu * 3.5 = 38500000 / BAUDRATE

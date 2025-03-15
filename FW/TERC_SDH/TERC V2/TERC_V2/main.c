@@ -31,7 +31,7 @@ int main(void)
 {
 	 // PORTA: PA2, PA3 a PA7 jako výstupy
 	 PORTA.DIR |= (1 << 2) | (1 << 3) | (1 << 7); // Nastavení pinù PA2, PA3, PA7 jako výstupy
-	 PORTA.OUT &= ~((1 << 2) | (1 << 3) | (1 << 7)); // Inicializace na LOW
+	 PORTA.OUT &= ~((1 << 2) | (1 << 3)); // Inicializace na LOW
 
 	 // PORTF: PF6, PF4 a PF3 jako výstupy
 	 PORTF.DIR |= (1 << 5) | (1 << 4) | (1 << 3); // Nastavení pinù PF5, PF4, PF3 jako výstupy
@@ -77,10 +77,6 @@ int main(void)
 
 	ModBusInit(outputs, inputs, i_reg, h_reg);
 	mb_rs485_interupt(false);
-	
-// 	Init_Serial_Port();
-// 	serial_port_interupt(false);
-// 	USART_send_string("SDH_JIZBICE_TERC_V2");
 
 	sei();
 	uint8_t LED_init = 4;
@@ -132,10 +128,9 @@ int main(void)
 				}
 			}
 
-			TCA0.SPLIT.INTFLAGS |= TCA_SPLIT_LUNF_bm;
-			
+					
 	// HLAVNI KOD
-			
+			/*
 			if(LED_init == 0)
 			{
 				switch (status)
@@ -201,15 +196,16 @@ int main(void)
 						status = 1;
 					break;
 				}
-			}
+			}*/
 			
 			// doplnit battery status - ADC - mereni napeti na baterce + doplnit automatickou kontrolu a v pripade nizkeho napeti dojde k vypnuti vsech vystupu a bude blikat cervena LED v malém intervalu
+			
+			TCA0.SPLIT.INTFLAGS |= TCA_SPLIT_LUNF_bm;
 			
 			MainLoopModBus();
 			
 		}
 		mb_do_transmission();
-/*		do_transmission();*/
 	}
 
 }

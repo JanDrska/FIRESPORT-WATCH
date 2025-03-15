@@ -15,6 +15,8 @@
 #define LED_G		A,2		
 
 #define DE_RE		A,7
+#define RX			A,5
+#define TX			A,4
 
 #define OUT0		C,0
 #define OUT1		C,1

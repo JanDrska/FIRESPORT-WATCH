@@ -13,12 +13,8 @@
 #include "utils.h"
 #include "mb_rs485.h"
 
-/*
-#define UartWrite              SET(DE_RE);
-#define UartRead               RESET(DE_RE);
-*/
 #define start_timer TCB1.CTRLA |= TCB_ENABLE_bm //TCCR2 |= ( 1 << CS21)|( 1 << CS20 ) //CTC mode, presscaler 32
-#define reset_timer TCB1.CNT = 0
+#define reset_timer { TCB1.CNT = 0; TCB1.INTFLAGS |= TCB_CAPT_bm; }
 #define stop_timer  TCB1.CTRLA &= ~(TCB_ENABLE_bm) //TCCR2 &= ~(( 1 << CS21)|( 1 << CS20 )) //CTC mode, presscaler 32
 
 bool TxEn, RecDataState;
@@ -38,24 +34,53 @@ void udr_vector (void);
 
 void InitModBusRTU(void)	// This is function initializing mod bus rtu protocol
 {	
+	// Nutno prepracovat
+	#if F_CPU == 14745600UL // nastaveno pro atmega8 timer2, timer 0 nema PWM	// nutno prepocitat !!!!
+		/*TCNT2 = 0;
+		OCR2  = 231;	// tj 501.3us	pro 76800 kbps			// 102 s preddelickou 32 je to 334.18us = 3xslovo na 115200
+		//TIMSK |= ( 1 << OCIE2 );
+		TCCR2 = ( 1 << WGM21 )|( 1 << CS21)|( 1 << CS20 ); //CTC mode, presscaler 32
+		*/
+	#elif F_CPU == 16000000UL // nastaveno pro atmega8 timer2, timer 0 nema PWM	// nutno prepocitat !!!!
+		
+		/*TCNT2 = 0;
+		OCR2  = 250;	// tj 500us	pro 76800 kbps			// 102 s preddelickou 32 je to 334.18us = 3xslovo na 115200
+		//TIMSK |= ( 1 << OCIE2 );
+		TCCR2 = ( 1 << WGM21 )|( 1 << CS21)|( 1 << CS20 ); //CTC mode, presscaler 32
+		*/
+		// casovac je uz spusten  z mainu s preddelickou 64
+			
+		
+			
+	#else
+		#error this F_CPU is not supported
+	#endif
 	
 	TCB1.CNT = 0;
-	TCB1.CCMP = 4000;
+	TCB1.CCMP = 2429;
 	TCB1.CTRLA = TCB_CLKSEL_DIV2_gc | TCB_ENABLE_bm;
+	
 	SET_OUTPUT(DE_RE);
-	//UartRead;
+	SET_INPUT(RX);	// kurva dopici.. tohle musim udelat pokazde !!!! nebo zas bude pul dne v pici proc ta kokotina nechodi.....
+	SET_OUTPUT(TX);	// kurva dopici.. tohle musim udelat pokazde !!!! nebo zas bude pul dne v pici proc ta kokotina nechodi.....
 	
 	#define TIMERX_COMP_vect	TCB1_INT_vect
 	#define USARTX_RXC_vect USART0_RXC_vect
 	#define USARTX_TXC_vect USART0_TXC_vect
 	#define USARTX_UDRE_vect USART0_DRE_vect
 	
-	#define USART0_BAUD_RATE(BAUD_RATE)     ((uint32_t)(64 * 16000000 / (16 *(uint32_t)BAUD_RATE)) - 1)
+	#define MB_USART_BAUD_RATE(BAUD_RATE) ((float)(16000000 * 64 / (16 * (float)BAUD_RATE)) + 0.5)
+	USART0.BAUD = (uint16_t)(MB_USART_BAUD_RATE(BAUDRATE));
+	
+	//#define USART0_BAUD_RATE(BAUD_RATE) (uint32_t)((64 * 16000000) / (16 * (uint32_t)(BAUD_RATE)))
 	
 	//USART0.BAUD = (uint16_t)(USART0_BAUD_RATE(38400));   /* set the baud rate*/
-	USART0.BAUD = 0x0340;
+	//USART0.BAUD = (uint16_t)(USART0_BAUD_RATE(BAUDRATE));
+	//USART0.BAUD=0x0340;
 	
-	USART0.CTRLC = USART_PMODE_EVEN_gc | USART_CHSIZE0_bm | USART_CHSIZE1_bm; /* set the parity EVEN,data format to 8-bit*/	
+	PORTMUX.USARTROUTEA = PORTMUX_USART0_ALT1_gc;
+	
+	USART0.CTRLC = USART_PMODE_DISABLED_gc | USART_CHSIZE0_bm | USART_CHSIZE1_bm; /* set the parity DISABLED,data format to 8-bit*/	
 	USART0.CTRLB |= USART_RXEN_bm | USART_TXEN_bm;      // enable receiver and transmitter
 	USART0.CTRLA = USART_RXCIE_bm | USART_TXCIE_bm | USART_DREIE_bm | USART_RS485_bm;
 
@@ -153,6 +178,7 @@ void mb_do_transmission (void)
 		txc_vector();
 	}
 }
+
 /*
 ISR(TIMERX_COMP_vect) // 3.5 slova 
 {
@@ -174,6 +200,7 @@ ISR(USARTX_UDRE_vect) //TX handler
 	udr_vector();	
 }
 */
+
 void tim_vector (void)
 {
 	if(CNTRx > 2)	// nejmensi mozny platny paket ma 4 byty, pocitano od nuly musi byt CNTRx alespon 3
@@ -184,6 +211,7 @@ void tim_vector (void)
 			
 			RecDataState = true; //Set flag rect complette
 			RXCounter = CNTRx;
+			//TOGGLE(LED_Y);
 		}
 		else CRCErrorCNT++;
 	}
@@ -212,7 +240,7 @@ void rxc_vector (void)
 		else
 		{
 			valid_address = false;
-			CNTRx++;		// aby se zabranilo opetovnemu vstupu do podminky a neporovnavali se nesmysly
+			CNTRx++;		// aby se zabranilo opetovnemu vstupu do podminky a neporovnavaly se nesmysly
 		}
 		start_timer;
 	}
@@ -245,7 +273,6 @@ void udr_vector (void)
 	else
 	{
 		CNTTx = 0;
-		//UCSRXB &= ~(1 << UDRIE);
 		udrie = false;
 		txcie = true;
 		reset_timer;			// zabezpeci prodlevu mezi dalsim vysilanim, nebo prijmem 3.5 slova
