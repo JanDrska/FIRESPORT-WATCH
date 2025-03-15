@@ -1,0 +1,751 @@
+Archive member included to satisfy reference by file (symbol)
+
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+                              C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o (exit)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+                              slave_modbus.o (__tablejump2__)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_copy_data.o)
+                              main.o (__do_copy_data)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_clear_bss.o)
+                              main.o (__do_clear_bss)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a(memcpy_P.o)
+                              USART.o (memcpy_P)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a(memcpy.o)
+                              mb_rs485.o (memcpy)
+C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+                              main.o (ccp_write_io)
+
+Allocating common symbols
+Common symbol       size              file
+
+CNTTx               0x2               mb_rs485.o
+DiscreteInputs      0x2               slave_modbus.o
+RXCounter           0x2               mb_rs485.o
+HoldingRegisters    0x2               slave_modbus.o
+h_reg               0x4               main.o
+out_buffer          0x100             USART.o
+CNTRx               0x2               mb_rs485.o
+in_buffer           0x20              USART.o
+Coils               0x2               slave_modbus.o
+i_reg               0x6               main.o
+io                  0x8               slave_modbus.o
+DiagnosticsStruct   0x10              slave_modbus.o
+outputs             0x2               main.o
+RecDataState        0x1               mb_rs485.o
+RxBuffer            0x80              mb_rs485.o
+TxLen               0x2               mb_rs485.o
+TxBuffer            0x80              mb_rs485.o
+TxEn                0x1               mb_rs485.o
+inputs              0x2               main.o
+InputRegisters      0x2               slave_modbus.o
+
+Discarded input sections
+
+ .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+ .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+ .text          0x00000000        0x0 main.o
+ .data          0x00000000        0x0 main.o
+ .bss           0x00000000        0x0 main.o
+ .data.outs     0x00000000        0x2 main.o
+ .text          0x00000000        0x0 mb_rs485.o
+ .data          0x00000000        0x0 mb_rs485.o
+ .bss           0x00000000        0x0 mb_rs485.o
+ .text.datatest
+                0x00000000        0x8 mb_rs485.o
+ .text          0x00000000        0x0 slave_modbus.o
+ .data          0x00000000        0x0 slave_modbus.o
+ .bss           0x00000000        0x0 slave_modbus.o
+ .text.SETVAL   0x00000000        0xa slave_modbus.o
+ .text          0x00000000        0x0 USART.o
+ .data          0x00000000        0x0 USART.o
+ .bss           0x00000000        0x0 USART.o
+ .text.Init_Serial_Port
+                0x00000000       0x18 USART.o
+ .text.serial_port_interupt
+                0x00000000       0x20 USART.o
+ .text.USART_get_in_buffer
+                0x00000000       0x46 USART.o
+ .text.USART_send_data
+                0x00000000       0x96 USART.o
+ .text.USART_send_data_P
+                0x00000000       0x96 USART.o
+ .text.USART_send_char
+                0x00000000       0x6c USART.o
+ .text.USART_Write_Data_In_To_Buffer
+                0x00000000       0x8a USART.o
+ .text.USART_send_string
+                0x00000000       0x18 USART.o
+ .text.USART_send_FIFO
+                0x00000000       0x54 USART.o
+ .text.do_transmission
+                0x00000000       0x58 USART.o
+ .bss.FIFO_Cnt  0x00000000        0x2 USART.o
+ .bss.FIFO_Read
+                0x00000000        0x2 USART.o
+ .bss.FIFO_Write
+                0x00000000        0x2 USART.o
+ .data.interupt_enebled
+                0x00000000        0x1 USART.o
+ .bss.in_buffer_overflow
+                0x00000000        0x1 USART.o
+ .bss.out_buf_fill
+                0x00000000        0x2 USART.o
+ .bss.out_buf_poin
+                0x00000000        0x2 USART.o
+ .bss.in_buf_point
+                0x00000000        0x2 USART.o
+ .debug_info    0x00000000      0x5b7 USART.o
+ .debug_abbrev  0x00000000      0x1fe USART.o
+ .debug_loc     0x00000000      0x3c6 USART.o
+ .debug_aranges
+                0x00000000       0x68 USART.o
+ .debug_ranges  0x00000000       0x78 USART.o
+ .debug_line    0x00000000      0x478 USART.o
+ .debug_str     0x00000000      0x3dc USART.o
+ .comment       0x00000000       0x31 USART.o
+ .debug_frame   0x00000000       0xe4 USART.o
+ COMMON         0x00000000      0x120 USART.o
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_copy_data.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_copy_data.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_copy_data.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_copy_data.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_copy_data.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_copy_data.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_copy_data.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_copy_data.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_copy_data.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a(memcpy_P.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a(memcpy_P.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a(memcpy_P.o)
+ .text.avr-libc
+                0x00000000       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a(memcpy_P.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a(memcpy.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a(memcpy.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a(memcpy.o)
+ .text          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+ .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+ .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00008000         xr
+data             0x00807000         0x00001000         rw !x
+eeprom           0x00810000         0x00000200         rw !x
+fuse             0x00820000         0x00000010         rw !x
+lock             0x00830000         0x00000400         rw !x
+signature        0x00840000         0x00000400         rw !x
+user_signatures  0x00850000         0x00000400         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+Address of section .data set to 0x807000
+                0x00008000                __RODATA_PM_OFFSET__ = 0x8000
+LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+LOAD main.o
+LOAD mb_rs485.o
+LOAD slave_modbus.o
+LOAD USART.o
+START GROUP
+LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libm.a
+END GROUP
+START GROUP
+LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a
+LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libm.a
+LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a
+LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a
+END GROUP
+                [0x00000000]                __TEXT_REGION_ORIGIN__ = DEFINED (__TEXT_REGION_ORIGIN__)?__TEXT_REGION_ORIGIN__:0x0
+                [0x00807000]                __DATA_REGION_ORIGIN__ = DEFINED (__DATA_REGION_ORIGIN__)?__DATA_REGION_ORIGIN__:0x802000
+                [0x00008000]                __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x100000
+                [0x00001000]                __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xffa0
+                [0x00000200]                __EEPROM_REGION_LENGTH__ = DEFINED (__EEPROM_REGION_LENGTH__)?__EEPROM_REGION_LENGTH__:0x10000
+                [0x00000010]                __FUSE_REGION_LENGTH__ = DEFINED (__FUSE_REGION_LENGTH__)?__FUSE_REGION_LENGTH__:0x400
+                0x00000400                __LOCK_REGION_LENGTH__ = DEFINED (__LOCK_REGION_LENGTH__)?__LOCK_REGION_LENGTH__:0x400
+                0x00000400                __SIGNATURE_REGION_LENGTH__ = DEFINED (__SIGNATURE_REGION_LENGTH__)?__SIGNATURE_REGION_LENGTH__:0x400
+                0x00000400                __USER_SIGNATURE_REGION_LENGTH__ = DEFINED (__USER_SIGNATURE_REGION_LENGTH__)?__USER_SIGNATURE_REGION_LENGTH__:0x400
+                0x00008000                __RODATA_PM_OFFSET__ = DEFINED (__RODATA_PM_OFFSET__)?__RODATA_PM_OFFSET__:0x8000
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000      0xfb4
+ *(.vectors)
+ .vectors       0x00000000       0xb0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+                0x00000000                __vector_default
+                0x00000000                __vectors
+ *(.vectors)
+ *(.progmem.gcc*)
+ .progmem.gcc_sw_table.IncCountersModBus
+                0x000000b0       0x10 slave_modbus.o
+ .progmem.gcc_sw_table.DiagnosticsFx
+                0x000000c0       0x28 slave_modbus.o
+ .progmem.gcc_sw_table.MainLoopModBus
+                0x000000e8       0x20 slave_modbus.o
+                0x00000108                . = ALIGN (0x2)
+                0x00000108                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x00000108        0x0 linker stubs
+ *(.trampolines*)
+                0x00000108                __trampolines_end = .
+ *libprintf_flt.a:*(.progmem.data)
+ *libc.a:*(.progmem.data)
+ *(.progmem*)
+                0x00000108                . = ALIGN (0x2)
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x00000108                __ctors_start = .
+ *(.ctors)
+                0x00000108                __ctors_end = .
+                0x00000108                __dtors_start = .
+ *(.dtors)
+                0x00000108                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x00000108        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+                0x00000108                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x00000108        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x00000114       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_copy_data.o)
+                0x00000114                __do_copy_data
+ .init4         0x0000012a       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_clear_bss.o)
+                0x0000012a                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x0000013a        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+ *(.init9)
+ *(.text)
+ .text          0x00000142        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+                0x00000142                __vector_38
+                0x00000142                __vector_22
+                0x00000142                __vector_28
+                0x00000142                __vector_1
+                0x00000142                __vector_32
+                0x00000142                __vector_34
+                0x00000142                __vector_24
+                0x00000142                __vector_12
+                0x00000142                __bad_interrupt
+                0x00000142                __vector_6
+                0x00000142                __vector_31
+                0x00000142                __vector_35
+                0x00000142                __vector_39
+                0x00000142                __vector_3
+                0x00000142                __vector_23
+                0x00000142                __vector_30
+                0x00000142                __vector_25
+                0x00000142                __vector_11
+                0x00000142                __vector_13
+                0x00000142                __vector_17
+                0x00000142                __vector_19
+                0x00000142                __vector_7
+                0x00000142                __vector_41
+                0x00000142                __vector_43
+                0x00000142                __vector_27
+                0x00000142                __vector_5
+                0x00000142                __vector_33
+                0x00000142                __vector_37
+                0x00000142                __vector_4
+                0x00000142                __vector_9
+                0x00000142                __vector_2
+                0x00000142                __vector_21
+                0x00000142                __vector_15
+                0x00000142                __vector_36
+                0x00000142                __vector_29
+                0x00000142                __vector_40
+                0x00000142                __vector_8
+                0x00000142                __vector_26
+                0x00000142                __vector_14
+                0x00000142                __vector_10
+                0x00000142                __vector_16
+                0x00000142                __vector_18
+                0x00000142                __vector_20
+                0x00000142                __vector_42
+                0x00000146                . = ALIGN (0x2)
+ *(.text.*)
+ .text.main     0x00000146      0x2a4 main.o
+                0x00000146                main
+ .text.InitModBusRTU
+                0x000003ea       0x52 mb_rs485.o
+                0x000003ea                InitModBusRTU
+ .text.mb_rs485_interupt
+                0x0000043c       0x2a mb_rs485.o
+                0x0000043c                mb_rs485_interupt
+ .text.mb_rtu_crc_counter
+                0x00000466       0x6e mb_rs485.o
+                0x00000466                mb_rtu_crc_counter
+ .text.SendDataRTU
+                0x000004d4       0x6e mb_rs485.o
+                0x000004d4                SendDataRTU
+ .text.RectDataRTU
+                0x00000542       0x4c mb_rs485.o
+                0x00000542                RectDataRTU
+ .text.tim_vector
+                0x0000058e       0x8a mb_rs485.o
+                0x0000058e                tim_vector
+ .text.rxc_vector
+                0x00000618       0xc2 mb_rs485.o
+                0x00000618                rxc_vector
+ .text.txc_vector
+                0x000006da       0x14 mb_rs485.o
+                0x000006da                txc_vector
+ .text.udr_vector
+                0x000006ee       0xba mb_rs485.o
+                0x000006ee                udr_vector
+ .text.mb_do_transmission
+                0x000007a8       0x5a mb_rs485.o
+                0x000007a8                mb_do_transmission
+ .text.LoadByte
+                0x00000802       0xf2 slave_modbus.o
+                0x00000802                LoadByte
+ .text.DeInitStruct
+                0x000008f4       0x14 slave_modbus.o
+                0x000008f4                DeInitStruct
+ .text.IncCountersModBus
+                0x00000908       0x96 slave_modbus.o
+                0x00000908                IncCountersModBus
+ .text.SendModBusData
+                0x0000099e       0x1e slave_modbus.o
+                0x0000099e                SendModBusData
+ .text.CoilsRead
+                0x000009bc       0xaa slave_modbus.o
+                0x000009bc                CoilsRead
+ .text.DiscreteInputsRead
+                0x00000a66       0xaa slave_modbus.o
+                0x00000a66                DiscreteInputsRead
+ .text.holdingRegistersRead
+                0x00000b10       0xdc slave_modbus.o
+                0x00000b10                holdingRegistersRead
+ .text.InputRegistersRead
+                0x00000bec       0x92 slave_modbus.o
+                0x00000bec                InputRegistersRead
+ .text.SingleCoilWrite
+                0x00000c7e       0xc0 slave_modbus.o
+                0x00000c7e                SingleCoilWrite
+ .text.write_multiple_registers
+                0x00000d3e       0x76 slave_modbus.o
+                0x00000d3e                write_multiple_registers
+ .text.MB_ClearAllCounters
+                0x00000db4       0x26 slave_modbus.o
+                0x00000db4                MB_ClearAllCounters
+ .text.ModBusInit
+                0x00000dda       0x5a slave_modbus.o
+                0x00000dda                ModBusInit
+ .text.DiagnosticsFx
+                0x00000e34       0xa2 slave_modbus.o
+                0x00000e34                DiagnosticsFx
+ .text.MainLoopModBus
+                0x00000ed6       0xb0 slave_modbus.o
+                0x00000ed6                MainLoopModBus
+ .text.libgcc   0x00000f86        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+                0x00000f86                __tablejump2__
+ .text.avr-libc
+                0x00000f92       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a(memcpy.o)
+                0x00000f92                memcpy
+ .text.avr-libc
+                0x00000fa4        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+                0x00000fa4                ccp_write_io
+                0x00000fb0                . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x00000fb0        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+                0x00000fb0                _exit
+                0x00000fb0                exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x00000fb0        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ *(.fini0)
+                0x00000fb4                _etext = .
+
+.rodata
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.r*)
+
+.data           0x00807000        0x4 load address 0x00000fb4
+                0x00807000                PROVIDE (__data_start, .)
+ *(.data)
+ *(.data*)
+ .data.ins      0x00807000        0x2 main.o
+                0x00807000                ins
+ .data.crc      0x00807002        0x2 mb_rs485.o
+                0x00807002                crc
+ *(.gnu.linkonce.d*)
+                0x00807004                . = ALIGN (0x2)
+                0x00807004                _edata = .
+                0x00807004                PROVIDE (__data_end, .)
+
+.bss            0x00807004      0x13e
+                0x00807004                PROVIDE (__bss_start, .)
+ *(.bss)
+ *(.bss*)
+ .bss.valid_address.3977
+                0x00807004        0x1 mb_rs485.o
+ .bss.CRCErrorCNT
+                0x00807005        0x2 mb_rs485.o
+                0x00807005                CRCErrorCNT
+ .bss.txcie     0x00807007        0x1 mb_rs485.o
+                0x00807007                txcie
+ .bss.rxcie     0x00807008        0x1 mb_rs485.o
+                0x00807008                rxcie
+ .bss.udrie     0x00807009        0x1 mb_rs485.o
+                0x00807009                udrie
+ *(COMMON)
+ COMMON         0x0080700a        0xe main.o
+                0x0080700a                h_reg
+                0x0080700e                i_reg
+                0x00807014                outputs
+                0x00807016                inputs
+ COMMON         0x00807018      0x10a mb_rs485.o
+                0x00807018                CNTTx
+                0x0080701a                RXCounter
+                0x0080701c                CNTRx
+                0x0080701e                RecDataState
+                0x0080701f                RxBuffer
+                0x0080709f                TxLen
+                0x008070a1                TxBuffer
+                0x00807121                TxEn
+ COMMON         0x00807122       0x20 slave_modbus.o
+                0x00807122                DiscreteInputs
+                0x00807124                HoldingRegisters
+                0x00807126                Coils
+                0x00807128                io
+                0x00807130                DiagnosticsStruct
+                0x00807140                InputRegisters
+                0x00807142                PROVIDE (__bss_end, .)
+                0x00000fb4                __data_load_start = LOADADDR (.data)
+                0x00000fb8                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00807142        0x0
+                [!provide]                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                [!provide]                PROVIDE (__noinit_end, .)
+                0x00807142                _end = .
+                [!provide]                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.user_signatures
+ *(.user_signatures*)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000       0x30
+ *(.comment)
+ .comment       0x00000000       0x30 main.o
+                                 0x31 (size before relaxing)
+ .comment       0x00000030       0x31 mb_rs485.o
+ .comment       0x00000030       0x31 slave_modbus.o
+
+.note.gnu.avr.deviceinfo
+                0x00000000       0x3c
+ .note.gnu.avr.deviceinfo
+                0x00000000       0x3c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+
+.note.gnu.build-id
+ *(.note.gnu.build-id)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000      0x140
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x20 main.o
+ .debug_aranges
+                0x00000020       0x70 mb_rs485.o
+ .debug_aranges
+                0x00000090       0x90 slave_modbus.o
+ .debug_aranges
+                0x00000120       0x20 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x00000000     0x4824
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x00000000     0x26a6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+ .debug_info    0x000026a6      0xdf3 main.o
+ .debug_info    0x00003499      0x8eb mb_rs485.o
+ .debug_info    0x00003d84      0xa02 slave_modbus.o
+ .debug_info    0x00004786       0x9e C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+
+.debug_abbrev   0x00000000     0x2b2b
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000     0x249a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+ .debug_abbrev  0x0000249a      0x1c8 main.o
+ .debug_abbrev  0x00002662      0x251 mb_rs485.o
+ .debug_abbrev  0x000028b3      0x264 slave_modbus.o
+ .debug_abbrev  0x00002b17       0x14 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+
+.debug_line     0x00000000     0x111d
+ *(.debug_line .debug_line.* .debug_line_end)
+ .debug_line    0x00000000      0x19f C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+ .debug_line    0x0000019f      0x3f1 main.o
+ .debug_line    0x00000590      0x464 mb_rs485.o
+ .debug_line    0x000009f4      0x6c2 slave_modbus.o
+ .debug_line    0x000010b6       0x67 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+
+.debug_frame    0x00000000      0x2f4
+ *(.debug_frame)
+ .debug_frame   0x00000000       0x24 main.o
+ .debug_frame   0x00000024       0xe0 mb_rs485.o
+ .debug_frame   0x00000104      0x1f0 slave_modbus.o
+
+.debug_str      0x00000000     0x22a8
+ *(.debug_str)
+ .debug_str     0x00000000     0x1178 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
+ .debug_str     0x00001178      0x933 main.o
+                                0x9cb (size before relaxing)
+ .debug_str     0x00001aab      0x243 mb_rs485.o
+                                0x539 (size before relaxing)
+ .debug_str     0x00001cee      0x5ba slave_modbus.o
+                                0x7b8 (size before relaxing)
+
+.debug_loc      0x00000000      0xce4
+ *(.debug_loc)
+ .debug_loc     0x00000000       0xdc main.o
+ .debug_loc     0x000000dc      0x17e mb_rs485.o
+ .debug_loc     0x0000025a      0xa8a slave_modbus.o
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges   0x00000000      0x108
+ *(.debug_ranges)
+ .debug_ranges  0x00000000       0x10 main.o
+ .debug_ranges  0x00000010       0x60 mb_rs485.o
+ .debug_ranges  0x00000070       0x98 slave_modbus.o
+
+.debug_macro
+ *(.debug_macro)
+OUTPUT(BG_sensor.elf elf32-avr)
+LOAD linker stubs
