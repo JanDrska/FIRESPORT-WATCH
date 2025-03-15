@@ -38,32 +38,10 @@ void udr_vector (void);
 
 void InitModBusRTU(void)	// This is function initializing mod bus rtu protocol
 {	
-	// Nutno prepracovat
-	#if F_CPU == 14745600UL // nastaveno pro atmega8 timer2, timer 0 nema PWM	// nutno prepocitat !!!!
-		/*TCNT2 = 0;
-		OCR2  = 231;	// tj 501.3us	pro 76800 kbps			// 102 s preddelickou 32 je to 334.18us = 3xslovo na 115200
-		//TIMSK |= ( 1 << OCIE2 );
-		TCCR2 = ( 1 << WGM21 )|( 1 << CS21)|( 1 << CS20 ); //CTC mode, presscaler 32
-		*/
-	#elif F_CPU == 16000000UL // nastaveno pro atmega8 timer2, timer 0 nema PWM	// nutno prepocitat !!!!
-		
-		/*TCNT2 = 0;
-		OCR2  = 250;	// tj 500us	pro 76800 kbps			// 102 s preddelickou 32 je to 334.18us = 3xslovo na 115200
-		//TIMSK |= ( 1 << OCIE2 );
-		TCCR2 = ( 1 << WGM21 )|( 1 << CS21)|( 1 << CS20 ); //CTC mode, presscaler 32
-		*/
-		// casovac je uz spusten  z mainu s preddelickou 64
-			
-		
-			
-	#else
-		#error this F_CPU is not supported
-	#endif
 	
 	TCB1.CNT = 0;
 	TCB1.CCMP = 4000;
 	TCB1.CTRLA = TCB_CLKSEL_DIV2_gc | TCB_ENABLE_bm;
-	
 	SET_OUTPUT(DE_RE);
 	//UartRead;
 	
@@ -80,10 +58,6 @@ void InitModBusRTU(void)	// This is function initializing mod bus rtu protocol
 	USART0.CTRLC = USART_PMODE_EVEN_gc | USART_CHSIZE0_bm | USART_CHSIZE1_bm; /* set the parity EVEN,data format to 8-bit*/	
 	USART0.CTRLB |= USART_RXEN_bm | USART_TXEN_bm;      // enable receiver and transmitter
 	USART0.CTRLA = USART_RXCIE_bm | USART_TXCIE_bm | USART_DREIE_bm | USART_RS485_bm;
-
-
-	//UCSRB = ( 1 << RXCIE )|( 1 << TXCIE )|( 1 << RXEN )|( 1 << TXEN  );
-	//UCSRC = ( 1 << URSEL )|( 1 << UPM1 )|( 3 << UCSZ0 );
 
 	CNTRx = 0;
 	CNTTx = 0;

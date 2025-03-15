@@ -39,7 +39,6 @@ int main(void)
 
 	 // PORTD: Všechny piny jako vstupy
 	 PORTD.DIR = 0x00; // Nastavení všech pinù na PORTD jako vstupy
-	 //PORTD.PIN0CTRL = PORT_PULLUPEN_bm; // Volitelnì: Aktivace pull-up rezistorù (pro první pin jako pøíklad)
 
 	 // PORTC: PC0-PC3 jako výstupy
 	 PORTC.DIR |= (1 << 3) | (1 << 2) | (1 << 1) | (1 << 0); // Nastavení bitù 0-3 (PC0-PC3) jako výstupy

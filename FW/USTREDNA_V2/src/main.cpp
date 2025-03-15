@@ -1,17 +1,3 @@
-//####### PROGRAM HASICSKE STOPKY  ######
-// PROGRAM VYTVORIL JAN DRSKA PRO JEDNOTKU SDH JIZBICE
-/*
-              /----/  /----/        /----/  /----/
-             /    /  /    /  /--/  /    /  /    /
-            /----/  /----/        /----/  /----/
-           /    /  /    /  /--/  /    /  /    /
-          /----/  /----/        /----/  /----/
-*/
-
-// VERZE 2.0
-// POSLEDNI UPRAVA 24.08.2023
-
-
 /*Tento program vytvoril pro potreby projektu hasicske stopky Ing. Jan Drska
   
   Program zajistuje ovladani hasickych stopek, komunikaci se slavy
@@ -24,14 +10,9 @@
 
   Copyright Ing. Jan Drska ,Brno 2025
 */
-
 #include "sdhTimer.h"
 #include "sdhDisplay.h"
 #include <PCF8574.h>
-#include <SPI.h>
-#include <RF24.h>
-#include <RF24_config.h>
-#include <nRF24L01.h>
 
 #define TLA 2      //tlačítko A - START
 #define TLB 3      //tlačítko B - RESET
@@ -41,9 +22,7 @@
 TimerData timerL;
 TimerData timerR;
 DisplaySdh display; 
-RF24 radio(9, 10);  // CE, CSN
 
-const byte addresses [] [6] = {"00001","00002"} ; // adresa komunikatoru
 bool terc1, terc2, prazdno = LOW;    //terc 1 - LEVY a 2 - PRAVY
 bool init_delivery_confirm_bit = LOW;
 bool READY = LOW;
@@ -76,30 +55,22 @@ bool initSuccess = false;
 void choose_program(); // funkce na vyber programu
 void start();
 void(* resetFunc) (void) = 0;
-void radioInit();
 
 void setup() 
 {
   Serial.begin(9600);
 
-  radio.begin();
-  radio.openWritingPipe(addresses[0]); // 00001
-  radio.openReadingPipe(1, addresses[1]); // 00002
-  radio.setPALevel(HIGH);
-  radio.setAutoAck(true); // nastaveni automatickeho potvrzeni prijmu dat
-  radio.setRetries(10, 10); // nastaveni 10 pokusu po 10 ms
-  radio.startListening();
-
   pinMode(TLA, INPUT_PULLUP);        //start
   pinMode(TLB, INPUT_PULLUP);        //stop
   pinMode(TLProg, INPUT_PULLUP);     //prepinac programu (1-stopky 0- odpocet)
+
+  Serial.println("STOPKY SDH Jizbice V2.0");
   
   display.init();  //inicializace 7segmentovek
   choose_program();
 
   READY = true;
 
-  radioInit();
 }
 
 void loop() 
@@ -111,7 +82,7 @@ void loop()
       
       timerL.casSTART = 1;
 
-      if (radio.available())
+      /*if (radio.available())
       {
         if(radio.available())
         {
@@ -123,7 +94,7 @@ void loop()
             Serial.print("A");
           }
         }
-      }
+      }*/
       if(Serial.available())
       {
         char txt = Serial.read();
@@ -213,21 +184,16 @@ void loop()
           display.init();
           //choose_program();
           startCmd = false;
-          radio.stopListening();
           terc1 = false;
           terc2 = false;
           STOP1 = false;
           STOP2 = false;
           stopCmd = false;
         
-
-          if(radio.write(&text2, sizeof(text2)))
-          {
-            //Serial.println("RESET TERCE");
-          } 
           resetCmd = false;
         }
 
+        /*
         if(radio.available())
         {
           char text [32] = {0};
@@ -252,7 +218,7 @@ void loop()
           }
       
           radio.writeAckPayload(1, &text, sizeof(text));
-        }
+        }*/
       }
     
      break;
@@ -297,7 +263,6 @@ void start()
 {
   timerL.startTimming();
   timerR.startTimming();
-  radio.startListening(); // zapnuti prijmu radia
   startCmd = false;
 }
 
@@ -311,47 +276,3 @@ void choose_program()
     start();  
   //}
 }
-
-void radioInit()
-{
-  unsigned long time, previousTime = 0;
-  while(!initSuccess)
-  {
-
-    /*Serial.write("\nINIT");
-      radio.stopListening();
-      if(radio.write(text5,sizeof(text5)))
-        while(1)
-        {
-          radio.startListening();
-          if (radio.available()) 
-            radio.read(&text, sizeof(text));
-          if(text == text6)
-          {
-            initSuccess = true;
-            break;
-          }
-        }
-        
-      radio.startListening();
-      */
-
-  time = millis();
-
-  if(time - previousTime > 50)
-  {
-    radio.stopListening();
-    if(radio.available())
-    {
-
-    }
-    previousTime = time;   
-  }
-  }
-  Serial.write("\nINIT SUCCESS");
-  delay(2000); 
-  radio.stopListening();
-  radio.write(cmd1,sizeof(cmd1));
-  radio.startListening();
-}
-
