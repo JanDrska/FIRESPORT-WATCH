@@ -39,7 +39,8 @@ typedef struct
 	uint16_t target_r_full : 1;
 	uint16_t target_r_empty : 1;
 	uint16_t battery_status : 1;
-	target_status status;
+	uint16_t status : 11;
+	uint16_t cmd;
 }target_inputs;
 
 #endif /* STOP_TIMER_VAR_H_ */
