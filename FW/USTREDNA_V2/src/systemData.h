@@ -154,11 +154,19 @@ typedef struct
 
 typedef struct
 {
-    uint16_t target_l_light : 1;
-    uint16_t target_r_light : 1;
-    uint16_t target_valves : 1;
-    uint16_t target_commands : 13;
-} target_outputs;
+	uint16_t target_l_light: 1;		// OUT 1
+	uint16_t target_l_light_blink: 1;	// OUT 1 blikani
+	uint16_t target_r_light : 1;		
+	uint16_t target_r_light_blink: 1;	
+	uint16_t target_valves: 1;		
+	uint16_t target_valves_blink: 1;	
+	uint16_t reserva: 1;
+	uint16_t reserva_blink: 1;
+	uint16_t relay: 1;
+	uint16_t relay_blink: 1;		
+	uint16_t target_commands : 6;
+    uint16_t blink_period;
+}target_outputs;
 
 typedef struct
 {
@@ -179,13 +187,16 @@ typedef struct
 
 typedef struct
 {
-    uint16_t target_l_full : 1;
-    uint16_t target_l_empty : 1;
-    uint16_t target_r_full : 1;
-    uint16_t target_r_empty : 1;
-    uint16_t battery_status : 1;
-    target_status status;
-} target_inputs;
+	uint16_t target_l_full : 1;
+	uint16_t target_l_empty : 1;
+	uint16_t target_r_full : 1;
+	uint16_t target_r_empty : 1;
+    uint16_t reserva : 1;
+	uint16_t status : 11;
+	uint16_t vbatt;
+	uint16_t cmd;
+
+}target_inputs;
 
 typedef struct
 {

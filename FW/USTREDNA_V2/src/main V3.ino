@@ -92,6 +92,8 @@ void clock();
 void temp_humid();
 void temp_humid_clock();
 
+uint8_t targetInit();
+
 
 // ======================================================
 // SETUP
@@ -123,6 +125,8 @@ void setup()
 
     clearSystemConfig();
     updateProgramAvailability();
+
+    t_outputs->blink_period = 500;
 }
 
 
@@ -136,10 +140,6 @@ void loop()
 
     while(1)
     {
-
-        //Serial.print("status - "); 
-        //Serial.println(d_inputs->status); 
-
         switch (d_inputs->status)
         {
 
@@ -213,7 +213,6 @@ void loop()
                     error = invalid_hw_configuration;
                     d_inputs->status = SYS_ERROR;
                 }
-                t_outputs->target_valves = true;
                 break;
             }
 
@@ -303,12 +302,6 @@ void loop()
                 timerL.stopTimming();
                 timerR.stopTimming();
 
-                t_outputs->target_valves = 0;
-                t_outputs->target_l_light = 0;
-                t_outputs->target_r_light = 0;
-
-                //Serial.println("SYS ERROR"); 
-
                 break;
             }
 
@@ -321,7 +314,33 @@ void loop()
             }
 
         }
+      
+        if(digitalRead(A1))
+        {
+            t_outputs->target_l_light = 1;
+            t_outputs->target_l_light_blink = 1;
+            t_outputs->blink_period = 200;
+        }
+        
+        else
+        {
+            t_outputs->target_l_light = 0;
+            t_outputs->target_l_light_blink = 0;
+        }
+       
+/*
+        t_outputs->target_commands = d_inputs->status;
 
+        if(t_inputs->target_l_empty || t_inputs->target_l_full || t_inputs->target_r_empty || t_inputs->target_r_full)
+        {
+            t_outputs->target_l_light = 1;
+            t_outputs->target_l_light_blink = 1;
+            t_outputs->blink_period = 600;
+        }
+            
+        else
+            t_outputs->target_l_light = 0;
+*/
         processModbus();
     }
 }
@@ -342,22 +361,13 @@ void processModbus()
         {
 
             case 1:
-                comm_error = modbus.writeMultipleHoldingRegisters(
-                    MODBUS_SLAVE_UNIT_ID,
-                    0,
-                    target_reg,
-                    (sizeof(target_reg)/2));
+                comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE_UNIT_ID,0,target_reg,(sizeof(target_reg)/2));
                 break;
 
             case 2:
-                comm_error = modbus.readInputRegisters(
-                    MODBUS_SLAVE_UNIT_ID,
-                    0,
-                    target_ireg,
-                    (sizeof(target_ireg)/2));
-
+                comm_error = modbus.readInputRegisters(MODBUS_SLAVE_UNIT_ID, 0, target_ireg, (sizeof(target_ireg)/2));
                 for (uint8_t i = 0; i < (sizeof(target_ireg)/2); i++)
-                    target_ireg[i] = swapBytes(target_ireg[i]);
+                   target_ireg[i] = swapBytes(target_ireg[i]);
                 break;
 
             case 3:
@@ -368,7 +378,7 @@ void processModbus()
         (void)comm_error;
         lastTime = millis();
 
-        //Serial.println("MODBUS");
+        Serial.println(t_outputs->blink_period);
     }
 }
 
@@ -442,7 +452,7 @@ bool isProgramAllowed(program prg)
 bool detectTargetDevice()
 {
     // jednoducha detekce terce podle smysluplneho stavu v registrech
-    switch (t_inputs->status)
+   /* switch (t_inputs->status)
     {
         case target_init:
         case target_wait_for_start:
@@ -456,7 +466,8 @@ bool detectTargetDevice()
 
         default:
             return false;
-    }
+    }*/
+    return true;
 }
 
 bool initDisplayDevice()
@@ -499,12 +510,12 @@ bool initOptionalDevices()
     }
 
     // pokud terc jeste neni pripraven, posleme init prikaz
-    t_outputs->target_commands = 0x01;
+    //t_outputs->target_commands = 0x01;
 
     if (t_inputs->status == target_wait_for_start)
     {
         system_config.target_ready = true;
-        t_outputs->target_commands = 0;
+        //t_outputs->target_commands = 0;
         return true;
     }
 
