@@ -22,21 +22,21 @@ CNTTx               0x2               mb_rs485.o
 DiscreteInputs      0x2               slave_modbus.o
 RXCounter           0x2               mb_rs485.o
 HoldingRegisters    0x2               slave_modbus.o
-h_reg               0x2               main.o
+h_reg               0x4               main.o
 out_buffer          0x100             USART.o
 CNTRx               0x2               mb_rs485.o
 in_buffer           0x20              USART.o
 Coils               0x2               slave_modbus.o
-i_reg               0x4               main.o
+i_reg               0x6               main.o
 io                  0x8               slave_modbus.o
 DiagnosticsStruct   0x10              slave_modbus.o
-outputs             0x2               main.o
+outputs             0x1               main.o
 RecDataState        0x1               mb_rs485.o
 RxBuffer            0x80              mb_rs485.o
 TxLen               0x2               mb_rs485.o
 TxBuffer            0x80              mb_rs485.o
 TxEn                0x1               mb_rs485.o
-inputs              0x2               main.o
+inputs              0x1               main.o
 InputRegisters      0x2               slave_modbus.o
 
 Discarded input sections
@@ -46,8 +46,6 @@ Discarded input sections
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
- .text.manualControll
-                0x00000000       0x1e main.o
  .text          0x00000000        0x0 mb_rs485.o
  .data          0x00000000        0x0 mb_rs485.o
  .bss           0x00000000        0x0 mb_rs485.o
@@ -312,7 +310,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x1134
+.text           0x00000000     0x1100
  *(.vectors)
  .vectors       0x00000000       0xb0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
                 0x00000000                __vector_default
@@ -423,98 +421,107 @@ END GROUP
                 0x00000142                __vector_42
                 0x00000146                . = ALIGN (0x2)
  *(.text.*)
- .text.hwInit   0x00000146       0x82 main.o
+ .text.hwInit   0x00000146       0x72 main.o
                 0x00000146                hwInit
  .text.readInputs
-                0x000001c8       0x62 main.o
-                0x000001c8                readInputs
- .text.main     0x0000022a      0x31e main.o
-                0x0000022a                main
+                0x000001b8       0x7a main.o
+                0x000001b8                readInputs
+ .text.runInitLedSequence
+                0x00000232       0x9a main.o
+                0x00000232                runInitLedSequence
+ .text.writeOutputs
+                0x000002cc       0xd4 main.o
+                0x000002cc                writeOutputs
+ .text.updateBlinkPhase
+                0x000003a0       0x36 main.o
+                0x000003a0                updateBlinkPhase
+ .text.main     0x000003d6       0xf6 main.o
+                0x000003d6                main
  .text.InitModBusRTU
-                0x00000548       0x62 mb_rs485.o
-                0x00000548                InitModBusRTU
+                0x000004cc       0x62 mb_rs485.o
+                0x000004cc                InitModBusRTU
  .text.mb_rs485_interupt
-                0x000005aa       0x2a mb_rs485.o
-                0x000005aa                mb_rs485_interupt
+                0x0000052e       0x2a mb_rs485.o
+                0x0000052e                mb_rs485_interupt
  .text.mb_rtu_crc_counter
-                0x000005d4       0x6e mb_rs485.o
-                0x000005d4                mb_rtu_crc_counter
+                0x00000558       0x6e mb_rs485.o
+                0x00000558                mb_rtu_crc_counter
  .text.SendDataRTU
-                0x00000642       0x6e mb_rs485.o
-                0x00000642                SendDataRTU
+                0x000005c6       0x6e mb_rs485.o
+                0x000005c6                SendDataRTU
  .text.RectDataRTU
-                0x000006b0       0x4c mb_rs485.o
-                0x000006b0                RectDataRTU
+                0x00000634       0x4c mb_rs485.o
+                0x00000634                RectDataRTU
  .text.tim_vector
-                0x000006fc       0x8a mb_rs485.o
-                0x000006fc                tim_vector
+                0x00000680       0x8a mb_rs485.o
+                0x00000680                tim_vector
  .text.rxc_vector
-                0x00000786       0xc8 mb_rs485.o
-                0x00000786                rxc_vector
+                0x0000070a       0xc8 mb_rs485.o
+                0x0000070a                rxc_vector
  .text.txc_vector
-                0x0000084e       0x1a mb_rs485.o
-                0x0000084e                txc_vector
+                0x000007d2       0x1a mb_rs485.o
+                0x000007d2                txc_vector
  .text.udr_vector
-                0x00000868       0xc0 mb_rs485.o
-                0x00000868                udr_vector
+                0x000007ec       0xc0 mb_rs485.o
+                0x000007ec                udr_vector
  .text.mb_do_transmission
-                0x00000928       0x5a mb_rs485.o
-                0x00000928                mb_do_transmission
+                0x000008ac       0x5a mb_rs485.o
+                0x000008ac                mb_do_transmission
  .text.LoadByte
-                0x00000982       0xf2 slave_modbus.o
-                0x00000982                LoadByte
+                0x00000906       0xf2 slave_modbus.o
+                0x00000906                LoadByte
  .text.DeInitStruct
-                0x00000a74       0x14 slave_modbus.o
-                0x00000a74                DeInitStruct
+                0x000009f8       0x14 slave_modbus.o
+                0x000009f8                DeInitStruct
  .text.IncCountersModBus
-                0x00000a88       0x96 slave_modbus.o
-                0x00000a88                IncCountersModBus
+                0x00000a0c       0x96 slave_modbus.o
+                0x00000a0c                IncCountersModBus
  .text.SendModBusData
-                0x00000b1e       0x1e slave_modbus.o
-                0x00000b1e                SendModBusData
+                0x00000aa2       0x1e slave_modbus.o
+                0x00000aa2                SendModBusData
  .text.CoilsRead
-                0x00000b3c       0xaa slave_modbus.o
-                0x00000b3c                CoilsRead
+                0x00000ac0       0xaa slave_modbus.o
+                0x00000ac0                CoilsRead
  .text.DiscreteInputsRead
-                0x00000be6       0xaa slave_modbus.o
-                0x00000be6                DiscreteInputsRead
+                0x00000b6a       0xaa slave_modbus.o
+                0x00000b6a                DiscreteInputsRead
  .text.holdingRegistersRead
-                0x00000c90       0xdc slave_modbus.o
-                0x00000c90                holdingRegistersRead
+                0x00000c14       0xdc slave_modbus.o
+                0x00000c14                holdingRegistersRead
  .text.InputRegistersRead
-                0x00000d6c       0x92 slave_modbus.o
-                0x00000d6c                InputRegistersRead
+                0x00000cf0       0x92 slave_modbus.o
+                0x00000cf0                InputRegistersRead
  .text.SingleCoilWrite
-                0x00000dfe       0xc0 slave_modbus.o
-                0x00000dfe                SingleCoilWrite
+                0x00000d82       0xc0 slave_modbus.o
+                0x00000d82                SingleCoilWrite
  .text.write_multiple_registers
-                0x00000ebe       0x76 slave_modbus.o
-                0x00000ebe                write_multiple_registers
+                0x00000e42       0xbe slave_modbus.o
+                0x00000e42                write_multiple_registers
  .text.MB_ClearAllCounters
-                0x00000f34       0x26 slave_modbus.o
-                0x00000f34                MB_ClearAllCounters
+                0x00000f00       0x26 slave_modbus.o
+                0x00000f00                MB_ClearAllCounters
  .text.ModBusInit
-                0x00000f5a       0x5a slave_modbus.o
-                0x00000f5a                ModBusInit
+                0x00000f26       0x5a slave_modbus.o
+                0x00000f26                ModBusInit
  .text.DiagnosticsFx
-                0x00000fb4       0xa2 slave_modbus.o
-                0x00000fb4                DiagnosticsFx
+                0x00000f80       0xa2 slave_modbus.o
+                0x00000f80                DiagnosticsFx
  .text.MainLoopModBus
-                0x00001056       0xb0 slave_modbus.o
-                0x00001056                MainLoopModBus
- .text.libgcc   0x00001106        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
-                0x00001106                __tablejump2__
+                0x00001022       0xb0 slave_modbus.o
+                0x00001022                MainLoopModBus
+ .text.libgcc   0x000010d2        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+                0x000010d2                __tablejump2__
  .text.avr-libc
-                0x00001112       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a(memcpy.o)
-                0x00001112                memcpy
+                0x000010de       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libc.a(memcpy.o)
+                0x000010de                memcpy
  .text.avr-libc
-                0x00001124        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
-                0x00001124                ccp_write_io
-                0x00001130                . = ALIGN (0x2)
+                0x000010f0        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+                0x000010f0                ccp_write_io
+                0x000010fc                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00001130        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
-                0x00001130                _exit
-                0x00001130                exit
+ .fini9         0x000010fc        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+                0x000010fc                _exit
+                0x000010fc                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -533,76 +540,82 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00001130        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ .fini0         0x000010fc        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
  *(.fini0)
-                0x00001134                _etext = .
+                0x00001100                _etext = .
 
 .rodata
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.r*)
 
-.data           0x00807000        0x6 load address 0x00001134
+.data           0x00807000        0x8 load address 0x00001100
                 0x00807000                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
- .data.outs     0x00807000        0x2 main.o
-                0x00807000                outs
- .data.ins      0x00807002        0x2 main.o
-                0x00807002                ins
- .data.crc      0x00807004        0x2 mb_rs485.o
-                0x00807004                crc
+ .data.timer.4463
+                0x00807000        0x2 main.o
+ .data.outs     0x00807002        0x2 main.o
+                0x00807002                outs
+ .data.ins      0x00807004        0x2 main.o
+                0x00807004                ins
+ .data.crc      0x00807006        0x2 mb_rs485.o
+                0x00807006                crc
  *(.gnu.linkonce.d*)
-                0x00807006                . = ALIGN (0x2)
-                0x00807006                _edata = .
-                0x00807006                PROVIDE (__data_end, .)
+                0x00807008                . = ALIGN (0x2)
+                0x00807008                _edata = .
+                0x00807008                PROVIDE (__data_end, .)
 
-.bss            0x00807006      0x13a
-                0x00807006                PROVIDE (__bss_start, .)
+.bss            0x00807008      0x13e
+                0x00807008                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
+ .bss.last_blink_phase.4474
+                0x00807008        0x1 main.o
+ .bss.step.4462
+                0x00807009        0x1 main.o
  .bss.valid_address.3977
-                0x00807006        0x1 mb_rs485.o
+                0x0080700a        0x1 mb_rs485.o
  .bss.CRCErrorCNT
-                0x00807007        0x2 mb_rs485.o
-                0x00807007                CRCErrorCNT
- .bss.txcie     0x00807009        0x1 mb_rs485.o
-                0x00807009                txcie
- .bss.rxcie     0x0080700a        0x1 mb_rs485.o
-                0x0080700a                rxcie
- .bss.udrie     0x0080700b        0x1 mb_rs485.o
-                0x0080700b                udrie
+                0x0080700b        0x2 mb_rs485.o
+                0x0080700b                CRCErrorCNT
+ .bss.txcie     0x0080700d        0x1 mb_rs485.o
+                0x0080700d                txcie
+ .bss.rxcie     0x0080700e        0x1 mb_rs485.o
+                0x0080700e                rxcie
+ .bss.udrie     0x0080700f        0x1 mb_rs485.o
+                0x0080700f                udrie
  *(COMMON)
- COMMON         0x0080700c        0xa main.o
-                0x0080700c                h_reg
-                0x0080700e                i_reg
-                0x00807012                outputs
-                0x00807014                inputs
- COMMON         0x00807016      0x10a mb_rs485.o
-                0x00807016                CNTTx
-                0x00807018                RXCounter
-                0x0080701a                CNTRx
-                0x0080701c                RecDataState
-                0x0080701d                RxBuffer
-                0x0080709d                TxLen
-                0x0080709f                TxBuffer
-                0x0080711f                TxEn
- COMMON         0x00807120       0x20 slave_modbus.o
-                0x00807120                DiscreteInputs
-                0x00807122                HoldingRegisters
-                0x00807124                Coils
-                0x00807126                io
-                0x0080712e                DiagnosticsStruct
-                0x0080713e                InputRegisters
-                0x00807140                PROVIDE (__bss_end, .)
-                0x00001134                __data_load_start = LOADADDR (.data)
-                0x0000113a                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00807010        0xc main.o
+                0x00807010                h_reg
+                0x00807014                i_reg
+                0x0080701a                outputs
+                0x0080701b                inputs
+ COMMON         0x0080701c      0x10a mb_rs485.o
+                0x0080701c                CNTTx
+                0x0080701e                RXCounter
+                0x00807020                CNTRx
+                0x00807022                RecDataState
+                0x00807023                RxBuffer
+                0x008070a3                TxLen
+                0x008070a5                TxBuffer
+                0x00807125                TxEn
+ COMMON         0x00807126       0x20 slave_modbus.o
+                0x00807126                DiscreteInputs
+                0x00807128                HoldingRegisters
+                0x0080712a                Coils
+                0x0080712c                io
+                0x00807134                DiagnosticsStruct
+                0x00807144                InputRegisters
+                0x00807146                PROVIDE (__bss_end, .)
+                0x00001100                __data_load_start = LOADADDR (.data)
+                0x00001108                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00807140        0x0
+.noinit         0x00807146        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00807140                _end = .
+                0x00807146                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -669,65 +682,65 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x158
+.debug_aranges  0x00000000      0x168
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x38 main.o
+                0x00000000       0x48 main.o
  .debug_aranges
-                0x00000038       0x70 mb_rs485.o
+                0x00000048       0x70 mb_rs485.o
  .debug_aranges
-                0x000000a8       0x90 slave_modbus.o
+                0x000000b8       0x90 slave_modbus.o
  .debug_aranges
-                0x00000138       0x20 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+                0x00000148       0x20 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x49a3
+.debug_info     0x00000000     0x4b66
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000     0x26a6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
- .debug_info    0x000026a6      0xe66 main.o
- .debug_info    0x0000350c      0x9f7 mb_rs485.o
- .debug_info    0x00003f03      0xa02 slave_modbus.o
- .debug_info    0x00004905       0x9e C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+ .debug_info    0x000026a6     0x101a main.o
+ .debug_info    0x000036c0      0x9f7 mb_rs485.o
+ .debug_info    0x000040b7      0xa11 slave_modbus.o
+ .debug_info    0x00004ac8       0x9e C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
 
-.debug_abbrev   0x00000000     0x2b64
+.debug_abbrev   0x00000000     0x2bf0
  *(.debug_abbrev)
  .debug_abbrev  0x00000000     0x249a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
- .debug_abbrev  0x0000249a      0x201 main.o
- .debug_abbrev  0x0000269b      0x251 mb_rs485.o
- .debug_abbrev  0x000028ec      0x264 slave_modbus.o
- .debug_abbrev  0x00002b50       0x14 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+ .debug_abbrev  0x0000249a      0x28d main.o
+ .debug_abbrev  0x00002727      0x251 mb_rs485.o
+ .debug_abbrev  0x00002978      0x264 slave_modbus.o
+ .debug_abbrev  0x00002bdc       0x14 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
 
-.debug_line     0x00000000     0x11e6
+.debug_line     0x00000000     0x12d8
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x19f C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
- .debug_line    0x0000019f      0x4a8 main.o
- .debug_line    0x00000647      0x476 mb_rs485.o
- .debug_line    0x00000abd      0x6c2 slave_modbus.o
- .debug_line    0x0000117f       0x67 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
+ .debug_line    0x0000019f      0x53e main.o
+ .debug_line    0x000006dd      0x476 mb_rs485.o
+ .debug_line    0x00000b53      0x71e slave_modbus.o
+ .debug_line    0x00001271       0x67 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3\libavr32db32.a(ccp_write.o)
 
-.debug_frame    0x00000000      0x324
+.debug_frame    0x00000000      0x360
  *(.debug_frame)
- .debug_frame   0x00000000       0x54 main.o
- .debug_frame   0x00000054       0xe0 mb_rs485.o
- .debug_frame   0x00000134      0x1f0 slave_modbus.o
+ .debug_frame   0x00000000       0x90 main.o
+ .debug_frame   0x00000090       0xe0 mb_rs485.o
+ .debug_frame   0x00000170      0x1f0 slave_modbus.o
 
-.debug_str      0x00000000     0x238b
+.debug_str      0x00000000     0x23a6
  *(.debug_str)
  .debug_str     0x00000000     0x1178 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32db32/avrxmega3/crtavr32db32.o
- .debug_str     0x00001178      0x969 main.o
-                                0xa01 (size before relaxing)
- .debug_str     0x00001ae1      0x31f mb_rs485.o
+ .debug_str     0x00001178      0x97f main.o
+                                0xa2f (size before relaxing)
+ .debug_str     0x00001af7      0x31f mb_rs485.o
                                 0x613 (size before relaxing)
- .debug_str     0x00001e00      0x58b slave_modbus.o
-                                0x7e0 (size before relaxing)
+ .debug_str     0x00001e16      0x590 slave_modbus.o
+                                0x7eb (size before relaxing)
 
-.debug_loc      0x00000000      0xd84
+.debug_loc      0x00000000      0xe6d
  *(.debug_loc)
- .debug_loc     0x00000000      0x17c main.o
- .debug_loc     0x0000017c      0x17e mb_rs485.o
- .debug_loc     0x000002fa      0xa8a slave_modbus.o
+ .debug_loc     0x00000000      0x214 main.o
+ .debug_loc     0x00000214      0x17e mb_rs485.o
+ .debug_loc     0x00000392      0xadb slave_modbus.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -747,11 +760,11 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x120
+.debug_ranges   0x00000000      0x148
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x28 main.o
- .debug_ranges  0x00000028       0x60 mb_rs485.o
- .debug_ranges  0x00000088       0x98 slave_modbus.o
+ .debug_ranges  0x00000000       0x38 main.o
+ .debug_ranges  0x00000038       0x60 mb_rs485.o
+ .debug_ranges  0x00000098       0xb0 slave_modbus.o
 
 .debug_macro
  *(.debug_macro)

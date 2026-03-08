@@ -1,4 +1,5 @@
 
+
 #include <ModbusRTUMaster.h>
 
 #include "sdhTimer.h"
@@ -182,12 +183,12 @@ void loop()
   h_inputs = (hmi_inputs*) hmi_ireg;  // prirazeni ukazatelu na zacatek pole target_ireg
   h_outputs = (hmi_outputs*) hmi_reg;
 
-  d_inputs = (display_inputs*) system_reg;  // prirazeni ukazatelu na zacatek pole target_ireg
+  d_inputs = (display_inputs*) system_ireg;  // prirazeni ukazatelu na zacatek pole target_ireg
   d_outputs = (display_outputs*) system_reg;
 
   d_inputs->status = system_init;
 
-  uint8_t errorCntr;
+  uint8_t errorCntr = 0;
 
   while(1)
   {

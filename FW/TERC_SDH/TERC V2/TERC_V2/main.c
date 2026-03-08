@@ -9,11 +9,11 @@
 
 #define FW_VERSION	1
 
-#include "stop_timer_var.h"
 #include "utils.h"
 #include "slave_modbus.h"
 #include "mb_rs485.h"
 #include "USART.h"
+#include "stop_timer_var.h"
 
 uint16_t inputs;
 uint16_t outputs;
