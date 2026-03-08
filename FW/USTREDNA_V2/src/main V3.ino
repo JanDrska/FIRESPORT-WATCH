@@ -56,6 +56,7 @@ hmi_outputs *h_outputs;
 bool startCmd = false;
 bool stopCmd = false;
 bool resetCmd = false;
+bool targetCommOk = false;
 
 error_code error = err_none;
 uint8_t errorNumber = 0;
@@ -92,7 +93,9 @@ void clock();
 void temp_humid();
 void temp_humid_clock();
 
-uint8_t targetInit();
+void blinkTargetLigts(uint16_t period);
+void setTargetLightsOff();
+void targetLights(uint8_t L,uint8_t R);
 
 
 // ======================================================
@@ -126,7 +129,6 @@ void setup()
     clearSystemConfig();
     updateProgramAvailability();
 
-    t_outputs->blink_period = 500;
 }
 
 
@@ -138,11 +140,10 @@ void loop()
 {
     d_inputs->status = SYS_BOOT;
 
-    while(1)
+    while (1)
     {
         switch (d_inputs->status)
         {
-
             case SYS_BOOT:
             {
                 error = err_none;
@@ -155,10 +156,12 @@ void loop()
                 memset(target_reg, 0, sizeof(target_reg));
                 memset(hmi_reg, 0, sizeof(hmi_reg));
 
+                // vychozi perioda blikani majaku na tercich
+                t_outputs->blink_period = 500;
+
                 d_inputs->status = SYS_DETECT_DEVICES;
                 break;
             }
-
 
             case SYS_DETECT_DEVICES:
             {
@@ -168,28 +171,25 @@ void loop()
                 system_config.hmi_present = false;
                 system_config.hmi_required_ok = true;
 
-                // detekce tercu
+                // IO modul s terci
                 system_config.target_present = detectTargetDevice();
+                //system_config.target_present = true;
 
-                d_inputs->status = SYS_INIT_REQUIRED;
+                if(system_config.target_present == true)
+                    d_inputs->status = SYS_INIT_REQUIRED;
+                
                 break;
             }
-
 
             case SYS_INIT_REQUIRED:
             {
-                
                 if (!initRequiredDevices())
-                {
                     d_inputs->status = SYS_ERROR;
-                }
-                    
                 else
                     d_inputs->status = SYS_INIT_OPTIONAL;
-            
+
                 break;
             }
-
 
             case SYS_INIT_OPTIONAL:
             {
@@ -199,7 +199,6 @@ void loop()
                 d_inputs->status = SYS_VALIDATE_CONFIG;
                 break;
             }
-
 
             case SYS_VALIDATE_CONFIG:
             {
@@ -216,42 +215,28 @@ void loop()
                 break;
             }
 
-
             case SYS_STANDBY:
             {
                 d_inputs->status = SYS_PROGRAM_SELECT;
                 break;
             }
 
-
             case SYS_PROGRAM_SELECT:
             {
-
-                /*
-                // vyber programu pres vstup A1
-                if (digitalRead(A1) == LOW)
-                    selected_program = prg_sdh_timer;
-                else
-                    selected_program = prg_countdown;
-
-                if (isProgramAllowed(selected_program))
-                    d_inputs->status = SYS_PROGRAM_PREPARE;
-                else
-                    d_inputs->status = SYS_STANDBY;
-
-                
-                */
-                    selected_program = prg_sdh_timer;
-                    d_inputs->status = SYS_PROGRAM_PREPARE;
+                // zatim natvrdo SDH stopky
+                selected_program = prg_sdh_timer;
+                d_inputs->status = SYS_PROGRAM_PREPARE;
                 break;
             }
-
 
             case SYS_PROGRAM_PREPARE:
             {
                 timerL.init();
                 timerR.init();
-                //display.init();
+
+                // vynulovani vystupu na IO desce
+                //memset(target_reg, 0, sizeof(target_reg));
+                //t_outputs->blink_period = 500;
 
                 if ((selected_program == prg_sdh_timer) && (!system_config.target_ready))
                 {
@@ -259,13 +244,10 @@ void loop()
                     d_inputs->status = SYS_ERROR;
                 }
                 else
-                {
                     d_inputs->status = SYS_PROGRAM_RUN;
-                }
 
                 break;
             }
-
 
             case SYS_PROGRAM_RUN:
             {
@@ -284,16 +266,21 @@ void loop()
                 break;
             }
 
-
             case SYS_PROGRAM_FINISH:
             {
                 timerL.stopTimming();
                 timerR.stopTimming();
 
+                // po ukonceni programu vypnout IO vystupy
+                t_outputs->target_l_light = 0;
+                t_outputs->target_r_light = 0;
+                t_outputs->target_l_light_blink = 0;
+                t_outputs->target_r_light_blink = 0;
+                t_outputs->target_valves = 0;
+
                 d_inputs->status = SYS_STANDBY;
                 break;
             }
-
 
             case SYS_ERROR:
             {
@@ -302,9 +289,17 @@ void loop()
                 timerL.stopTimming();
                 timerR.stopTimming();
 
+                t_outputs->target_l_light = 1;
+                t_outputs->target_r_light = 1;
+                t_outputs->target_l_light_blink = 1;
+                t_outputs->target_r_light_blink = 1;
+                //t_outputs->relay = 0;
+                t_outputs->blink_period = 2000;
+
+                // bezpečný stav IO desky
+                //memset(target_reg, 0, sizeof(target_reg));
                 break;
             }
-
 
             default:
             {
@@ -312,36 +307,40 @@ void loop()
                 d_inputs->status = SYS_ERROR;
                 break;
             }
-
         }
-      
-        if(digitalRead(A1))
+
+        // --------------------------------------------------
+        // PRIKLAD PRIMEHO OVLADANI IO DESKY
+        // --------------------------------------------------
+        // Tady uz neresime "chytre terce", ale jen vstupy/vystupy.
+        // Master si sam rozhoduje, co s nimi udela.
+/*
+        if (digitalRead(A1))
         {
             t_outputs->target_l_light = 1;
             t_outputs->target_l_light_blink = 1;
             t_outputs->blink_period = 200;
         }
-        
         else
         {
             t_outputs->target_l_light = 0;
             t_outputs->target_l_light_blink = 0;
         }
-       
-/*
-        t_outputs->target_commands = d_inputs->status;
 
-        if(t_inputs->target_l_empty || t_inputs->target_l_full || t_inputs->target_r_empty || t_inputs->target_r_full)
+        // jednoduchy test: pokud nektery vstup na IO desce sepne,
+        // rozblikej leve svetlo
+        if (t_inputs->target_l_empty ||
+            t_inputs->target_l_full  ||
+            t_inputs->target_r_empty ||
+            t_inputs->target_r_full)
         {
             t_outputs->target_l_light = 1;
             t_outputs->target_l_light_blink = 1;
             t_outputs->blink_period = 600;
         }
-            
-        else
-            t_outputs->target_l_light = 0;
 */
         processModbus();
+        //Serial.println(d_inputs->status);
     }
 }
 
@@ -377,8 +376,6 @@ void processModbus()
 
         (void)comm_error;
         lastTime = millis();
-
-        Serial.println(t_outputs->blink_period);
     }
 }
 
@@ -401,13 +398,11 @@ void clearSystemConfig()
 
 void updateProgramAvailability()
 {
-    // stopky vyzaduji funkcni terce
+    // SDH stopky vyzaduji IO desku s terci
     program_availability.allow_sdh_timer = system_config.target_ready;
 
-    // odpocet muze bezet i bez terci
     program_availability.allow_countdown = true;
 
-    // ostatni programy zatim nepouzivame
     program_availability.allow_scoreboard = false;
     program_availability.allow_timer = false;
     program_availability.allow_clock = false;
@@ -445,41 +440,46 @@ bool isProgramAllowed(program prg)
     }
 }
 
+
 // ======================================================
 // DETEKCE A INICIALIZACE ZARIZENI
 // ======================================================
 
 bool detectTargetDevice()
 {
-    // jednoducha detekce terce podle smysluplneho stavu v registrech
-   /* switch (t_inputs->status)
-    {
-        case target_init:
-        case target_wait_for_start:
-        case target_wait_for_target_filling:
-        case target_both_targets_filled:
-        case target_draining:
-        case target_drained:
-        case target_comm_error:
-        case target_vbat_error:
-            return true;
-
-        default:
-            return false;
-    }*/
     return true;
 }
 
+/*
+bool detectTargetDevice()
+{
+    uint8_t comm_error = 0;
+    uint16_t temp_ireg[sizeof(target_inputs)/2 + ((sizeof(target_inputs)%2)*2)];
+    target_inputs *tmp_inputs = (target_inputs*)temp_ireg;
+
+    comm_error = modbus.readInputRegisters(MODBUS_SLAVE_UNIT_ID, 0, temp_ireg, (sizeof(temp_ireg) / 2));
+
+    if (comm_error != 0)
+        return false;
+        
+    for (uint8_t i = 0; i < (sizeof(temp_ireg) / 2); i++)
+        temp_ireg[i] = swapBytes(temp_ireg[i]);
+
+    // jednoducha kontrola, ze vstupy davaji smysl
+    if ((tmp_inputs->target_l_empty && tmp_inputs->target_l_full) || (tmp_inputs->target_r_empty && tmp_inputs->target_r_full))
+        return false;
+        
+    else
+        return true;
+}*/
+
 bool initDisplayDevice()
 {
-    // inicializace lokalniho displeje
-    //display.init();
     return true;
 }
 
 bool initRequiredDevices()
 {
-    // zatim je povinny pouze displej
     system_config.display_required_ok = initDisplayDevice();
     if (!system_config.display_required_ok)
     {
@@ -495,34 +495,19 @@ bool initRequiredDevices()
 
 bool initOptionalDevices()
 {
-    // pokud terc neni pritomen, system jede dal bez nej
+    // pokud IO deska neni pritomna, system muze bezet bez ni
     if (!system_config.target_present)
     {
         system_config.target_ready = false;
         return true;
     }
 
-    // pokud terc pritomen je a je pripraven, muzeme ho povazovat za ready
-    if (t_inputs->status == target_wait_for_start)
-    {
-        system_config.target_ready = true;
-        return true;
-    }
-
-    // pokud terc jeste neni pripraven, posleme init prikaz
-    //t_outputs->target_commands = 0x01;
-
-    if (t_inputs->status == target_wait_for_start)
-    {
-        system_config.target_ready = true;
-        //t_outputs->target_commands = 0;
-        return true;
-    }
-
-    // terc je pritomen, ale zatim neni pripraven
-    system_config.target_ready = false;
-    return false;
+    // v nove koncepci neni init target state machine,
+    // staci, ze IO deska odpovida
+    system_config.target_ready = true;
+    return true;
 }
+
 
 // ======================================================
 // POMOCNE FUNKCE
@@ -539,6 +524,7 @@ void start()
     timerR.startTimming();
 }
 
+
 // ======================================================
 // PROGRAM SDH CASOMIRA
 // ======================================================
@@ -549,48 +535,67 @@ void sdhTimer()
 
     switch (step)
     {
-        case 0: // cekani na povoleni startu - odblokovani zavory
+        case 0: // cekani na povoleni startu
+            blinkTargetLigts(250);
             if (h_inputs->sensor_enable != 1)
+            if(digitalRead(A0))
                 step = 1;
             break;
 
-        case 1: // zavora odblokovana, cekame na start
+        case 1: // cekame na start
+            targetLights(1,1);
             if ((h_inputs->sensor_enable == 1) && (h_inputs->start_sensor == 1))
                 step = 2;
             break;
 
         case 2: // start mereni
             start();
+
+            // na zacatku zhasnout svetla a zavrit / vypnout akce
+            t_outputs->target_l_light = 0;
+            t_outputs->target_r_light = 0;
+            t_outputs->target_l_light_blink = 0;
+            t_outputs->target_r_light_blink = 0;
+
             step = 3;
             break;
 
         case 3:
-            // prubezny cas leveho terce
-            if (!t_outputs->target_l_light)
+            // levy terc jeste neni zasažen
+            if (!t_inputs->target_l_full)
             {
                 timerL.Time();
-                display.sendData(timerL, timerR);
+                //display.sendData(timerL, timerR);
             }
 
-            // prubezny cas praveho terce
-            if (!t_outputs->target_r_light)
+            // pravy terc jeste neni zasažen
+            if (!t_inputs->target_r_full)
             {
                 timerR.Time();
-                display.sendData(timerL, timerR);
+                //display.sendData(timerL, timerR);
             }
 
-            // konec leveho terce
-            if (t_outputs->target_l_light)
+            // levy terc zasažen
+            if (t_inputs->target_l_full)
             {
                 timerL.stopTimming();
-                display.sendData(timerL, timerR);
+                t_outputs->target_l_light = 1;
+                //display.sendData(timerL, timerR);
             }
 
-            // konec praveho terce
-            if (t_outputs->target_r_light)
+            // pravy terc zasažen
+            if (t_inputs->target_r_full)
             {
                 timerR.stopTimming();
-                display.sendData(timerL, timerR);
+                t_outputs->target_r_light = 1;
+                //display.sendData(timerL, timerR);
+            }
+
+            // oba terce hotove
+            if (t_inputs->target_l_full && t_inputs->target_r_full)
+            {
+                step = 0;
+                d_inputs->status = SYS_PROGRAM_FINISH;
             }
 
             // docasne stop pres vstup stop_btn
@@ -610,6 +615,7 @@ void sdhTimer()
             break;
     }
 }
+
 
 // ======================================================
 // PROGRAM ODPOCET
@@ -621,37 +627,33 @@ void countdown()
 
     switch (step)
     {
-        case 0: // cekani na povoleni startu odpocitu
+        case 0:
             if (h_inputs->sensor_enable)
                 step = 1;
             break;
 
-        case 1: // start mereni
+        case 1:
             start();
             step = 2;
             break;
 
         case 2:
-            if (timerL.casSTART > 1) // bylo odstartovano
+            if (timerL.casSTART > 1)
             {
                 timerL.Time();
-                display.sendData(timerL, timerL);
+                //display.sendData(timerL, timerL);
             }
 
-            // konec odpocitu
             if ((timerL.casTERC_M == 0) && (timerL.casTERC_S == 0))
             {
                 timerL.stopTimming();
                 timerR.stopTimming();
-
-                // TODO: sirena, blikani svetla / displeje
-                display.sendData(timerL, timerR);
+                //display.sendData(timerL, timerR);
 
                 step = 0;
                 d_inputs->status = SYS_PROGRAM_FINISH;
             }
 
-            // docasne stop pres vstup stop_btn
             if (h_inputs->stop_btn)
             {
                 timerL.stopTimming();
@@ -667,6 +669,7 @@ void countdown()
             break;
     }
 }
+
 
 // ======================================================
 // OSTATNI PROGRAMY - ZATIM POUZE KOSTRA
@@ -690,4 +693,31 @@ void temp_humid()
 
 void temp_humid_clock()
 {
+}
+
+void blinkTargetLigts(uint16_t period)
+{
+    t_outputs->blink_period = period;
+    t_outputs->target_l_light = 1;
+    t_outputs->target_l_light_blink = 1;
+    t_outputs->target_r_light = 1;
+    t_outputs->target_r_light_blink = 1;
+
+}
+
+void setTargetLightsOff()
+{
+    t_outputs->target_l_light = 0;
+    t_outputs->target_l_light_blink = 0;
+    t_outputs->target_r_light = 0;
+    t_outputs->target_r_light_blink = 0;
+
+}
+
+void targetLights(uint8_t L,uint8_t R)
+{
+    t_outputs->target_l_light = L;
+    t_outputs->target_r_light = R;
+    t_outputs->target_l_light_blink = 0;
+    t_outputs->target_r_light_blink = 0;
 }
