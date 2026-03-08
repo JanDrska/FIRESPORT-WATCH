@@ -88,12 +88,12 @@ void readInputs()
 	ins->target_r_full = IS_SET(TARGET_R_FULL);
 }
 
-void manualControll()
+void manualControll()	// TODO: dopsat pro plne ovladani
 {
 	if(outs->target_l_light)
-	SET(TARGET_L_LIGHT);
+		SET(TARGET_L_LIGHT);
 	else
-	RESET(TARGET_L_LIGHT);
+		RESET(TARGET_L_LIGHT);
 }
 
 int main(void)
@@ -167,7 +167,7 @@ int main(void)
 			{
 				switch (state)
 				{
-					case initialization:
+					case target_init:
 						SET(TARGET_L_LIGHT);
 						SET(TARGET_R_LIGHT);
 						SET(VALVE);
@@ -176,7 +176,7 @@ int main(void)
 							RESET(VALVE);
 							RESET(TARGET_L_LIGHT);
 							RESET(TARGET_R_LIGHT);
-							ins->status = (uint16_t)initialization;
+							ins->status = (uint16_t)target_init;
 							state = wait_for_start_command;
 						}
 						break;

@@ -34,6 +34,14 @@ void TimerData::Time()
   casTERC_ms = casTERC % 1000;
 }
 
+void TimerData::Countdown(uint16_t preset)
+{
+  casTERC = millis() - casSTART + preset;
+  casTERC_M = casTERC / 60000;
+  casTERC_S = (casTERC % 60000)/1000;
+  casTERC_ms = casTERC % 1000;
+}
+
 void TimerData::sendDataSerial(char name)
 {
   Serial.println(casTERC);

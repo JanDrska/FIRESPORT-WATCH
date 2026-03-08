@@ -1,6 +1,8 @@
 #ifndef SDHTIMER
 #define SDHTIMER
 
+#include <Arduino.h>
+
 class TimerData
 {
 private:
@@ -19,7 +21,9 @@ public:
   void startTimming();
   void stopTimming();
   void Time();
+  void Countdown(uint16_t preset);
   void sendDataSerial(char name);
+
 };
 
 #endif // SDH TIMER

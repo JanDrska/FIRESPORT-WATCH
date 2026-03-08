@@ -12,14 +12,14 @@
 // TARGET SYSTEM STATUS
 typedef enum
 {
-	initialization,
-	wait_for_start_command,
-	wait_for_target_filling,
-	both_targets_filled,
-	draining,
-	drained,
-	comm_error,
-	vbat_error
+	target_init,
+	target_wait_for_start,
+	target_wait_for_target_filling,
+	target_both_targets_filled,
+	target_draining,
+	target_drained,
+	target_comm_error,
+	target_vbat_error
 } target_status;
 
 // OUTPUTS, COMMANDS

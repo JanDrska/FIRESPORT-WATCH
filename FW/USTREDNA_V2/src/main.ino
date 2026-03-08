@@ -1,0 +1,480 @@
+
+#include <ModbusRTUMaster.h>
+
+#include "sdhTimer.h"
+#include "sdhDisplay.h"
+#include <PCF8574.h>
+
+#define MODBUS_SERIAL Serial
+#define MODBUS_BUAD 115200
+#define MODBUS_CONFIG SERIAL_8N1
+#define MODBUS_UNIT_ID 1
+#define MODBUS_SLAVE_UNIT_ID 2
+
+#define DE_RE 2
+
+ModbusRTUMaster modbus(MODBUS_SERIAL, DE_RE);
+
+TimerData timerL;
+TimerData timerR;
+DisplaySdh display; 
+
+unsigned long lastTime = 0; 
+
+typedef enum
+{
+	system_init,
+  system_initialized,
+	system_choose_program,
+	system_run_chosen_prgm,
+  system_standby,
+	system_error
+} system_status;
+
+typedef enum
+{
+	prg_sdh_timer,
+  prg_countdown,
+	prg_scoreboard,
+	prg_timer,
+  prg_clock,
+  prg_temperature_humidity,
+  prg_temperature_humidity_clock
+} program;
+
+typedef enum
+{
+	target_init,
+	target_wait_for_start,
+	target_wait_for_target_filling,
+	target_both_targets_filled,
+	target_draining,
+	target_drained,
+	target_comm_error,
+	target_vbat_error
+} target_status;
+
+typedef enum
+{
+	hmi_init,
+	hmi_ready,
+	hmi_wait_for_start,
+	hmi_watch_is_running,
+	hmi_watch_stopped,
+	hmi_countdown_active,
+	hmi_scoreboard_active,
+	hmi_error
+} hmi_status;
+
+typedef enum
+{
+	target_init_failed,
+  hmi_init_failed,
+	target_not_response,
+  hmi_not_response,
+} error_code;
+
+typedef enum
+{
+	cmd_start,
+  cmd_stop,
+	cmd_pause,
+  cmd_reset
+  //TODO: CMD pro ovladani skore, nastaveni caso upod.
+} hmi_cmd;
+
+// OUTPUTS, COMMANDS
+typedef struct
+{
+	uint16_t horn : 1;
+	uint16_t system_light : 1;
+	uint16_t target_commands : 14;
+  uint16_t errorCode : 14;
+}display_outputs;
+
+typedef struct
+{
+	uint16_t target_l_light : 1;
+	uint16_t target_r_light : 1;
+	uint16_t target_valves : 1;
+	uint16_t target_commands : 13;
+}target_outputs;
+
+typedef struct
+{
+	uint16_t start_light : 1;
+	uint16_t horn : 1;
+	uint16_t status_light : 1;
+	uint16_t hmi_commands : 13;
+}hmi_outputs;
+
+// INPUTS, STATUSES
+typedef struct
+{
+	system_status status;
+}display_inputs;
+
+typedef struct
+{
+	uint16_t target_l_full : 1;
+	uint16_t target_l_empty : 1;
+	uint16_t target_r_full : 1;
+	uint16_t target_r_empty : 1;
+	uint16_t battery_status : 1;
+	target_status status;
+}target_inputs;
+
+typedef struct
+{
+	uint16_t start_sensor : 1;
+	uint16_t sensor_enable : 1;
+	uint16_t stop_btn : 1;
+  uint16_t program_number;
+	hmi_status status;
+}hmi_inputs;
+
+uint16_t system_ireg[sizeof(display_inputs)/2 + ((sizeof(display_inputs)%2)*2)];    // nastaveni pole pro hodnoty    
+uint16_t system_reg[sizeof(display_outputs)/2 + ((sizeof(display_outputs)%2)*2)];
+
+uint16_t target_ireg[sizeof(target_inputs)/2 + ((sizeof(target_inputs)%2)*2)];
+uint16_t target_reg[sizeof(target_outputs)/2 + ((sizeof(target_outputs)%2)*2)];
+
+uint16_t hmi_ireg[sizeof(hmi_inputs)/2 + ((sizeof(hmi_inputs)%2)*2)];    
+uint16_t hmi_reg[sizeof(hmi_outputs)/2 + ((sizeof(hmi_outputs)%2)*2)];
+
+display_inputs *d_inputs;   // definice ukazatelu na strukturu d_inputs - d  jako displej
+display_outputs *d_outputs;
+
+target_inputs *t_inputs;    // definice ukazatelu na strukturu t_inputs - t  jako terc
+target_outputs *t_outputs;
+
+hmi_inputs *h_inputs;       // definice ukazatelu na strukturu h_inputs - h jako HMI
+hmi_outputs *h_outputs;
+
+bool startCmd = false;
+bool stopCmd = false;
+bool resetCmd = false;
+
+error_code error;
+uint8_t errorNumber;
+
+void setup() 
+{
+  pinMode(DE_RE, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(13, OUTPUT);
+
+  pinMode(A0, INPUT);
+
+  MODBUS_SERIAL.begin(MODBUS_BUAD, MODBUS_CONFIG);
+  modbus.begin(MODBUS_BUAD, MODBUS_CONFIG);
+
+}
+
+void loop() 
+{
+  t_inputs = (target_inputs*) target_ireg;  // prirazeni ukazatelu na zacatek pole target_ireg
+  t_outputs = (target_outputs*) target_reg;
+
+  h_inputs = (hmi_inputs*) hmi_ireg;  // prirazeni ukazatelu na zacatek pole target_ireg
+  h_outputs = (hmi_outputs*) hmi_reg;
+
+  d_inputs = (display_inputs*) system_reg;  // prirazeni ukazatelu na zacatek pole target_ireg
+  d_outputs = (display_outputs*) system_reg;
+
+  d_inputs->status = system_init;
+
+  uint8_t errorCntr;
+
+  while(1)
+  {
+
+    switch (d_inputs->status)
+    {
+      case system_init:
+
+        //inicializace 7segmentovek
+        display.init();  
+
+        //inicializace tercu
+        if(t_inputs->status != target_wait_for_start) 
+        {
+          t_outputs->target_commands = 0x01; // poslani inicializacniho prikazu
+          errorCntr++;
+          if (errorCntr >=10)
+          {
+            error = target_init_failed;
+            d_inputs->status = system_error;
+          }
+          else
+            errorCntr = 0;
+        }
+
+        //inicializace hmi
+        if(h_inputs->status != hmi_wait_for_start) 
+        {
+          h_outputs->hmi_commands = 0x01; // poslani inicializacniho prikazu
+          errorCntr++;
+          if (errorCntr >=10)
+          {
+            error = hmi_init_failed;
+            d_inputs->status = system_error;
+          }
+          else
+            errorCntr = 0;
+        }
+          
+        d_inputs->status = system_initialized;
+        break;
+
+      case system_initialized:
+        // na 7 segmentovem displeji zobrazit rEAdy a nechat zobrazeno dokud uživatel nevybere program //TODO: doplnit znaky do sdhDisplay 
+        d_inputs->status = system_choose_program;
+        break;
+
+      case system_choose_program:
+        //TODO: vyslat do hmi hlasku na vyber programu
+        if(h_outputs->hmi_commands !=0)
+          d_inputs->status = system_run_chosen_prgm;
+        break;
+
+      case system_run_chosen_prgm:
+        
+        switch (h_inputs->program_number) // hlavni switch pro ovladani zakladnich programovych funkci - nejlepe vytvořit samostatne funkce a ty zde jen pro prehlednost volat
+        {
+        case prg_sdh_timer:
+          sdhTimer();
+          break;
+        
+        case prg_countdown:
+          countdown();
+          break;
+
+        case prg_scoreboard:
+          scoreboard();
+          break;
+
+        case prg_timer:
+          timer();
+          break;
+
+        case prg_clock:
+          clock();
+          break;
+
+        case prg_temperature_humidity:
+          temp_humid();
+          break;
+
+        case prg_temperature_humidity_clock:
+          temp_humid_clock();
+          break;
+        
+        default:
+          break;
+        }
+        
+        break;
+
+      case system_standby:
+        
+        break;
+
+      case system_error:
+
+        d_outputs->errorCode = error;
+        // TODO: zobrazit kod erroru na 7segmenovem displeji a pokud to jde (není chyba na HMI) tak i na HMI
+        // Reseni fatal erroru - tvrdý reset systému
+        
+        break;
+
+      default:
+        break;
+    }
+
+    // ##########   MODBUS   ##########
+
+    static uint8_t distributor = 0; // diky static se to nemění při každém průběhu
+    uint8_t comm_error;
+
+    if((millis()-lastTime)>9)
+    {
+      switch (++distributor)
+      {
+      case 1:
+        comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE_UNIT_ID, 0, target_reg, (sizeof(target_reg)/2));
+        break;
+      case 2:
+        comm_error = modbus.readInputRegisters(MODBUS_SLAVE_UNIT_ID, 0, target_ireg, (sizeof(target_ireg)/2));
+        for (uint8_t i = 0; i < (sizeof(target_ireg)/2); i++) 
+          target_ireg[i] = swapBytes(target_ireg[i]);
+        break;
+      case 3:
+        distributor =0;
+        break;
+      }
+
+      lastTime = millis();
+    }
+  }
+}
+
+uint16_t swapBytes(uint16_t value) 
+{
+    return (value >> 8) | (value << 8);
+}
+
+void start()
+{
+  timerL.startTimming();
+  timerR.startTimming();
+  startCmd = false;
+}
+
+void sdhTimer()
+{
+  static uint8_t step = 0;
+
+  switch (step)
+  {
+  case 0: // cekani na  povoleni startu - odblokovani zavory
+    if(h_inputs->sensor_enable != 1)
+      step = 1;
+    break;
+  
+  case 1: // zavora odblokovana, cekame na start
+    if((h_inputs->sensor_enable == 1) & ((h_inputs->start_sensor == 1)))
+      step = 2;
+    break;
+  
+  case 2: // start měření
+    start();
+    step = 3;
+    break;
+  
+  case 3:
+    if(!t_outputs->target_l_light)    //průběžný čas L terče
+    {
+      timerL.Time();
+      display.sendData(timerL,timerR);        
+    }
+              
+    if(!t_outputs->target_r_light)    //průběžný čas P terče
+    {
+      timerR.Time();
+      display.sendData(timerL,timerR);
+    }
+
+    if(t_outputs->target_l_light) //konec L terče
+    {
+      timerL.stopTimming();
+      display.sendData(timerL,timerR);
+    }
+    
+    if(t_outputs->target_r_light) //konec R terče
+    {
+      timerR.stopTimming();
+      display.sendData(timerL,timerR);
+    }
+
+    if(h_outputs->hmi_commands == cmd_stop)
+    {
+      timerL.stopTimming();
+      timerR.stopTimming();
+      step = 0; // asi -tady je to otazka jak to vyresit
+      // vyzadat potvrzeni od rozhodciho, moznost reseni chyb, opakovani pokusu apod,
+    }
+
+    if(h_outputs->hmi_commands == cmd_reset) // prikaz pro reset
+    {
+      timerL.init();
+      timerR.init();
+      display.init();
+      step = 0;
+    }
+
+    break;
+
+  default:
+    break;
+  }
+}
+
+void countdown()
+{
+  static uint8_t step = 0;
+
+  switch (step)
+  {
+  case 0: // cekani na  povoleni startu odpoctu
+    if(h_inputs->sensor_enable)
+      step = 1;
+    break;
+  
+  case 1: // start měření
+    start();
+    step = 2;
+    break;
+  
+  case 2:
+    if(timerL.casSTART >1)    //bylo odstartovano
+    {
+      timerL.Time();
+      display.sendData(timerL,timerL);        
+    }
+              
+    if((timerL.casTERC_M==0)&&(timerL.casTERC_S==0)) //konec odpoctu
+    {
+      timerL.stopTimming();
+      timerR.stopTimming();
+      // TODO sirena, blikani svetla/ displeje
+      display.sendData(timerL,timerR);
+    }
+
+    if(h_outputs->hmi_commands == cmd_stop)
+    {
+      timerL.stopTimming();
+      timerR.stopTimming();
+      // vyzadat potvrzeni od rozhodciho, moznost reseni chyb, opakovani pokusu apod,
+    }
+
+    if(h_outputs->hmi_commands == cmd_reset) // prikaz pro reset
+    {
+      timerL.init();
+      timerR.init();
+      display.init();
+    }
+
+    break;
+
+  default:
+    break;
+  }
+}
+void scoreboard()
+{
+
+}
+
+void timer()
+{
+
+}
+
+void clock()
+{
+
+}
+
+void temp_humid()
+{
+
+}
+
+void temp_humid_clock()
+{
+
+}

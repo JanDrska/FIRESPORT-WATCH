@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  00000324  00000000  00000000  00009a88  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000238e  00000000  00000000  00009dac  2**0
+ 10 .debug_str    0000238b  00000000  00000000  00009dac  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000d84  00000000  00000000  0000c13a  2**0
+ 11 .debug_loc    00000d84  00000000  00000000  0000c137  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000120  00000000  00000000  0000cebe  2**0
+ 12 .debug_ranges 00000120  00000000  00000000  0000cebb  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -163,12 +163,12 @@ Disassembly of section .text:
      142:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000146 <hwInit>:
-void manualControll()
+void manualControll()	// TODO: dopsat pro plne ovladani
 {
 	if(outs->target_l_light)
-	SET(TARGET_L_LIGHT);
+		SET(TARGET_L_LIGHT);
 	else
-	RESET(TARGET_L_LIGHT);
+		RESET(TARGET_L_LIGHT);
      146:	e0 e0       	ldi	r30, 0x00	; 0
      148:	f4 e0       	ldi	r31, 0x04	; 4
      14a:	80 81       	ld	r24, Z
@@ -499,7 +499,7 @@ int main(void)
      32c:	e5 c0       	rjmp	.+458    	; 0x4f8 <__LOCK_REGION_LENGTH__+0xf8>
      32e:	07 c1       	rjmp	.+526    	; 0x53e <__LOCK_REGION_LENGTH__+0x13e>
 				{
-					case initialization:
+					case target_init:
 						SET(TARGET_L_LIGHT);
      330:	e0 e4       	ldi	r30, 0x40	; 64
      332:	f4 e0       	ldi	r31, 0x04	; 4
@@ -527,7 +527,7 @@ int main(void)
 							RESET(TARGET_R_LIGHT);
      356:	88 e0       	ldi	r24, 0x08	; 8
      358:	86 83       	std	Z+6, r24	; 0x06
-							ins->status = (uint16_t)initialization;
+							ins->status = (uint16_t)target_init;
      35a:	e0 91 02 70 	lds	r30, 0x7002	; 0x807002 <ins>
      35e:	f0 91 03 70 	lds	r31, 0x7003	; 0x807003 <ins+0x1>
      362:	80 81       	ld	r24, Z
