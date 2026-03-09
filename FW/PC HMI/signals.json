@@ -1,0 +1,169 @@
+{
+  "modbus": {
+    "transport": "serial",
+    "serial_port": "COM8",
+    "baudrate": 115200,
+    "bytesize": 8,
+    "parity": "N",
+    "stopbits": 1,
+    "timeout": 0.005,
+    "device_id": 3
+  },
+  "register_sizes": {
+    "holding": 1,
+    "input": 2,
+    "coil": 1,
+    "discrete": 1
+  },
+  "signals": [
+    {
+      "name": "start_light",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 0,
+      "default": 0
+    },
+    {
+      "name": "horn",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 1,
+      "default": 0
+    },
+    {
+      "name": "status_light",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 2,
+      "default": 0
+    },
+
+    {
+      "name": "system_status_0",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 3,
+      "default": 0
+    },
+    {
+      "name": "system_status_1",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 4,
+      "default": 0
+    },
+    {
+      "name": "system_status_2",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 5,
+      "default": 0
+    },
+    {
+      "name": "system_status_3",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 6,
+      "default": 0
+    },
+    {
+      "name": "system_status_4",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 7,
+      "default": 0
+    },
+    {
+      "name": "system_status_5",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 8,
+      "default": 0
+    },
+    {
+      "name": "system_status_6",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 9,
+      "default": 0
+    },
+    {
+      "name": "system_status_7",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 10,
+      "default": 0
+    },
+    {
+      "name": "system_status_8",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 11,
+      "default": 0
+    },
+    {
+      "name": "system_status_9",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 12,
+      "default": 0
+    },
+    {
+      "name": "system_status_10",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 13,
+      "default": 0
+    },
+    {
+      "name": "system_status_11",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 14,
+      "default": 0
+    },
+    {
+      "name": "system_status_12",
+      "type": "holding_bit",
+      "address": 0,
+      "bit": 15,
+      "default": 0
+    },
+
+    {
+      "name": "start_sensor",
+      "type": "input_bit",
+      "address": 0,
+      "bit": 0,
+      "default": 0
+    },
+    {
+      "name": "sensor_enable",
+      "type": "input_bit",
+      "address": 0,
+      "bit": 1,
+      "default": 0
+    },
+    {
+      "name": "start_btn",
+      "type": "input_bit",
+      "address": 0,
+      "bit": 2,
+      "default": 0
+    },
+    {
+      "name": "stop_btn",
+      "type": "input_bit",
+      "address": 0,
+      "bit": 3,
+      "default": 0
+    },
+    {
+      "name": "hmi_commands",
+      "type": "input_u16",
+      "address": 1,
+      "scale": 1,
+      "default": 0
+    }
+  ]
+}
