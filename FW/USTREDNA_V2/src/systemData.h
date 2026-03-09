@@ -177,8 +177,24 @@ typedef struct
     uint16_t start_light : 1;
     uint16_t horn : 1;
     uint16_t status_light : 1;
-    uint16_t system_status : 13;
+    uint16_t target_l_light_blink: 1;
+    uint16_t target_r_light_blink: 1;
+    uint16_t target_l_full : 1;
+	uint16_t target_l_empty : 1;
+	uint16_t target_r_full : 1;
+	uint16_t target_r_empty : 1;
+    uint16_t target_valve: 1;
+    uint16_t system_status : 6;
+    uint16_t target_vbatt;
+    uint16_t casTERC1_M;
+    uint16_t casTERC1_S;
+    uint16_t casTERC1_ms;
+    uint16_t casTERC2_M;
+    uint16_t casTERC2_S;
+    uint16_t casTERC2_ms;
+
 } hmi_outputs;
+
 
 // ======================================================
 // VSTUPY / STAVY
@@ -208,7 +224,7 @@ typedef struct
     uint16_t sensor_enable : 1;
     uint16_t start_btn : 1;
     uint16_t stop_btn : 1;
-    uint16_t hmi_commands;
+    uint16_t hmi_commands:12;
 } hmi_inputs;
 
 #endif

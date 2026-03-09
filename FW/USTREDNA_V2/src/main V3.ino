@@ -99,6 +99,10 @@ void blinkTargetLigts(uint16_t period);
 void setTargetLightsOff();
 void targetLights(uint8_t L,uint8_t R);
 
+void sendTargetInfoToHmi();
+void sendActTimeToHmi();
+
+
 
 // ======================================================
 // SETUP
@@ -374,104 +378,6 @@ void processModbus()
     }
 }
 
-/*
-void processModbus()
-{
-    static uint8_t distributor = 0;
-    uint8_t comm_error = 0;
-
-    if ((millis() - lastTime) > 10)
-    {
-        switch (++distributor)
-        {
-            case 1:
-                comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE1_UNIT_ID, 0, target_reg, (sizeof(target_reg) / 2));
-                break;
-
-            case 2:
-                comm_error = modbus.readInputRegisters(MODBUS_SLAVE1_UNIT_ID, 0, target_ireg, (sizeof(target_ireg) / 2));
-                if (comm_error == 0)
-                {
-                    for (uint8_t i = 0; i < (sizeof(target_ireg) / 2); i++)
-                        target_ireg[i] = swapBytes(target_ireg[i]);
-                }
-                break;
-
-            case 3:
-                if ((millis() - lastTimeSlaveHmi) < 500)
-                {
-                    distributor = 0;
-                    break;
-                }
-
-                comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE2_UNIT_ID, 0, hmi_reg, (sizeof(hmi_reg) / 2));
-                break;
-
-            case 4:
-                comm_error = modbus.readInputRegisters(MODBUS_SLAVE2_UNIT_ID, 0, hmi_ireg, (sizeof(hmi_ireg) / 2));
-                if (comm_error == 0)
-                {
-                    for (uint8_t i = 0; i < (sizeof(hmi_ireg) / 2); i++)
-                        hmi_ireg[i] = swapBytes(hmi_ireg[i]);
-                }
-
-                lastTimeSlaveHmi = millis();
-                break;
-
-            case 5:
-                distributor = 0;
-                break;
-        }
-
-        (void)comm_error;
-        lastTime = millis();
-    }
-}
-*/
-/*
-void processModbus()
-{
-    static uint8_t distributor = 0;
-    uint8_t comm_error = 0;
-
-    if ((millis() - lastTime) > 100)
-    {
-        switch (++distributor)
-        {
-
-            case 1:
-                comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE1_UNIT_ID,0,target_reg,(sizeof(target_reg)/2));
-                break;
-
-            case 2:
-                comm_error = modbus.readInputRegisters(MODBUS_SLAVE1_UNIT_ID, 0, target_ireg, (sizeof(target_ireg)/2));
-                for (uint8_t i = 0; i < (sizeof(target_ireg)/2); i++)
-                   target_ireg[i] = swapBytes(target_ireg[i]);
-                break;
-
-            case 3:
-                comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE2_UNIT_ID,0,hmi_reg,(sizeof(hmi_reg)/2));
-                break;
-            
-            case 4:
-                comm_error = modbus.readInputRegisters(MODBUS_SLAVE2_UNIT_ID, 0, hmi_ireg, (sizeof(hmi_ireg)/2));
-                for (uint8_t i = 0; i < (sizeof(hmi_ireg)/2); i++)
-                   hmi_ireg[i] = swapBytes(hmi_ireg[i]);
-                break;
-
-            case 5:
-                distributor = 0;
-                break;
-        }
-
-        (void)comm_error;
-        lastTime = millis();
-    }
-    
-
-    
-}*/
-
 // ======================================================
 // POMOCNE FUNKCE PRO KONFIGURACI
 // ======================================================
@@ -602,24 +508,28 @@ void start()
 void sdhTimer()
 {
     static uint8_t step = 0;
+    static bool leftDone = false;
+    static bool rightDone = false;
+
+    sendTargetInfoToHmi();
 
     switch (step)
     {
         case 0: // cekani na povoleni startu
             blinkTargetLigts(250);
-            //h_outputs->system_status = 127;
-            if(digitalRead(A0))
+            leftDone = false;
+            rightDone = false;
+            if(h_inputs->start_btn)
                 step = 1;
             break;
 
         case 1: // cekame na start
             targetLights(1,1);
-            h_outputs->start_light = 1;
-            //h_outputs->system_status = 255;
-            h_outputs->horn = h_inputs->start_sensor;
-
-            //if ((h_inputs->sensor_enable == 1) && (h_inputs->start_sensor == 1))
-            //    step = 2;
+            timerL.init();
+            timerR.init();
+            sendActTimeToHmi();
+            if ((h_inputs->sensor_enable == 1) && (h_inputs->start_sensor == 1))
+                step = 2;
             break;
 
         case 2: // start mereni
@@ -631,41 +541,38 @@ void sdhTimer()
             break;
 
         case 3:
-            // levy terc jeste neni zasažen
-            if (!t_inputs->target_l_full)
+    
+            // zachycení zásahu levého terče
+            if (t_inputs->target_l_full && !leftDone)
             {
-                timerL.Time();
-                //display.sendData(timerL, timerR);
-            }
-
-            // pravy terc jeste neni zasažen
-            if (!t_inputs->target_r_full)
-            {
-                timerR.Time();
-                //display.sendData(timerL, timerR);
-            }
-
-            // levy terc zasažen
-            if (t_inputs->target_l_full)
-            {
+                leftDone = true;
                 timerL.stopTimming();
                 t_outputs->target_l_light = 1;
-                //display.sendData(timerL, timerR);
             }
 
-            // pravy terc zasažen
-            if (t_inputs->target_r_full)
+            // zachycení zásahu pravého terče
+            if (t_inputs->target_r_full && !rightDone)
             {
+                rightDone = true;
                 timerR.stopTimming();
                 t_outputs->target_r_light = 1;
-                //display.sendData(timerL, timerR);
             }
 
+            // levý terč ještě neb
+            if (!leftDone)
+                timerL.Time();
+
+            // pravý terč ještě neb
+            if (!rightDone)
+                timerR.Time();
+
+            sendActTimeToHmi();
+
             // oba terce hotove
-            if (t_inputs->target_l_full && t_inputs->target_r_full)
+            if (leftDone && rightDone)
             {
-                step = 0;
-                d_inputs->status = SYS_PROGRAM_FINISH;
+                t_outputs->relay = 1;
+                step = 4;
             }
 
             // docasne stop pres vstup stop_btn
@@ -673,11 +580,25 @@ void sdhTimer()
             {
                 timerL.stopTimming();
                 timerR.stopTimming();
+                t_outputs->relay = 1;
+                leftDone = true;
+                rightDone = true;
+                step = 4;
+            }
+
+        break;
+
+        case 4: //drain
+        
+            //if(!t_inputs->target_l_empty && !t_inputs->target_r_empty)        // ODJEBAT !!!! TO JE JEN NA TEST
+            if(t_inputs->target_l_empty && t_inputs->target_r_empty)
+            {
+                t_outputs->relay = 0;
                 step = 0;
                 d_inputs->status = SYS_PROGRAM_FINISH;
             }
-
-            break;
+        break;
+            
 
         default:
             step = 0;
@@ -772,10 +693,6 @@ void blinkTargetLigts(uint16_t period)
     t_outputs->target_l_light_blink = 1;
     t_outputs->target_r_light = 1;
     t_outputs->target_r_light_blink = 1;
-    //h_outputs->horn = 1;
-    //h_outputs->status_light = 1;
-    //h_outputs->start_light = 1;
-
 }
 
 void setTargetLightsOff()
@@ -794,3 +711,29 @@ void targetLights(uint8_t L,uint8_t R)
     t_outputs->target_l_light_blink = 0;
     t_outputs->target_r_light_blink = 0;
 }
+
+void sendTargetInfoToHmi()
+{
+    h_outputs->target_l_empty = t_inputs->target_l_empty;
+    h_outputs->target_r_empty = t_inputs->target_r_empty;
+    h_outputs->target_l_full = t_inputs->target_l_full;
+    h_outputs->target_r_full = t_inputs->target_r_full;
+    h_outputs->target_l_light_blink = t_outputs->target_l_light_blink;
+    h_outputs->target_r_light_blink = t_outputs->target_r_light_blink;
+    h_outputs->target_valve = t_outputs->target_valves;
+    h_outputs->target_vbatt = 1235;
+}
+
+void sendActTimeToHmi()
+{
+    h_outputs->casTERC1_M = timerL.casTERC_M & 0xFFFF;
+    h_outputs->casTERC1_S = timerL.casTERC_S & 0xFFFF;
+    h_outputs->casTERC1_ms = timerL.casTERC_ms & 0xFFFF;
+
+    h_outputs->casTERC2_M = timerR.casTERC_M & 0xFFFF;
+    h_outputs->casTERC2_S = timerR.casTERC_S & 0xFFFF;
+    h_outputs->casTERC2_ms = timerR.casTERC_ms & 0xFFFF;  
+}
+
+
+

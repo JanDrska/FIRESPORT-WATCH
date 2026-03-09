@@ -1,415 +1,67 @@
 window.MACHINE_CONFIG = {
   "title": "M.A.R.S.",
   "subtitle": "Mobilní Automatická Rentgenovací Stanice",
+  "defaults": {
+    "boxBg": "#000000",
+    "boxAlpha": 0.55,
+    "palette": [
+      {
+        "name": "červená",
+        "value": "#e74c3c"
+      },
+      {
+        "name": "zelená",
+        "value": "#2ecc71"
+      },
+      {
+        "name": "šedá",
+        "value": "#bbbbbb"
+      },
+      {
+        "name": "černá",
+        "value": "#000000"
+      },
+      {
+        "name": "bílá",
+        "value": "#ffffff"
+      },
+      {
+        "name": "oranžová",
+        "value": "#f39c12"
+      },
+      {
+        "name": "modrá",
+        "value": "#3498db"
+      },
+      {
+        "name": "žlutá",
+        "value": "#f1c40f"
+      }
+    ]
+  },
+  "api": {
+    "stateUrl": "/api/state",
+    "writeTemplate": "/api/setpoint/{key}/{value}"
+  },
   "screens": {
     "overview": {
       "kind": "scene",
       "background": {
         "src": "img/stroj.png",
         "viewBox": {
-          "w": 1600,
-          "h": 2000
+          "w": 2000,
+          "h": 1414
         }
       },
       "blocks": [
         {
-          "id": "B52353",
-          "type": "dotLabel",
-          "x": 600,
-          "y": 1460,
-          "label": "M1",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 50,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": true,
-            "key": "alarm",
-            "color": "#e74c3c",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D90973",
-          "type": "dotLabel",
-          "x": 750,
-          "y": 520,
-          "label": "M2",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 50,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D81206",
-          "type": "dotLabel",
-          "x": 590,
-          "y": 1030,
-          "label": "M5",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 50,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D35087",
-          "type": "dotLabel",
-          "x": 960,
-          "y": 1030,
-          "label": "M6",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 50,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D59076",
-          "type": "dotLabel",
-          "x": 950,
-          "y": 390,
-          "label": "M4",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 50,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D29052",
-          "type": "dotLabel",
-          "x": 800,
-          "y": 140,
-          "label": "M3",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 50,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": true,
-            "key": "alarm",
-            "color": "#e74c3c",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D36122",
-          "type": "dotLabel",
-          "x": 440,
-          "y": 130,
-          "label": "M7",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 50,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.5
-          },
-          "blink": {
-            "enabled": true,
-            "key": "alarm",
-            "color": "#e74c3c",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D33328",
-          "type": "dotLabel",
-          "x": 340,
-          "y": 710,
-          "label": "S14",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D92604",
-          "type": "dotLabel",
-          "x": 340,
-          "y": 790,
-          "label": "S15",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D23138",
-          "type": "dotLabel",
-          "x": 340,
-          "y": 610,
-          "label": "S13",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D87432",
-          "type": "dotLabel",
-          "x": 350,
-          "y": 1040,
-          "label": "S16",
-          "bind": {
-            "key": "",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D70274",
-          "type": "dotLabel",
-          "x": 350,
-          "y": 1160,
-          "label": "S17",
-          "bind": {
-            "key": "",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D29591",
-          "type": "dotLabel",
-          "x": 350,
-          "y": 1290,
-          "label": "S18",
-          "bind": {
-            "key": "",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
           "id": "B84562",
           "type": "dotLabel",
-          "x": 750,
-          "y": 1030,
-          "label": "SYSTEM RUN",
+          "x": 1710,
+          "y": 560,
+          "label": "STAV",
           "bind": {
-            "key": "horn",
+            "key": "target_l_light_blink",
             "type": "bool"
           },
           "unit": "",
@@ -419,8 +71,8 @@ window.MACHINE_CONFIG = {
             "radius": 12,
             "boxW": 160,
             "boxH": 48,
-            "onColor": "#e74c3c",
-            "offColor": "#2ecc71",
+            "onColor": "#2ecc71",
+            "offColor": "#e74c3c",
             "textColor": "#ffffff",
             "boxBg": "#000000",
             "boxAlpha": 0.55
@@ -436,7 +88,7 @@ window.MACHINE_CONFIG = {
           "id": "B37247",
           "type": "button",
           "x": 70,
-          "y": 780,
+          "y": 500,
           "label": "Tlačítko",
           "bind": {
             "key": "DO1",
@@ -462,9 +114,9 @@ window.MACHINE_CONFIG = {
             "hz": 2
           },
           "button": {
-            "text": "TOGGLE",
-            "action": "toggle",
-            "key": "start_sensor",
+            "text": "PŘIPRAVIT",
+            "action": "set",
+            "key": "sensor_enable",
             "stateKey": "",
             "onValue": 1,
             "offValue": 0,
@@ -479,7 +131,7 @@ window.MACHINE_CONFIG = {
           "id": "D89557",
           "type": "button",
           "x": 70,
-          "y": 660,
+          "y": 620,
           "label": "Tlačítko",
           "bind": {
             "key": "DO1",
@@ -505,7 +157,7 @@ window.MACHINE_CONFIG = {
             "hz": 2
           },
           "button": {
-            "text": "RESET",
+            "text": "RESTART MĚŘENÍ",
             "action": "reset",
             "key": "sensor_enable",
             "stateKey": "",
@@ -522,7 +174,7 @@ window.MACHINE_CONFIG = {
           "id": "D65357",
           "type": "button",
           "x": 70,
-          "y": 540,
+          "y": 380,
           "label": "Tlačítko",
           "bind": {
             "key": "DO1",
@@ -548,9 +200,9 @@ window.MACHINE_CONFIG = {
             "hz": 2
           },
           "button": {
-            "text": "SET",
-            "action": "set",
-            "key": "sensor_enable",
+            "text": "START",
+            "action": "momentary",
+            "key": "start_btn",
             "stateKey": "",
             "onValue": 1,
             "offValue": 0,
@@ -564,11 +216,11 @@ window.MACHINE_CONFIG = {
         {
           "id": "D66742",
           "type": "button",
-          "x": 70,
-          "y": 900,
+          "x": 310,
+          "y": 500,
           "label": "Tlačítko",
           "bind": {
-            "key": "DO1",
+            "key": "horn",
             "type": "bool"
           },
           "unit": "",
@@ -591,14 +243,14 @@ window.MACHINE_CONFIG = {
             "hz": 2
           },
           "button": {
-            "text": "HOLD",
+            "text": "HOUKAČKA",
             "action": "momentary",
             "key": "stop_btn",
-            "stateKey": "",
+            "stateKey": "horn",
             "onValue": 1,
             "offValue": 0,
             "colorMode": "stroke",
-            "colorKey": "",
+            "colorKey": "horn",
             "visKey": "",
             "visMode": "hideIfEqual",
             "visValue": 1
@@ -607,8 +259,8 @@ window.MACHINE_CONFIG = {
         {
           "id": "B88323",
           "type": "button",
-          "x": 70,
-          "y": 100,
+          "x": 310,
+          "y": 380,
           "label": "",
           "bind": {
             "key": "",
@@ -635,8 +287,8 @@ window.MACHINE_CONFIG = {
           },
           "button": {
             "text": "STOP",
-            "action": "reset",
-            "key": "motor_running",
+            "action": "momentary",
+            "key": "stop_btn",
             "stateKey": "",
             "onValue": 1,
             "offValue": 0,
@@ -648,10 +300,10 @@ window.MACHINE_CONFIG = {
           }
         },
         {
-          "id": "B93365",
+          "id": "D40478",
           "type": "button",
-          "x": 70,
-          "y": 1020,
+          "x": 1360,
+          "y": 1090,
           "label": "Tlačítko",
           "bind": {
             "key": "",
@@ -671,19 +323,19 @@ window.MACHINE_CONFIG = {
             "boxAlpha": 0.55
           },
           "blink": {
-            "enabled": true,
-            "key": "motor_running",
+            "enabled": false,
+            "key": "",
             "color": "#f1c40f",
             "hz": 2
           },
           "button": {
-            "text": "BLIK",
+            "text": "VYPRÁZDNIT TER.",
             "action": "toggle",
             "key": "",
             "stateKey": "",
             "onValue": 1,
             "offValue": 0,
-            "colorMode": "strokeFill",
+            "colorMode": "stroke",
             "colorKey": "",
             "visKey": "",
             "visMode": "hideIfEqual",
@@ -691,10 +343,10 @@ window.MACHINE_CONFIG = {
           }
         },
         {
-          "id": "B87425",
+          "id": "D26352",
           "type": "button",
-          "x": 70,
-          "y": 1140,
+          "x": 1100,
+          "y": 1090,
           "label": "Tlačítko",
           "bind": {
             "key": "DO1",
@@ -710,8 +362,8 @@ window.MACHINE_CONFIG = {
             "onColor": "#2ecc71",
             "offColor": "#bbbbbb",
             "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
+            "boxBg": "#e74c3c",
+            "boxAlpha": 0.8
           },
           "blink": {
             "enabled": false,
@@ -720,99 +372,686 @@ window.MACHINE_CONFIG = {
             "hz": 2
           },
           "button": {
-            "text": "BTN",
-            "action": "toggle",
-            "key": "",
+            "text": "VYNULOVAT",
+            "action": "reset",
+            "key": "sensor_enable",
             "stateKey": "",
             "onValue": 1,
             "offValue": 0,
             "colorMode": "stroke",
             "colorKey": "",
-            "visKey": "DO1",
+            "visKey": "",
             "visMode": "hideIfEqual",
             "visValue": 1
           }
         },
         {
-          "id": "B83922",
-          "type": "valueDot",
-          "x": 390,
-          "y": 1790,
-          "label": "Rychlost",
-          "bind": {
-            "key": "speed",
-            "type": "number"
-          },
-          "unit": "m/s",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 320,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "B84683",
-          "type": "inputSend",
-          "x": 780,
-          "y": 1830,
-          "label": "Hodnota",
-          "bind": {
-            "key": "Setpoint_axis_1",
-            "type": "number"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 320,
-            "boxH": 56,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          },
-          "input": {
-            "mode": "u16",
-            "key": "Setpoint_axis_1",
-            "addr": 0,
-            "placeholder": "Zadej hodnotu...",
-            "showType": true,
-            "sig": "Setpoint_axis_1"
-          }
-        },
-        {
-          "id": "B38063",
+          "id": "B63156",
           "type": "labelValue",
-          "x": 410,
-          "y": 1830,
-          "label": "Popisek",
+          "x": 1300,
+          "y": 580,
+          "label": "",
           "bind": {
-            "key": "Setpoint_axis_1",
+            "key": "casTERC1_S",
             "type": "number"
           },
           "unit": "",
+          "decimals": 0,
+          "style": {
+            "fontSize": 45,
+            "radius": 12,
+            "boxW": 100,
+            "boxH": 100,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "D33367",
+          "type": "labelValue",
+          "x": 1440,
+          "y": 580,
+          "label": "",
+          "bind": {
+            "key": "casTERC1_ms",
+            "type": "number"
+          },
+          "unit": "",
+          "decimals": 0,
+          "style": {
+            "fontSize": 45,
+            "radius": 12,
+            "boxW": 150,
+            "boxH": 100,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "D82647",
+          "type": "labelValue",
+          "x": 1300,
+          "y": 900,
+          "label": "",
+          "bind": {
+            "key": "casTERC2_S",
+            "type": "number"
+          },
+          "unit": "",
+          "decimals": 0,
+          "style": {
+            "fontSize": 45,
+            "radius": 12,
+            "boxW": 100,
+            "boxH": 100,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "D18870",
+          "type": "labelValue",
+          "x": 1440,
+          "y": 900,
+          "label": "",
+          "bind": {
+            "key": "casTERC2_ms",
+            "type": "number"
+          },
+          "unit": "",
+          "decimals": 0,
+          "style": {
+            "fontSize": 45,
+            "radius": 12,
+            "boxW": 150,
+            "boxH": 100,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "D28385",
+          "type": "dotLabel",
+          "x": 1710,
+          "y": 620,
+          "label": "PLNÝ",
+          "bind": {
+            "key": "target_l_full",
+            "type": "bool"
+          },
+          "unit": "",
           "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 160,
+            "boxH": 48,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "D58819",
+          "type": "dotLabel",
+          "x": 1710,
+          "y": 680,
+          "label": "PRÁZDNÝ",
+          "bind": {
+            "key": "target_l_empty",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 160,
+            "boxH": 48,
+            "onColor": "#e74c3c",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "D98514",
+          "type": "dotLabel",
+          "x": 1700,
+          "y": 860,
+          "label": "STAV",
+          "bind": {
+            "key": "target_r_light_blink",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 160,
+            "boxH": 48,
+            "onColor": "#2ecc71",
+            "offColor": "#e74c3c",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": true,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "D69502",
+          "type": "dotLabel",
+          "x": 1700,
+          "y": 920,
+          "label": "PLNÝ",
+          "bind": {
+            "key": "target_r_full",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 160,
+            "boxH": 48,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "D43294",
+          "type": "dotLabel",
+          "x": 1700,
+          "y": 980,
+          "label": "PRÁZDNÝ",
+          "bind": {
+            "key": "target_r_empty",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 160,
+            "boxH": 48,
+            "onColor": "#e74c3c",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": true,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "B50377",
+          "type": "text",
+          "x": 1320,
+          "y": 560,
+          "label": "s",
+          "bind": {
+            "key": "",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 64,
+            "radius": 12,
+            "boxW": 320,
+            "boxH": 40,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#000000",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55,
+            "fontWeight": "600",
+            "fontStyle": "normal",
+            "textAnchor": "start"
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          },
+          "text": "Text"
+        },
+        {
+          "id": "D88487",
+          "type": "text",
+          "x": 1320,
+          "y": 880,
+          "label": "s",
+          "bind": {
+            "key": "",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 64,
+            "radius": 12,
+            "boxW": 320,
+            "boxH": 40,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#000000",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55,
+            "fontWeight": "600",
+            "fontStyle": "normal",
+            "textAnchor": "start"
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          },
+          "text": "Text"
+        },
+        {
+          "id": "D54182",
+          "type": "text",
+          "x": 1460,
+          "y": 560,
+          "label": "ms",
+          "bind": {
+            "key": "",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 64,
+            "radius": 12,
+            "boxW": 320,
+            "boxH": 40,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#000000",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55,
+            "fontWeight": "600",
+            "fontStyle": "normal",
+            "textAnchor": "start"
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          },
+          "text": "Text"
+        },
+        {
+          "id": "D63716",
+          "type": "text",
+          "x": 1460,
+          "y": 880,
+          "label": "ms",
+          "bind": {
+            "key": "",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 64,
+            "radius": 12,
+            "boxW": 320,
+            "boxH": 40,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#000000",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55,
+            "fontWeight": "600",
+            "fontStyle": "normal",
+            "textAnchor": "start"
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          },
+          "text": "Text"
+        },
+        {
+          "id": "D40987",
+          "type": "dotLabel",
+          "x": 90,
+          "y": 860,
+          "label": "OPTICKÁ BRÁNA",
+          "bind": {
+            "key": "horn",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 200,
+            "boxH": 48,
+            "onColor": "#e74c3c",
+            "offColor": "#2ecc71",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": true,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "D76548",
+          "type": "dotLabel",
+          "x": 90,
+          "y": 920,
+          "label": "START POVOLEN",
+          "bind": {
+            "key": "horn",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 200,
+            "boxH": 48,
+            "onColor": "#e74c3c",
+            "offColor": "#2ecc71",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": true,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "D16882",
+          "type": "button",
+          "x": 310,
+          "y": 620,
+          "label": "Tlačítko",
+          "bind": {
+            "key": "DO1",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 220,
+            "boxH": 100,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#3498db",
+            "boxAlpha": 0.8
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          },
+          "button": {
+            "text": "INICIALIZACE",
+            "action": "reset",
+            "key": "sensor_enable",
+            "stateKey": "",
+            "onValue": 1,
+            "offValue": 0,
+            "colorMode": "stroke",
+            "colorKey": "",
+            "visKey": "",
+            "visMode": "hideIfEqual",
+            "visValue": 1
+          }
+        },
+        {
+          "id": "D45096",
+          "type": "button",
+          "x": 90,
+          "y": 1020,
+          "label": "Tlačítko",
+          "bind": {
+            "key": "",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 180,
+            "boxH": 60,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#f1c40f",
+            "boxAlpha": 0.8
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          },
+          "button": {
+            "text": "START ENABLE",
+            "action": "toggle",
+            "key": "sensor_enable",
+            "stateKey": "",
+            "onValue": 1,
+            "offValue": 0,
+            "colorMode": "stroke",
+            "colorKey": "",
+            "visKey": "",
+            "visMode": "hideIfEqual",
+            "visValue": 1
+          }
+        },
+        {
+          "id": "D48826",
+          "type": "button",
+          "x": 90,
+          "y": 1100,
+          "label": "Tlačítko",
+          "bind": {
+            "key": "DO1",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 180,
+            "boxH": 60,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#f1c40f",
+            "boxAlpha": 0.8
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          },
+          "button": {
+            "text": "START SENZOR",
+            "action": "momentary",
+            "key": "start_sensor",
+            "stateKey": "",
+            "onValue": 1,
+            "offValue": 0,
+            "colorMode": "stroke",
+            "colorKey": "",
+            "visKey": "",
+            "visMode": "hideIfEqual",
+            "visValue": 1
+          }
+        },
+        {
+          "id": "B36223",
+          "type": "dotOnly",
+          "x": 320,
+          "y": 1050,
+          "label": "Indikátor",
+          "bind": {
+            "key": "sensor_enable",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 0,
+            "boxH": 0,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "D17320",
+          "type": "dotOnly",
+          "x": 320,
+          "y": 1120,
+          "label": "Indikátor",
+          "bind": {
+            "key": "start_sensor",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 0,
+            "boxH": 0,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          }
+        },
+        {
+          "id": "B23486",
+          "type": "labelValue",
+          "x": 1350,
+          "y": 1330,
+          "label": "Napětí baterie terčů",
+          "bind": {
+            "key": "target_vbatt",
+            "type": "number"
+          },
+          "unit": "V",
+          "decimals": 2,
           "style": {
             "fontSize": 22,
             "radius": 12,
@@ -832,49 +1071,11 @@ window.MACHINE_CONFIG = {
           }
         },
         {
-          "id": "B28978",
-          "type": "inputEnter",
-          "x": 780,
-          "y": 1770,
-          "label": "Hodnota",
-          "bind": {
-            "key": "speed",
-            "type": "number"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 320,
-            "boxH": 56,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          },
-          "input": {
-            "mode": "setpoint",
-            "key": "speed",
-            "addr": 0,
-            "placeholder": "Zadej hodnotu...",
-            "showType": true,
-            "sig": ""
-          }
-        },
-        {
-          "id": "D72762",
-          "type": "button",
-          "x": 70,
-          "y": 300,
-          "label": "Tlačítko",
+          "id": "D24459",
+          "type": "text",
+          "x": 1410,
+          "y": 960,
+          "label": ":",
           "bind": {
             "key": "",
             "type": "bool"
@@ -882,15 +1083,18 @@ window.MACHINE_CONFIG = {
           "unit": "",
           "decimals": 1,
           "style": {
-            "fontSize": 22,
+            "fontSize": 64,
             "radius": 12,
-            "boxW": 220,
-            "boxH": 100,
+            "boxW": 50,
+            "boxH": 40,
             "onColor": "#2ecc71",
             "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
+            "textColor": "#000000",
             "boxBg": "#000000",
-            "boxAlpha": 0.55
+            "boxAlpha": 0.55,
+            "fontWeight": "600",
+            "fontStyle": "normal",
+            "textAnchor": "start"
           },
           "blink": {
             "enabled": false,
@@ -898,241 +1102,14 @@ window.MACHINE_CONFIG = {
             "color": "#f1c40f",
             "hz": 2
           },
-          "button": {
-            "text": "BTN",
-            "action": "toggle",
-            "key": "",
-            "stateKey": "",
-            "onValue": 1,
-            "offValue": 0,
-            "colorMode": "stroke",
-            "colorKey": "",
-            "visKey": "",
-            "visMode": "hideIfEqual",
-            "visValue": 1
-          }
+          "text": "Text"
         },
         {
-          "id": "D40478",
-          "type": "button",
-          "x": 70,
-          "y": 420,
-          "label": "Tlačítko",
-          "bind": {
-            "key": "",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 220,
-            "boxH": 100,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          },
-          "button": {
-            "text": "BTN",
-            "action": "toggle",
-            "key": "",
-            "stateKey": "",
-            "onValue": 1,
-            "offValue": 0,
-            "colorMode": "stroke",
-            "colorKey": "",
-            "visKey": "",
-            "visMode": "hideIfEqual",
-            "visValue": 1
-          }
-        },
-        {
-          "id": "D51863",
-          "type": "button",
-          "x": 70,
-          "y": 1260,
-          "label": "Tlačítko",
-          "bind": {
-            "key": "",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 220,
-            "boxH": 100,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          },
-          "button": {
-            "text": "BTN",
-            "action": "toggle",
-            "key": "",
-            "stateKey": "",
-            "onValue": 1,
-            "offValue": 0,
-            "colorMode": "stroke",
-            "colorKey": "",
-            "visKey": "",
-            "visMode": "hideIfEqual",
-            "visValue": 1
-          }
-        },
-        {
-          "id": "D18728",
-          "type": "button",
-          "x": 70,
-          "y": 1380,
-          "label": "Tlačítko",
-          "bind": {
-            "key": "",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 220,
-            "boxH": 100,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          },
-          "button": {
-            "text": "BTN",
-            "action": "toggle",
-            "key": "",
-            "stateKey": "",
-            "onValue": 1,
-            "offValue": 0,
-            "colorMode": "stroke",
-            "colorKey": "",
-            "visKey": "",
-            "visMode": "hideIfEqual",
-            "visValue": 1
-          }
-        },
-        {
-          "id": "D59337",
-          "type": "button",
-          "x": 70,
-          "y": 1500,
-          "label": "Tlačítko",
-          "bind": {
-            "key": "",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 220,
-            "boxH": 100,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          },
-          "button": {
-            "text": "BTN",
-            "action": "toggle",
-            "key": "",
-            "stateKey": "",
-            "onValue": 1,
-            "offValue": 0,
-            "colorMode": "stroke",
-            "colorKey": "",
-            "visKey": "",
-            "visMode": "hideIfEqual",
-            "visValue": 1
-          }
-        },
-        {
-          "id": "D72141",
-          "type": "button",
-          "x": 70,
-          "y": 1620,
-          "label": "Tlačítko",
-          "bind": {
-            "key": "",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 220,
-            "boxH": 100,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          },
-          "button": {
-            "text": "BTN",
-            "action": "toggle",
-            "key": "",
-            "stateKey": "",
-            "onValue": 1,
-            "offValue": 0,
-            "colorMode": "stroke",
-            "colorKey": "",
-            "visKey": "",
-            "visMode": "hideIfEqual",
-            "visValue": 1
-          }
-        },
-        {
-          "id": "D41620",
-          "type": "dotLabel",
-          "x": 1190,
+          "id": "D59535",
+          "type": "text",
+          "x": 1410,
           "y": 650,
-          "label": "S9",
+          "label": ":",
           "bind": {
             "key": "",
             "type": "bool"
@@ -1140,12 +1117,46 @@ window.MACHINE_CONFIG = {
           "unit": "",
           "decimals": 1,
           "style": {
-            "fontSize": 22,
+            "fontSize": 64,
             "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
+            "boxW": 50,
+            "boxH": 40,
             "onColor": "#2ecc71",
-            "offColor": "#ff0000",
+            "offColor": "#bbbbbb",
+            "textColor": "#000000",
+            "boxBg": "#000000",
+            "boxAlpha": 0.55,
+            "fontWeight": "600",
+            "fontStyle": "normal",
+            "textAnchor": "start"
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          },
+          "text": "Text"
+        },
+        {
+          "id": "D19756",
+          "type": "labelValue",
+          "x": 1160,
+          "y": 900,
+          "label": "",
+          "bind": {
+            "key": "casTERC2_M",
+            "type": "number"
+          },
+          "unit": "",
+          "decimals": 0,
+          "style": {
+            "fontSize": 45,
+            "radius": 12,
+            "boxW": 100,
+            "boxH": 100,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
             "textColor": "#ffffff",
             "boxBg": "#000000",
             "boxAlpha": 0.55
@@ -1158,11 +1169,11 @@ window.MACHINE_CONFIG = {
           }
         },
         {
-          "id": "D37304",
-          "type": "dotLabel",
-          "x": 1190,
-          "y": 740,
-          "label": "S8",
+          "id": "D97115",
+          "type": "text",
+          "x": 1270,
+          "y": 960,
+          "label": ":",
           "bind": {
             "key": "",
             "type": "bool"
@@ -1170,29 +1181,33 @@ window.MACHINE_CONFIG = {
           "unit": "",
           "decimals": 1,
           "style": {
-            "fontSize": 22,
+            "fontSize": 64,
             "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
+            "boxW": 50,
+            "boxH": 40,
             "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
+            "offColor": "#bbbbbb",
+            "textColor": "#000000",
             "boxBg": "#000000",
-            "boxAlpha": 0.55
+            "boxAlpha": 0.55,
+            "fontWeight": "600",
+            "fontStyle": "normal",
+            "textAnchor": "start"
           },
           "blink": {
             "enabled": false,
             "key": "",
             "color": "#f1c40f",
             "hz": 2
-          }
+          },
+          "text": "Text"
         },
         {
-          "id": "D81075",
-          "type": "dotLabel",
-          "x": 1190,
-          "y": 830,
-          "label": "S7",
+          "id": "D26462",
+          "type": "text",
+          "x": 1270,
+          "y": 640,
+          "label": ":",
           "bind": {
             "key": "",
             "type": "bool"
@@ -1200,282 +1215,114 @@ window.MACHINE_CONFIG = {
           "unit": "",
           "decimals": 1,
           "style": {
-            "fontSize": 22,
+            "fontSize": 64,
             "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
+            "boxW": 50,
+            "boxH": 40,
             "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
+            "offColor": "#bbbbbb",
+            "textColor": "#000000",
             "boxBg": "#000000",
-            "boxAlpha": 0.55
+            "boxAlpha": 0.55,
+            "fontWeight": "600",
+            "fontStyle": "normal",
+            "textAnchor": "start"
           },
           "blink": {
             "enabled": false,
             "key": "",
             "color": "#f1c40f",
             "hz": 2
-          }
+          },
+          "text": "Text"
         },
         {
-          "id": "D76763",
-          "type": "dotLabel",
-          "x": 1190,
-          "y": 1040,
-          "label": "S6",
+          "id": "D39262",
+          "type": "text",
+          "x": 1180,
+          "y": 880,
+          "label": "M",
           "bind": {
-            "key": "motor_running",
+            "key": "",
             "type": "bool"
           },
           "unit": "",
           "decimals": 1,
           "style": {
-            "fontSize": 22,
+            "fontSize": 64,
             "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
+            "boxW": 50,
+            "boxH": 40,
             "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
+            "offColor": "#bbbbbb",
+            "textColor": "#000000",
             "boxBg": "#000000",
-            "boxAlpha": 0.55
+            "boxAlpha": 0.55,
+            "fontWeight": "600",
+            "fontStyle": "normal",
+            "textAnchor": "start"
           },
           "blink": {
             "enabled": false,
             "key": "",
             "color": "#f1c40f",
             "hz": 2
-          }
+          },
+          "text": "Text"
         },
         {
-          "id": "D19398",
-          "type": "dotLabel",
-          "x": 1190,
-          "y": 1160,
-          "label": "S5",
+          "id": "D62572",
+          "type": "text",
+          "x": 1180,
+          "y": 560,
+          "label": "M",
           "bind": {
-            "key": "motor_running",
+            "key": "",
             "type": "bool"
           },
           "unit": "",
           "decimals": 1,
           "style": {
-            "fontSize": 22,
+            "fontSize": 64,
             "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
+            "boxW": 50,
+            "boxH": 40,
             "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
+            "offColor": "#bbbbbb",
+            "textColor": "#000000",
             "boxBg": "#000000",
-            "boxAlpha": 0.55
+            "boxAlpha": 0.55,
+            "fontWeight": "600",
+            "fontStyle": "normal",
+            "textAnchor": "start"
           },
           "blink": {
             "enabled": false,
             "key": "",
             "color": "#f1c40f",
             "hz": 2
-          }
+          },
+          "text": "Text"
         },
         {
-          "id": "D39544",
-          "type": "dotLabel",
-          "x": 1190,
-          "y": 1290,
-          "label": "S4",
+          "id": "D70050",
+          "type": "labelValue",
+          "x": 1160,
+          "y": 580,
+          "label": "",
           "bind": {
-            "key": "motor_running",
-            "type": "bool"
+            "key": "casTERC1_M",
+            "type": "number"
           },
           "unit": "",
-          "decimals": 1,
+          "decimals": 0,
           "style": {
-            "fontSize": 22,
+            "fontSize": 45,
             "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
+            "boxW": 100,
+            "boxH": 100,
             "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D82063",
-          "type": "dotLabel",
-          "x": 890,
-          "y": 1670,
-          "label": "S3",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D48588",
-          "type": "dotLabel",
-          "x": 760,
-          "y": 1670,
-          "label": "S2",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D26511",
-          "type": "dotLabel",
-          "x": 640,
-          "y": 1670,
-          "label": "S1",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D31127",
-          "type": "dotLabel",
-          "x": 880,
-          "y": 290,
-          "label": "S10",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D89108",
-          "type": "dotLabel",
-          "x": 750,
-          "y": 290,
-          "label": "S11",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#ff0000",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D33235",
-          "type": "dotLabel",
-          "x": 620,
-          "y": 290,
-          "label": "S12",
-          "bind": {
-            "key": "motor_running",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 65,
-            "boxH": 48,
-            "onColor": "#2ecc71",
-            "offColor": "#ff0000",
+            "offColor": "#bbbbbb",
             "textColor": "#ffffff",
             "boxBg": "#000000",
             "boxAlpha": 0.55

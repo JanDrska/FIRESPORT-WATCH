@@ -1323,6 +1323,8 @@ function addBlock(route, block) {
   MACHINE.screens[route].blocks.push(block);
   renderBlocks(route);
   setSelected(route, block.id);
+  exportConfigToBox(false);
+  saveCurrentConfigSilently();
 }
 
 function deleteSelected() {
@@ -1331,7 +1333,8 @@ function deleteSelected() {
   if (idx >= 0) MACHINE.screens[selected.route].blocks.splice(idx, 1);
   setSelected(null, null);
   renderBlocks(currentRoute());
-  exportConfigToBox();
+  exportConfigToBox(false);
+  saveCurrentConfigSilently();
 }
 
 function duplicateSelected() {
@@ -1345,7 +1348,8 @@ function duplicateSelected() {
   MACHINE.screens[selected.route].blocks.push(copy);
   renderBlocks(selected.route);
   setSelected(selected.route, copy.id);
-  exportConfigToBox();
+  exportConfigToBox(false);
+  saveCurrentConfigSilently();
 }
 
 function fillProps() {
@@ -1515,26 +1519,23 @@ function applyProps() {
 }
 
 function exportConfigToBox(copyToClipboard=true) {
-  const obj = {
-    title: MACHINE.title,
-    subtitle: MACHINE.subtitle,
-    screens: {
-      overview: MACHINE.screens.overview,
-      control: MACHINE.screens.control,
-      io: MACHINE.screens.io
-    }
-  };
+  const obj = JSON.parse(JSON.stringify(MACHINE));
   const txt = JSON.stringify(obj, null, 2);
   document.getElementById("configBox").value = txt;
   if (copyToClipboard) navigator.clipboard?.writeText(txt).catch(()=>{});
 }
 
+function saveCurrentConfigSilently() {
+  const cfgText = document.getElementById("configBox").value || "";
+  return saveConfigToServer(cfgText).catch(() => ({ ok:false }));
+}
+
 function applyConfigFromBox() {
   try {
     const parsed = JSON.parse(document.getElementById("configBox").value || "{}");
-    if (parsed.screens?.overview) MACHINE.screens.overview = parsed.screens.overview;
-    if (parsed.screens?.control) MACHINE.screens.control = parsed.screens.control;
-    if (parsed.screens?.io) MACHINE.screens.io = parsed.screens.io;
+    const merged = deepMerge(DEFAULT_MACHINE, parsed);
+    Object.keys(MACHINE).forEach((k) => { delete MACHINE[k]; });
+    Object.assign(MACHINE, merged);
     applyScreenSizing();
     renderAllBlocks();
     exportConfigToBox(false);
@@ -1649,7 +1650,6 @@ function initEditor() {
       const type = document.getElementById("toolSelect").value;
       const b = makeNewBlock(type, x, y);
       addBlock(route, b);
-      exportConfigToBox(false);
       drag = { route, id: b.id, dx: 0, dy: 0 };
     });
 
@@ -1670,7 +1670,7 @@ function initEditor() {
     });
 
     window.addEventListener("mouseup", () => {
-      if (drag) { drag = null; exportConfigToBox(false); }
+      if (drag) { drag = null; exportConfigToBox(false); saveCurrentConfigSilently(); }
     });
   }
 

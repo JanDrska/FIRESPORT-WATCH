@@ -9,161 +9,56 @@
     "timeout": 0.005,
     "device_id": 3
   },
-  "register_sizes": {
-    "holding": 1,
-    "input": 2,
-    "coil": 1,
-    "discrete": 1
-  },
+
+  "register_sizes": { "holding": 8, "input": 1, "coil": 1, "discrete": 1 },
+
   "signals": [
-    {
-      "name": "start_light",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 0,
-      "default": 0
-    },
-    {
-      "name": "horn",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 1,
-      "default": 0
-    },
-    {
-      "name": "status_light",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 2,
-      "default": 0
-    },
 
-    {
-      "name": "system_status_0",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 3,
-      "default": 0
-    },
-    {
-      "name": "system_status_1",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 4,
-      "default": 0
-    },
-    {
-      "name": "system_status_2",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 5,
-      "default": 0
-    },
-    {
-      "name": "system_status_3",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 6,
-      "default": 0
-    },
-    {
-      "name": "system_status_4",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 7,
-      "default": 0
-    },
-    {
-      "name": "system_status_5",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 8,
-      "default": 0
-    },
-    {
-      "name": "system_status_6",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 9,
-      "default": 0
-    },
-    {
-      "name": "system_status_7",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 10,
-      "default": 0
-    },
-    {
-      "name": "system_status_8",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 11,
-      "default": 0
-    },
-    {
-      "name": "system_status_9",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 12,
-      "default": 0
-    },
-    {
-      "name": "system_status_10",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 13,
-      "default": 0
-    },
-    {
-      "name": "system_status_11",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 14,
-      "default": 0
-    },
-    {
-      "name": "system_status_12",
-      "type": "holding_bit",
-      "address": 0,
-      "bit": 15,
-      "default": 0
-    },
+    { "name":"start_light",           "type":"holding_bit", "address":0, "bit":0,  "default":0 },
+    { "name":"horn",                  "type":"holding_bit", "address":0, "bit":1,  "default":0 },
+    { "name":"status_light",          "type":"holding_bit", "address":0, "bit":2,  "default":0 },
+    { "name":"target_l_light_blink",  "type":"holding_bit", "address":0, "bit":3,  "default":0 },
+    { "name":"target_r_light_blink",  "type":"holding_bit", "address":0, "bit":4,  "default":0 },
+    { "name":"target_l_full",         "type":"holding_bit", "address":0, "bit":5,  "default":0 },
+    { "name":"target_l_empty",        "type":"holding_bit", "address":0, "bit":6,  "default":0 },
+    { "name":"target_r_full",         "type":"holding_bit", "address":0, "bit":7,  "default":0 },
+    { "name":"target_r_empty",        "type":"holding_bit", "address":0, "bit":8,  "default":0 },
+    { "name":"target_valve",          "type":"holding_bit", "address":0, "bit":9,  "default":0 },
 
-    {
-      "name": "start_sensor",
-      "type": "input_bit",
-      "address": 0,
-      "bit": 0,
-      "default": 0
-    },
-    {
-      "name": "sensor_enable",
-      "type": "input_bit",
-      "address": 0,
-      "bit": 1,
-      "default": 0
-    },
-    {
-      "name": "start_btn",
-      "type": "input_bit",
-      "address": 0,
-      "bit": 2,
-      "default": 0
-    },
-    {
-      "name": "stop_btn",
-      "type": "input_bit",
-      "address": 0,
-      "bit": 3,
-      "default": 0
-    },
-    {
-      "name": "hmi_commands",
-      "type": "input_u16",
-      "address": 1,
-      "scale": 1,
-      "default": 0
-    }
+    { "name":"system_status_0",       "type":"holding_bit", "address":0, "bit":10, "default":0 },
+    { "name":"system_status_1",       "type":"holding_bit", "address":0, "bit":11, "default":0 },
+    { "name":"system_status_2",       "type":"holding_bit", "address":0, "bit":12, "default":0 },
+    { "name":"system_status_3",       "type":"holding_bit", "address":0, "bit":13, "default":0 },
+    { "name":"system_status_4",       "type":"holding_bit", "address":0, "bit":14, "default":0 },
+    { "name":"system_status_5",       "type":"holding_bit", "address":0, "bit":15, "default":0 },
+
+    { "name":"target_vbatt",          "type":"holding_u16", "address":1, "scale":0.01, "default":0 },
+
+    { "name":"casTERC1_M",            "type":"holding_u16", "address":2, "scale":1, "default":0 },
+    { "name":"casTERC1_S",            "type":"holding_u16", "address":3, "scale":1, "default":0 },
+    { "name":"casTERC1_ms",           "type":"holding_u16", "address":4, "scale":1, "default":0 },
+
+    { "name":"casTERC2_M",            "type":"holding_u16", "address":5, "scale":1, "default":0 },
+    { "name":"casTERC2_S",            "type":"holding_u16", "address":6, "scale":1, "default":0 },
+    { "name":"casTERC2_ms",           "type":"holding_u16", "address":7, "scale":1, "default":0 },
+
+    { "name":"start_sensor",          "type":"input_bit", "address":0, "bit":0,  "default":0 },
+    { "name":"sensor_enable",         "type":"input_bit", "address":0, "bit":1,  "default":0 },
+    { "name":"start_btn",             "type":"input_bit", "address":0, "bit":2,  "default":0 },
+    { "name":"stop_btn",              "type":"input_bit", "address":0, "bit":3,  "default":0 },
+
+    { "name":"hmi_command_0",         "type":"input_bit", "address":0, "bit":4,  "default":0 },
+    { "name":"hmi_command_1",         "type":"input_bit", "address":0, "bit":5,  "default":0 },
+    { "name":"hmi_command_2",         "type":"input_bit", "address":0, "bit":6,  "default":0 },
+    { "name":"hmi_command_3",         "type":"input_bit", "address":0, "bit":7,  "default":0 },
+    { "name":"hmi_command_4",         "type":"input_bit", "address":0, "bit":8,  "default":0 },
+    { "name":"hmi_command_5",         "type":"input_bit", "address":0, "bit":9,  "default":0 },
+    { "name":"hmi_command_6",         "type":"input_bit", "address":0, "bit":10, "default":0 },
+    { "name":"hmi_command_7",         "type":"input_bit", "address":0, "bit":11, "default":0 },
+    { "name":"hmi_command_8",         "type":"input_bit", "address":0, "bit":12, "default":0 },
+    { "name":"hmi_command_9",         "type":"input_bit", "address":0, "bit":13, "default":0 },
+    { "name":"hmi_command_10",        "type":"input_bit", "address":0, "bit":14, "default":0 },
+    { "name":"hmi_command_11",        "type":"input_bit", "address":0, "bit":15, "default":0 }
+
   ]
 }
