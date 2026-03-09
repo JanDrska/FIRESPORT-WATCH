@@ -173,7 +173,7 @@ typedef struct
     uint16_t start_light : 1;
     uint16_t horn : 1;
     uint16_t status_light : 1;
-    uint16_t hmi_commands : 13;
+    uint16_t system_status : 13;
 } hmi_outputs;
 
 // ======================================================
@@ -202,9 +202,9 @@ typedef struct
 {
     uint16_t start_sensor : 1;
     uint16_t sensor_enable : 1;
+    uint16_t start_btn : 1;
     uint16_t stop_btn : 1;
-    uint16_t program_number;
-    hmi_status status;
+    uint16_t hmi_commands;
 } hmi_inputs;
 
 #endif

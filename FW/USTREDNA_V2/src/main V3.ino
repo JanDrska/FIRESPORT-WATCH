@@ -8,7 +8,8 @@
 #define MODBUS_BUAD 115200
 #define MODBUS_CONFIG SERIAL_8N1
 #define MODBUS_UNIT_ID 1
-#define MODBUS_SLAVE_UNIT_ID 2
+#define MODBUS_SLAVE1_UNIT_ID 2
+#define MODBUS_SLAVE2_UNIT_ID 3
 
 #define DE_RE 2
 
@@ -19,6 +20,7 @@ TimerData timerR;
 DisplaySdh display;
 
 unsigned long lastTime = 0;
+unsigned long lastTimeSlaveHmi = 0;
 
 
 // ======================================================
@@ -168,16 +170,14 @@ void loop()
                 system_config.display_present = true;
 
                 // HMI zatim neresime
-                system_config.hmi_present = false;
+                system_config.hmi_present = true;
                 system_config.hmi_required_ok = true;
 
-                // IO modul s terci
+                // IO modul s terci - TODO detekce pripojeni
                 system_config.target_present = detectTargetDevice();
-                //system_config.target_present = true;
 
-                if(system_config.target_present == true)
-                    d_inputs->status = SYS_INIT_REQUIRED;
-                
+                d_inputs->status = SYS_INIT_REQUIRED;
+
                 break;
             }
 
@@ -308,37 +308,6 @@ void loop()
                 break;
             }
         }
-
-        // --------------------------------------------------
-        // PRIKLAD PRIMEHO OVLADANI IO DESKY
-        // --------------------------------------------------
-        // Tady uz neresime "chytre terce", ale jen vstupy/vystupy.
-        // Master si sam rozhoduje, co s nimi udela.
-/*
-        if (digitalRead(A1))
-        {
-            t_outputs->target_l_light = 1;
-            t_outputs->target_l_light_blink = 1;
-            t_outputs->blink_period = 200;
-        }
-        else
-        {
-            t_outputs->target_l_light = 0;
-            t_outputs->target_l_light_blink = 0;
-        }
-
-        // jednoduchy test: pokud nektery vstup na IO desce sepne,
-        // rozblikej leve svetlo
-        if (t_inputs->target_l_empty ||
-            t_inputs->target_l_full  ||
-            t_inputs->target_r_empty ||
-            t_inputs->target_r_full)
-        {
-            t_outputs->target_l_light = 1;
-            t_outputs->target_l_light_blink = 1;
-            t_outputs->blink_period = 600;
-        }
-*/
         processModbus();
         //Serial.println(d_inputs->status);
     }
@@ -351,25 +320,105 @@ void loop()
 
 void processModbus()
 {
+    static uint8_t slave1_phase = 0;
+    static uint8_t slave2_phase = 0;
+    uint8_t comm_error = 0;
+
+    if ((millis() - lastTime) > 10)
+    {
+        if ((millis() - lastTimeSlaveHmi) > 250)
+        {
+            if (slave2_phase == 0)
+            {
+                comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE2_UNIT_ID, 0, hmi_reg, (sizeof(hmi_reg) / 2));
+
+                if (comm_error == 0)
+                    slave2_phase = 1;                   
+            }
+            else
+            {
+                comm_error = modbus.readInputRegisters(MODBUS_SLAVE2_UNIT_ID, 0, hmi_ireg, (sizeof(hmi_ireg) / 2));
+
+                if (comm_error == 0)
+                    slave2_phase = 0;
+                
+            }
+
+            lastTimeSlaveHmi = millis();
+        }
+        else
+        {
+            if (slave1_phase == 0)
+            {
+                comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE1_UNIT_ID, 0, target_reg, (sizeof(target_reg) / 2));
+
+                if (comm_error == 0)
+                    slave1_phase = 1;
+            }
+            else
+            {
+                comm_error = modbus.readInputRegisters(MODBUS_SLAVE1_UNIT_ID, 0, target_ireg, (sizeof(target_ireg) / 2));
+
+                if (comm_error == 0)
+                {
+                    for (uint8_t i = 0; i < (sizeof(target_ireg) / 2); i++)
+                        target_ireg[i] = swapBytes(target_ireg[i]);
+
+                    slave1_phase = 0;
+                }
+            }
+        }
+
+        (void)comm_error;
+        lastTime = millis();
+    }
+}
+
+/*
+void processModbus()
+{
     static uint8_t distributor = 0;
     uint8_t comm_error = 0;
 
-    if ((millis() - lastTime) > 9)
+    if ((millis() - lastTime) > 10)
     {
         switch (++distributor)
         {
-
             case 1:
-                comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE_UNIT_ID,0,target_reg,(sizeof(target_reg)/2));
+                comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE1_UNIT_ID, 0, target_reg, (sizeof(target_reg) / 2));
                 break;
 
             case 2:
-                comm_error = modbus.readInputRegisters(MODBUS_SLAVE_UNIT_ID, 0, target_ireg, (sizeof(target_ireg)/2));
-                for (uint8_t i = 0; i < (sizeof(target_ireg)/2); i++)
-                   target_ireg[i] = swapBytes(target_ireg[i]);
+                comm_error = modbus.readInputRegisters(MODBUS_SLAVE1_UNIT_ID, 0, target_ireg, (sizeof(target_ireg) / 2));
+                if (comm_error == 0)
+                {
+                    for (uint8_t i = 0; i < (sizeof(target_ireg) / 2); i++)
+                        target_ireg[i] = swapBytes(target_ireg[i]);
+                }
                 break;
 
             case 3:
+                if ((millis() - lastTimeSlaveHmi) < 500)
+                {
+                    distributor = 0;
+                    break;
+                }
+
+                comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE2_UNIT_ID, 0, hmi_reg, (sizeof(hmi_reg) / 2));
+                break;
+
+            case 4:
+                comm_error = modbus.readInputRegisters(MODBUS_SLAVE2_UNIT_ID, 0, hmi_ireg, (sizeof(hmi_ireg) / 2));
+                if (comm_error == 0)
+                {
+                    for (uint8_t i = 0; i < (sizeof(hmi_ireg) / 2); i++)
+                        hmi_ireg[i] = swapBytes(hmi_ireg[i]);
+                }
+
+                lastTimeSlaveHmi = millis();
+                break;
+
+            case 5:
                 distributor = 0;
                 break;
         }
@@ -378,6 +427,50 @@ void processModbus()
         lastTime = millis();
     }
 }
+*/
+/*
+void processModbus()
+{
+    static uint8_t distributor = 0;
+    uint8_t comm_error = 0;
+
+    if ((millis() - lastTime) > 100)
+    {
+        switch (++distributor)
+        {
+
+            case 1:
+                comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE1_UNIT_ID,0,target_reg,(sizeof(target_reg)/2));
+                break;
+
+            case 2:
+                comm_error = modbus.readInputRegisters(MODBUS_SLAVE1_UNIT_ID, 0, target_ireg, (sizeof(target_ireg)/2));
+                for (uint8_t i = 0; i < (sizeof(target_ireg)/2); i++)
+                   target_ireg[i] = swapBytes(target_ireg[i]);
+                break;
+
+            case 3:
+                comm_error = modbus.writeMultipleHoldingRegisters(MODBUS_SLAVE2_UNIT_ID,0,hmi_reg,(sizeof(hmi_reg)/2));
+                break;
+            
+            case 4:
+                comm_error = modbus.readInputRegisters(MODBUS_SLAVE2_UNIT_ID, 0, hmi_ireg, (sizeof(hmi_ireg)/2));
+                for (uint8_t i = 0; i < (sizeof(hmi_ireg)/2); i++)
+                   hmi_ireg[i] = swapBytes(hmi_ireg[i]);
+                break;
+
+            case 5:
+                distributor = 0;
+                break;
+        }
+
+        (void)comm_error;
+        lastTime = millis();
+    }
+    
+
+    
+}*/
 
 // ======================================================
 // POMOCNE FUNKCE PRO KONFIGURACI
@@ -450,29 +543,6 @@ bool detectTargetDevice()
     return true;
 }
 
-/*
-bool detectTargetDevice()
-{
-    uint8_t comm_error = 0;
-    uint16_t temp_ireg[sizeof(target_inputs)/2 + ((sizeof(target_inputs)%2)*2)];
-    target_inputs *tmp_inputs = (target_inputs*)temp_ireg;
-
-    comm_error = modbus.readInputRegisters(MODBUS_SLAVE_UNIT_ID, 0, temp_ireg, (sizeof(temp_ireg) / 2));
-
-    if (comm_error != 0)
-        return false;
-        
-    for (uint8_t i = 0; i < (sizeof(temp_ireg) / 2); i++)
-        temp_ireg[i] = swapBytes(temp_ireg[i]);
-
-    // jednoducha kontrola, ze vstupy davaji smysl
-    if ((tmp_inputs->target_l_empty && tmp_inputs->target_l_full) || (tmp_inputs->target_r_empty && tmp_inputs->target_r_full))
-        return false;
-        
-    else
-        return true;
-}*/
-
 bool initDisplayDevice()
 {
     return true;
@@ -537,25 +607,25 @@ void sdhTimer()
     {
         case 0: // cekani na povoleni startu
             blinkTargetLigts(250);
-            if (h_inputs->sensor_enable != 1)
+            //h_outputs->system_status = 127;
             if(digitalRead(A0))
                 step = 1;
             break;
 
         case 1: // cekame na start
             targetLights(1,1);
-            if ((h_inputs->sensor_enable == 1) && (h_inputs->start_sensor == 1))
-                step = 2;
+            h_outputs->start_light = 1;
+            //h_outputs->system_status = 255;
+            h_outputs->horn = h_inputs->start_sensor;
+
+            //if ((h_inputs->sensor_enable == 1) && (h_inputs->start_sensor == 1))
+            //    step = 2;
             break;
 
         case 2: // start mereni
             start();
-
             // na zacatku zhasnout svetla a zavrit / vypnout akce
-            t_outputs->target_l_light = 0;
-            t_outputs->target_r_light = 0;
-            t_outputs->target_l_light_blink = 0;
-            t_outputs->target_r_light_blink = 0;
+            targetLights(0,0);
 
             step = 3;
             break;
@@ -702,6 +772,9 @@ void blinkTargetLigts(uint16_t period)
     t_outputs->target_l_light_blink = 1;
     t_outputs->target_r_light = 1;
     t_outputs->target_r_light_blink = 1;
+    //h_outputs->horn = 1;
+    //h_outputs->status_light = 1;
+    //h_outputs->start_light = 1;
 
 }
 
