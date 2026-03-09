@@ -326,7 +326,7 @@ void processModbus()
 
     if ((millis() - lastTime) > 10)
     {
-        if ((millis() - lastTimeSlaveHmi) > 250)
+        if ((millis() - lastTimeSlaveHmi) > 100)
         {
             if (slave2_phase == 0)
             {

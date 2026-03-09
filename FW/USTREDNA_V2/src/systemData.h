@@ -156,12 +156,16 @@ typedef struct
 {
 	uint16_t target_l_light: 1;		// OUT 1
 	uint16_t target_l_light_blink: 1;	// OUT 1 blikani
-	uint16_t target_r_light : 1;		
-	uint16_t target_r_light_blink: 1;	
+
+    uint16_t reserva: 1;
+	uint16_t reserva_blink: 1;
+
 	uint16_t target_valves: 1;		
 	uint16_t target_valves_blink: 1;	
-	uint16_t reserva: 1;
-	uint16_t reserva_blink: 1;
+
+	uint16_t target_r_light : 1;		
+	uint16_t target_r_light_blink: 1;
+
 	uint16_t relay: 1;
 	uint16_t relay_blink: 1;		
 	uint16_t target_commands : 6;
