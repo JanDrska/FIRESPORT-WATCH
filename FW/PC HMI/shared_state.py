@@ -65,7 +65,7 @@ def build_runtime_config(base_dir: Path) -> dict[str, Any]:
         "sizes": sizes,
         "modbus": modbus_cfg,
         "web": {
-            "host": str(web_cfg.get("host", "127.0.0.1")),
+            "host": str(web_cfg.get("host", "0.0.0.0")),
             "port": int(web_cfg.get("port", 8000)),
         },
     }
