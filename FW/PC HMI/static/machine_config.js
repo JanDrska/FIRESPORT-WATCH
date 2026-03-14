@@ -115,7 +115,7 @@ window.MACHINE_CONFIG = {
           },
           "button": {
             "text": "PŘIPRAVIT",
-            "action": "set",
+            "action": "momentary",
             "key": "sensor_enable",
             "stateKey": "",
             "onValue": 1,
@@ -214,49 +214,6 @@ window.MACHINE_CONFIG = {
           }
         },
         {
-          "id": "D66742",
-          "type": "button",
-          "x": 310,
-          "y": 500,
-          "label": "Tlačítko",
-          "bind": {
-            "key": "horn",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 220,
-            "boxH": 100,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          },
-          "button": {
-            "text": "HOUKAČKA",
-            "action": "momentary",
-            "key": "stop_btn",
-            "stateKey": "horn",
-            "onValue": 1,
-            "offValue": 0,
-            "colorMode": "stroke",
-            "colorKey": "horn",
-            "visKey": "",
-            "visMode": "hideIfEqual",
-            "visValue": 1
-          }
-        },
-        {
           "id": "B88323",
           "type": "button",
           "x": 310,
@@ -289,92 +246,6 @@ window.MACHINE_CONFIG = {
             "text": "STOP",
             "action": "momentary",
             "key": "stop_btn",
-            "stateKey": "",
-            "onValue": 1,
-            "offValue": 0,
-            "colorMode": "stroke",
-            "colorKey": "",
-            "visKey": "",
-            "visMode": "hideIfEqual",
-            "visValue": 1
-          }
-        },
-        {
-          "id": "D40478",
-          "type": "button",
-          "x": 1360,
-          "y": 1090,
-          "label": "Tlačítko",
-          "bind": {
-            "key": "",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 220,
-            "boxH": 100,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          },
-          "button": {
-            "text": "VYPRÁZDNIT TER.",
-            "action": "toggle",
-            "key": "",
-            "stateKey": "",
-            "onValue": 1,
-            "offValue": 0,
-            "colorMode": "stroke",
-            "colorKey": "",
-            "visKey": "",
-            "visMode": "hideIfEqual",
-            "visValue": 1
-          }
-        },
-        {
-          "id": "D26352",
-          "type": "button",
-          "x": 1100,
-          "y": 1090,
-          "label": "Tlačítko",
-          "bind": {
-            "key": "DO1",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 220,
-            "boxH": 100,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#e74c3c",
-            "boxAlpha": 0.8
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          },
-          "button": {
-            "text": "VYNULOVAT",
-            "action": "reset",
-            "key": "sensor_enable",
             "stateKey": "",
             "onValue": 1,
             "offValue": 0,
@@ -649,7 +520,7 @@ window.MACHINE_CONFIG = {
             "boxAlpha": 0.55
           },
           "blink": {
-            "enabled": true,
+            "enabled": false,
             "key": "",
             "color": "#f1c40f",
             "hz": 2
@@ -798,7 +669,7 @@ window.MACHINE_CONFIG = {
           "y": 860,
           "label": "OPTICKÁ BRÁNA",
           "bind": {
-            "key": "horn",
+            "key": "start_sensor",
             "type": "bool"
           },
           "unit": "",
@@ -808,14 +679,14 @@ window.MACHINE_CONFIG = {
             "radius": 12,
             "boxW": 200,
             "boxH": 48,
-            "onColor": "#e74c3c",
-            "offColor": "#2ecc71",
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
             "textColor": "#ffffff",
             "boxBg": "#000000",
             "boxAlpha": 0.55
           },
           "blink": {
-            "enabled": true,
+            "enabled": false,
             "key": "",
             "color": "#f1c40f",
             "hz": 2
@@ -895,53 +766,10 @@ window.MACHINE_CONFIG = {
           }
         },
         {
-          "id": "D45096",
-          "type": "button",
-          "x": 90,
-          "y": 1020,
-          "label": "Tlačítko",
-          "bind": {
-            "key": "",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 180,
-            "boxH": 60,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#f1c40f",
-            "boxAlpha": 0.8
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          },
-          "button": {
-            "text": "START ENABLE",
-            "action": "toggle",
-            "key": "sensor_enable",
-            "stateKey": "",
-            "onValue": 1,
-            "offValue": 0,
-            "colorMode": "stroke",
-            "colorKey": "",
-            "visKey": "",
-            "visMode": "hideIfEqual",
-            "visValue": 1
-          }
-        },
-        {
           "id": "D48826",
           "type": "button",
-          "x": 90,
-          "y": 1100,
+          "x": 120,
+          "y": 970,
           "label": "Tlačítko",
           "bind": {
             "key": "DO1",
@@ -978,66 +806,6 @@ window.MACHINE_CONFIG = {
             "visKey": "",
             "visMode": "hideIfEqual",
             "visValue": 1
-          }
-        },
-        {
-          "id": "B36223",
-          "type": "dotOnly",
-          "x": 320,
-          "y": 1050,
-          "label": "Indikátor",
-          "bind": {
-            "key": "sensor_enable",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 0,
-            "boxH": 0,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
-          }
-        },
-        {
-          "id": "D17320",
-          "type": "dotOnly",
-          "x": 320,
-          "y": 1120,
-          "label": "Indikátor",
-          "bind": {
-            "key": "start_sensor",
-            "type": "bool"
-          },
-          "unit": "",
-          "decimals": 1,
-          "style": {
-            "fontSize": 22,
-            "radius": 12,
-            "boxW": 0,
-            "boxH": 0,
-            "onColor": "#2ecc71",
-            "offColor": "#bbbbbb",
-            "textColor": "#ffffff",
-            "boxBg": "#000000",
-            "boxAlpha": 0.55
-          },
-          "blink": {
-            "enabled": false,
-            "key": "",
-            "color": "#f1c40f",
-            "hz": 2
           }
         },
         {
@@ -1332,6 +1100,92 @@ window.MACHINE_CONFIG = {
             "key": "",
             "color": "#f1c40f",
             "hz": 2
+          }
+        },
+        {
+          "id": "D62127",
+          "type": "button",
+          "x": 310,
+          "y": 500,
+          "label": "Tlačítko",
+          "bind": {
+            "key": "hmi_command_1",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 220,
+            "boxH": 100,
+            "onColor": "#e74c3c",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#000000",
+            "boxAlpha": 0.8
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          },
+          "button": {
+            "text": "HOUKAČKA",
+            "action": "momentary",
+            "key": "hmi_command_1",
+            "stateKey": "",
+            "onValue": 1,
+            "offValue": 0,
+            "colorMode": "stroke",
+            "colorKey": "",
+            "visKey": "",
+            "visMode": "hideIfEqual",
+            "visValue": 1
+          }
+        },
+        {
+          "id": "D89949",
+          "type": "button",
+          "x": 10,
+          "y": 1250,
+          "label": "Tlačítko",
+          "bind": {
+            "key": "",
+            "type": "bool"
+          },
+          "unit": "",
+          "decimals": 1,
+          "style": {
+            "fontSize": 22,
+            "radius": 12,
+            "boxW": 220,
+            "boxH": 100,
+            "onColor": "#2ecc71",
+            "offColor": "#bbbbbb",
+            "textColor": "#ffffff",
+            "boxBg": "#e74c3c",
+            "boxAlpha": 0.8
+          },
+          "blink": {
+            "enabled": false,
+            "key": "",
+            "color": "#f1c40f",
+            "hz": 2
+          },
+          "button": {
+            "text": "TOTAL RESET",
+            "action": "momentary",
+            "key": "hmi_command_0",
+            "stateKey": "",
+            "onValue": 1,
+            "offValue": 0,
+            "colorMode": "stroke",
+            "colorKey": "",
+            "visKey": "",
+            "visMode": "hideIfEqual",
+            "visValue": 1
           }
         }
       ]

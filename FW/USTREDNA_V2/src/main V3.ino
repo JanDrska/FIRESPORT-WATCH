@@ -22,7 +22,6 @@ DisplaySdh display;
 unsigned long lastTime = 0;
 unsigned long lastTimeSlaveHmi = 0;
 
-
 // ======================================================
 // POLE MODBUS REGISTRU
 // ======================================================
@@ -36,7 +35,6 @@ uint16_t target_reg[sizeof(target_outputs)/2 + ((sizeof(target_outputs)%2)*2)];
 uint16_t hmi_ireg[sizeof(hmi_inputs)/2 + ((sizeof(hmi_inputs)%2)*2)];
 uint16_t hmi_reg[sizeof(hmi_outputs)/2 + ((sizeof(hmi_outputs)%2)*2)];
 
-
 // ======================================================
 // UKAZATELE NA STRUKTURY NAD REGISTRY
 // ======================================================
@@ -49,7 +47,6 @@ target_outputs *t_outputs;
 
 hmi_inputs *h_inputs;
 hmi_outputs *h_outputs;
-
 
 // ======================================================
 // GLOBALNI PROMENNE
@@ -66,7 +63,6 @@ uint8_t errorNumber = 0;
 system_config_t system_config;
 program_availability_t program_availability;
 program selected_program = prg_countdown;
-
 
 // ======================================================
 // PREDDEKLARACE FUNKCI
@@ -101,7 +97,6 @@ void targetLights(uint8_t L,uint8_t R);
 
 void sendTargetInfoToHmi();
 void sendActTimeToHmi();
-
 
 
 // ======================================================
@@ -171,8 +166,6 @@ void loop()
 
             case SYS_DETECT_DEVICES:
             {
-                system_config.display_present = true;
-
                 // HMI zatim neresime
                 system_config.hmi_present = true;
                 system_config.hmi_required_ok = true;
@@ -181,10 +174,10 @@ void loop()
                 system_config.target_present = detectTargetDevice();
 
                 if(display.init())
+                {
+                    system_config.display_present = true;
                     d_inputs->status = SYS_INIT_REQUIRED;
-                else
-                    d_inputs->status = SYS_ERROR;
-
+                }
                 break;
                 
             }
@@ -242,10 +235,6 @@ void loop()
                 timerL.init();
                 timerR.init();
 
-                // vynulovani vystupu na IO desce
-                //memset(target_reg, 0, sizeof(target_reg));
-                //t_outputs->blink_period = 500;
-
                 if ((selected_program == prg_sdh_timer) && (!system_config.target_ready))
                 {
                     error = target_not_response;
@@ -301,7 +290,8 @@ void loop()
                 t_outputs->target_r_light = 1;
                 t_outputs->target_l_light_blink = 1;
                 t_outputs->target_r_light_blink = 1;
-                //t_outputs->relay = 0;
+                t_outputs->relay = 0;
+                
                 t_outputs->blink_period = 2000;
 
                 // bezpečný stav IO desky
@@ -317,7 +307,6 @@ void loop()
             }
         }
         processModbus();
-        //Serial.println(d_inputs->status);
     }
 }
 
@@ -520,10 +509,10 @@ void sdhTimer()
     switch (step)
     {
         case 0: // cekani na povoleni startu
-            blinkTargetLigts(250);
+            targetLights(0,0);
             leftDone = false;
             rightDone = false;
-            if(h_inputs->start_btn)
+            if(h_inputs->sensor_enable)
                 step = 1;
             break;
 
@@ -531,20 +520,26 @@ void sdhTimer()
             targetLights(1,1);
             timerL.init();
             timerR.init();
+            display.sendData(timerL,timerR);
             sendActTimeToHmi();
-            if ((h_inputs->sensor_enable == 1) && (h_inputs->start_sensor == 1))
+            if (h_inputs->sensor_enable == 1)
                 step = 2;
             break;
 
         case 2: // start mereni
+            if ((h_inputs->start_sensor == 1) | (h_inputs->start_btn == 1))
+                step = 3;
+            break;
+
+        case 3: // start mereni
             start();
             // na zacatku zhasnout svetla a zavrit / vypnout akce
             targetLights(0,0);
 
-            step = 3;
+            step = 4;
             break;
 
-        case 3:
+        case 4:
     
             // zachycení zásahu levého terče
             if (t_inputs->target_l_full && !leftDone)
@@ -578,7 +573,7 @@ void sdhTimer()
             {
                 display.sendData(timerL,timerR);
                 t_outputs->relay = 1;
-                step = 4;
+                step = 5;
             }
 
             // docasne stop pres vstup stop_btn
@@ -589,17 +584,18 @@ void sdhTimer()
                 t_outputs->relay = 1;
                 leftDone = true;
                 rightDone = true;
-                step = 4;
+                step = 5;
             }
 
         break;
 
-        case 4: //drain
+        case 5: //drain
         
             //if(!t_inputs->target_l_empty && !t_inputs->target_r_empty)        // ODJEBAT !!!! TO JE JEN NA TEST
             if(t_inputs->target_l_empty && t_inputs->target_r_empty)
             {
                 t_outputs->relay = 0;
+                h_inputs->sensor_enable = 0;
                 step = 0;
                 d_inputs->status = SYS_PROGRAM_FINISH;
             }
@@ -740,6 +736,3 @@ void sendActTimeToHmi()
     h_outputs->casTERC2_S = timerR.casTERC_S & 0xFFFF;
     h_outputs->casTERC2_ms = timerR.casTERC_ms & 0xFFFF;  
 }
-
-
-
