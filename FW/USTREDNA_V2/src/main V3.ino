@@ -180,9 +180,13 @@ void loop()
                 // IO modul s terci - TODO detekce pripojeni
                 system_config.target_present = detectTargetDevice();
 
-                d_inputs->status = SYS_INIT_REQUIRED;
+                if(display.init())
+                    d_inputs->status = SYS_INIT_REQUIRED;
+                else
+                    d_inputs->status = SYS_ERROR;
 
                 break;
+                
             }
 
             case SYS_INIT_REQUIRED:
@@ -567,10 +571,12 @@ void sdhTimer()
                 timerR.Time();
 
             sendActTimeToHmi();
+            display.sendData(timerL,timerR);
 
             // oba terce hotove
             if (leftDone && rightDone)
             {
+                display.sendData(timerL,timerR);
                 t_outputs->relay = 1;
                 step = 4;
             }
@@ -632,14 +638,14 @@ void countdown()
             if (timerL.casSTART > 1)
             {
                 timerL.Time();
-                //display.sendData(timerL, timerL);
+                display.sendData(timerL, timerL);
             }
 
             if ((timerL.casTERC_M == 0) && (timerL.casTERC_S == 0))
             {
                 timerL.stopTimming();
                 timerR.stopTimming();
-                //display.sendData(timerL, timerR);
+                display.sendData(timerL, timerR);
 
                 step = 0;
                 d_inputs->status = SYS_PROGRAM_FINISH;

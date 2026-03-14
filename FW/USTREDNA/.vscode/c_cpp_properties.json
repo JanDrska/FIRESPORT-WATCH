@@ -1,0 +1,74 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "D:/ELEKTRO-PROJEKTY/HASICI STOPKY/FW/FIRESPORT-WATCH/FW/USTREDNA/include",
+                "D:/ELEKTRO-PROJEKTY/HASICI STOPKY/FW/FIRESPORT-WATCH/FW/USTREDNA/src",
+                "C:/Users/Admin/Documents/Arduino/libraries/PCF8574",
+                "C:/Users/Admin/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "C:/Users/Admin/Documents/Arduino/libraries/RF24",
+                "C:/Users/Admin/Documents/Arduino/libraries/RF24/utility",
+                "C:/Users/Admin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "C:/Users/Admin/Documents/Arduino/libraries/FastCRC/src",
+                "C:/Users/Admin/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "C:/Users/Admin/.platformio/packages/framework-arduino-avr/variants/standard",
+                "C:/Users/Admin/Documents/Arduino/libraries/Adafruit_Unified_Sensor",
+                "C:/Users/Admin/Documents/Arduino/libraries/DHT_sensor_library",
+                "C:/Users/Admin/Documents/Arduino/libraries/IRremote/src",
+                "C:/Users/Admin/Documents/Arduino/libraries/RadioHead",
+                "C:/Users/Admin/Documents/Arduino/libraries/VirtualWire",
+                "C:/Users/Admin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "C:/Users/Admin/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "C:/Users/Admin/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "D:/ELEKTRO-PROJEKTY/HASICI STOPKY/FW/FIRESPORT-WATCH/FW/USTREDNA/include",
+                    "D:/ELEKTRO-PROJEKTY/HASICI STOPKY/FW/FIRESPORT-WATCH/FW/USTREDNA/src",
+                    "C:/Users/Admin/Documents/Arduino/libraries/PCF8574",
+                    "C:/Users/Admin/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "C:/Users/Admin/Documents/Arduino/libraries/RF24",
+                    "C:/Users/Admin/Documents/Arduino/libraries/RF24/utility",
+                    "C:/Users/Admin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "C:/Users/Admin/Documents/Arduino/libraries/FastCRC/src",
+                    "C:/Users/Admin/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "C:/Users/Admin/.platformio/packages/framework-arduino-avr/variants/standard",
+                    "C:/Users/Admin/Documents/Arduino/libraries/Adafruit_Unified_Sensor",
+                    "C:/Users/Admin/Documents/Arduino/libraries/DHT_sensor_library",
+                    "C:/Users/Admin/Documents/Arduino/libraries/IRremote/src",
+                    "C:/Users/Admin/Documents/Arduino/libraries/RadioHead",
+                    "C:/Users/Admin/Documents/Arduino/libraries/VirtualWire",
+                    "C:/Users/Admin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "C:/Users/Admin/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "C:/Users/Admin/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=60118",
+                "ARDUINO_AVR_UNO",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "__AVR_ATmega328P__",
+                ""
+            ],
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++11",
+            "compilerPath": "C:/Users/Admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
+            "compilerArgs": [
+                "-mmcu=atmega328p",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}

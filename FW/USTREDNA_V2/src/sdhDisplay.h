@@ -34,13 +34,14 @@ private:
 
 public:
 
-  void init();
+  uint8_t init();
   void initGraphical();
   void reset();
   void sendData(TimerData data1, TimerData data2);
   void write8(int val, char flag);  // flag - 'c' pro zapsani znaku, ostatni pro cislo
   void I2C_write(int num,int address);
-  void split(int* DaM, int cas);  //funkce na rozdeleni dvoucifernych cisel
+  void split2(int* DaM, int cas);  //funkce na rozdeleni dvoucifernych cisel
+  void split3(int* DaM, int cas);  //funkce na rozdeleni dvoucifernych cisel
 
 };
 
